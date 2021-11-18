@@ -4,37 +4,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 
 public class MyFrame extends JFrame implements KeyListener, ActionListener {
+    final static int GAMEWIDTH = 1280;
+    final static int GAMEHEIGHT = (int) (GAMEWIDTH * 0.5625);
     JButton clickMeButton;
+    JLabel moneyCounter;
     JLabel background;
-    int screenX = 1280;
-    int screenY = 720;
+
     MyFrame() {
-        this.setTitle("Saxion Canvas Tycoon");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(screenX, screenY);
-        this.setLayout(null);
-        this.addKeyListener(this);
-        clickMeButton = new JButton();
-        clickMeButton.setText("Click me");
-        clickMeButton.setBounds(screenX/2,screenY/2,200,100);
-        clickMeButton.setBackground(Color.BLUE);
-        clickMeButton.setOpaque(true);
-        clickMeButton.addActionListener(this);
+            this.setTitle("Saxion Canvas Tycoon");
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.setBackground(Color.BLACK);
+            this.setSize(GAMEWIDTH, GAMEHEIGHT);
+            this.setLayout(null);
 
-        //create background
-        background = new JLabel();
-        background.setBounds(0,0,1280,720);
-        background.setBackground(Color.BLACK);
-        background.setOpaque(true);
-        this.setVisible(true);
-        this.addKeyListener(this);
-        this.add(background);
-        this.add(clickMeButton);
+            //moneyCounter
+            moneyCounter = new JLabel();
+            moneyCounter.setBounds(1200,0, 80, 30);
+            moneyCounter.setBackground(Color.GRAY);
+            moneyCounter.setOpaque(true);
 
-    }
+            this.setVisible(true);
+            this.addKeyListener(this);
+            this.add(background);
+            this.add(clickMeButton);
+            this.add(moneyCounter);
+        }
+
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -53,10 +51,7 @@ public class MyFrame extends JFrame implements KeyListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Random r = new Random ();
-        Color randomColor = new Color (r.nextFloat (), r.nextFloat (), r.nextFloat ());
         if (e.getSource()==clickMeButton) {
-            background.setBackground(randomColor);
         }
     }
 }
