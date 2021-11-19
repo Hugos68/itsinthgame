@@ -8,7 +8,7 @@ public class StartScreenFrame extends JFrame implements ActionListener, MouseLis
 
     final int gameWidth = 1280;
     final int gameHeight = (int) (gameWidth * 0.5625);
-    //joran is een homo
+
     StartScreenPanel startScreenPanel;
     JButton button;
 
