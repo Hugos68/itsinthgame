@@ -19,6 +19,7 @@ public class StartScreenFrame extends JFrame implements ActionListener, MouseLis
         button.setContentAreaFilled(false);
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
         button.setBorder(border);
+        button.setBorderPainted(false);
         button.addActionListener(this);
         button.addMouseListener(this);
         this.setTitle("Saxion Campus Tycoon");
@@ -33,12 +34,12 @@ public class StartScreenFrame extends JFrame implements ActionListener, MouseLis
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==button) {
             this.dispose();
+            new MainGameScreenFrame();
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -53,9 +54,7 @@ public class StartScreenFrame extends JFrame implements ActionListener, MouseLis
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (e.getSource()==button) {
-            button.setBorderPainted(true);
-        }
+        button.setBorderPainted(true);
     }
 
     @Override
@@ -83,12 +82,13 @@ class StartScreenPanel extends JPanel {
         g2D.setFont(new Font("Bold", Font.BOLD, 75));
         g2D.drawString("Saxion Campus Tycoon",225,150);
         g2D.fillRect(gameWidth /2-100, gameHeight /2-50,200,100);
-        g2D.setStroke(new BasicStroke(5));
+        g2D.setStroke(new BasicStroke(2));
         g2D.setColor(Color.black);
-        //g2D.drawRect(gameWidth /2-100, gameHeight /2-50,200,100);
+        g2D.drawRect(gameWidth /2-100, gameHeight /2-50,200,100);
         g2D.setFont(new Font("Bold", Font.BOLD, 40));
         g2D.drawString("Start",592,375);
     }
+
 }
 
 
