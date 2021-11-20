@@ -32,14 +32,16 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         this.setDoubleBuffered(true);
         this.setLayout(null);
 
-        //start button
-        startButton = new JButton();
-        startButton.setBackground(Color.YELLOW);
-        startButton.setBounds(gameWidth/2-100, gameHeight/2-50,200,100);
-        startButton.setOpaque(false);
-        startButton.setBorderPainted(false);
-        startButton.addActionListener(this);
-        this.add(startButton);
+        if (startScreenActive) {
+            startButton = new JButton();
+            startButton.setBackground(Color.YELLOW);
+            startButton.setBounds(gameWidth/2-100, gameHeight/2-50,200,100);
+            startButton.setOpaque(false);
+            startButton.setBorderPainted(false);
+            startButton.addActionListener(this);
+            this.add(startButton);
+
+        }
 
         //create thread
         gameThread = new Thread(this);
@@ -79,11 +81,14 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public void update() {
 
-        if (redCarX >= gameWidth || redCarX < -redCarWidth) {
-            redCarXVelocity = redCarXVelocity * -1;
+        if (startScreenActive) {
+
+            if (redCarX >= gameWidth || redCarX < -redCarWidth) {
+                redCarXVelocity = redCarXVelocity * -1;
+            }
+            redCarX = redCarX + redCarXVelocity;
+            redCarY = 610;
         }
-        redCarX = redCarX + redCarXVelocity;
-        redCarY = 610;
 
     }
 
@@ -93,12 +98,16 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         Graphics2D g2D = (Graphics2D) g;
         g2D.drawImage(background,0,0,null);
 
+        //draw start screen
         if (startScreenActive) {
 
             g2D.drawImage(titleText, 0, 0, null);
+
             if (redCarXVelocity < 0) {
                 g2D.drawImage(redCar, redCarX, redCarY, null);
-            } else {
+            }
+
+            else {
                 g2D.drawImage(redCar, redCarX + redCarWidth, redCarY, -redCarWidth, redCarHeight, null);
             }
 
@@ -109,8 +118,9 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             g2D.drawRect(gameWidth / 2 - 100, gameHeight / 2 - 50, 200, 100);
             g2D.setFont(new Font("Bold", Font.BOLD, 40));
             g2D.drawString("Start", 592, 375);
-            //TODO TURN THIS INTO 1 PICTURE
+            //TODO turn start button into a picture
         }
+        //TODO draw game screen
 
         g2D.dispose();
     }
@@ -118,8 +128,8 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==startButton) {
-            startScreenActive = false;
             startButton.setVisible(false);
+            startScreenActive = false;
         }
     }
 }
