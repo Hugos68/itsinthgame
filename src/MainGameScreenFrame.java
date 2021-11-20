@@ -54,7 +54,7 @@ class MainGameScreenPanel extends JPanel {
 
     MainGameScreenPanel() {
         //TODO MAKE MAIN GAME BACKGROUND
-        background = new ImageIcon("gameScreen.png").getImage();
+        background = new ImageIcon("pics\\saxionBackground.png").getImage();
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
     }
 
