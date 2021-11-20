@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 
 public class StartScreenFrame extends JFrame implements ActionListener {
 
@@ -46,6 +48,7 @@ class StartScreenPanel extends JPanel implements ActionListener {
     Image background;
     Image titletext;
     Image redcar;
+    Image redcarFlipped;
     Timer timer;
     int xVelocity = 5;
     int yVelocity = 1;
@@ -89,6 +92,7 @@ class StartScreenPanel extends JPanel implements ActionListener {
         repaint();
     }
     //TODO FLIP IMAGE
+
 }
 
 
