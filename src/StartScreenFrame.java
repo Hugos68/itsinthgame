@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 
 public class StartScreenFrame extends JFrame implements ActionListener {
 
@@ -45,31 +43,34 @@ class StartScreenPanel extends JPanel implements ActionListener {
     final int gameWidth = 1280;
     final int gameHeight = (int) (gameWidth * 0.5625);
 
-    Image background;
-    Image titletext;
-    Image redcar;
-    Image redcarFlipped;
-    Timer timer;
-    int xVelocity = 5;
-    int yVelocity = 1;
-    int x = 0;
-    int y = 0;
+    Image background = new ImageIcon("pics\\saxionBackground.png").getImage();
+    Image titleText = new ImageIcon("pics\\titletext.png").getImage();
+    Image redCar = new ImageIcon("pics\\redcarpixel.png").getImage();
+
+    Timer timer = new Timer(12,this);
+
+    int redCarXVelocity = 5;
+    int redCarX = 0;
+    int redCarY = 0;
+    int redCarHeight = redCar.getHeight(null);
+    int redCarWidth = redCar.getWidth(null);
 
     StartScreenPanel() {
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
-        background = new ImageIcon("pics\\saxionBackground.png").getImage();
-        titletext = new ImageIcon("pics\\titletext.png").getImage();
-        redcar = new ImageIcon("pics\\redcarpixel.png").getImage();
-        timer = new Timer(1,this);
         timer.start();
     }
 
     public void paint(Graphics g) {
+
         Graphics2D g2D = (Graphics2D) g;
         g2D.drawImage(background,0,0,null);
-        g2D.drawImage(titletext,0,0,null);
-        g2D.drawImage(redcar,x,y,null);
+        g2D.drawImage(titleText,0,0,null);
 
+        if (redCarXVelocity < 0) {
+            g2D.drawImage(redCar, redCarX, redCarY, null);
+        } else {
+            g2D.drawImage(redCar, redCarX + redCarWidth, redCarY, -redCarWidth, redCarHeight, null);
+        }
 
         g2D.setColor(Color.yellow);
         g2D.fillRect(gameWidth /2-100, gameHeight /2-50,200,100);
@@ -84,15 +85,14 @@ class StartScreenPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //bottom road y = 610
         //top road y = 510
-        if (x>=gameWidth-redcar.getWidth(null)|| x<0) {
-            xVelocity= xVelocity * -1;
+        if (redCarX >= gameWidth || redCarX < -redCarWidth) {
+            redCarXVelocity = redCarXVelocity * -1;
         }
-        x = x + xVelocity;
-        y = 610;
+        redCarX = redCarX + redCarXVelocity;
+        redCarY = 610;
+
         repaint();
     }
-    //TODO FLIP IMAGE
-
 }
 
 
