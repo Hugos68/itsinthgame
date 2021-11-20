@@ -1,8 +1,6 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 
 public class StartScreenFrame extends JFrame implements ActionListener {
 
@@ -46,8 +44,10 @@ class StartScreenPanel extends JPanel implements ActionListener {
     Image titletext;
     Image redcar;
     Timer timer;
-    int xVelocity = 1, yVelocity = 1;
-    int x = 0, y = 0;
+    int xVelocity = 1;
+    int yVelocity = 1;
+    int x = 0;
+    int y = 0;
 
     StartScreenPanel() {
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
@@ -62,7 +62,7 @@ class StartScreenPanel extends JPanel implements ActionListener {
         Graphics2D g2D = (Graphics2D) g;
         g2D.drawImage(background,0,0,null);
         g2D.drawImage(titletext,0,0,null);
-        g2D.drawImage(redcar,x,xVelocity,null);
+        g2D.drawImage(redcar,x,y,null);
 
 
         g2D.setColor(Color.yellow);
@@ -76,10 +76,13 @@ class StartScreenPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (x>=gameWidth-redcar.getWidth(null) || x<0) {
+        //bottom road y = 610
+        //top road y = 510
+        if (x>=gameWidth-redcar.getWidth(null)|| x<0) {
             xVelocity= xVelocity * -1;
         }
         x = x + xVelocity;
+        y = 610;
         repaint();
     }
     //TODO FLIP IMAGE
