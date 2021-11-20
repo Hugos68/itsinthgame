@@ -44,7 +44,7 @@ class StartScreenPanel extends JPanel implements ActionListener {
     Image titletext;
     Image redcar;
     Timer timer;
-    int xVelocity = 1;
+    int xVelocity = 5;
     int yVelocity = 1;
     int x = 0;
     int y = 0;
