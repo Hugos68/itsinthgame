@@ -17,21 +17,22 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     Image redCar = new ImageIcon("pics\\redcarpixel.png").getImage();
     int redCarXVelocity = 5;
     int redCarX = 0;
-    int redCarY = 0;
+    int redCarY = 610;
     int redCarHeight = redCar.getHeight(null);
     int redCarWidth = redCar.getWidth(null);
-
 
     Thread gameThread;
     JButton startButton;
 
 
     public GamePanel() {
+
         //panel properties
         this.setPreferredSize(new Dimension(gameWidth,gameHeight));
         this.setDoubleBuffered(true);
         this.setLayout(null);
 
+        //star tscreen panel adds
         if (startScreenActive) {
             startButton = new JButton();
             startButton.setBackground(Color.YELLOW);
@@ -40,7 +41,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             startButton.setBorderPainted(false);
             startButton.addActionListener(this);
             this.add(startButton);
-
         }
 
         //create thread
@@ -87,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
                 redCarXVelocity = redCarXVelocity * -1;
             }
             redCarX = redCarX + redCarXVelocity;
-            redCarY = 610;
+
         }
 
     }
