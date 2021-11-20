@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class GamePanel extends JPanel implements Runnable, ActionListener, MouseListener {
+public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //final variables
     final int gameWidth = 1280;
@@ -46,7 +46,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener, Mouse
             startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
             startButton.setOpaque(false);
             startButton.setBorderPainted(false);
-            startButton.addActionListener(this);
             startButton.addMouseListener(this);
             this.add(startButton);
         }
@@ -110,22 +109,20 @@ public class GamePanel extends JPanel implements Runnable, ActionListener, Mouse
             g2D.drawImage(titleText, 0, -15, null);
 
             //TODO FIX HOVERING AND CLICKING INTERACTIONS
-            if (!startButtonHovering) {
-                g2D.drawImage(startButtonIdle,gameWidth/2-75, gameHeight/2-75,null);
-            }
 
-            else if (startButtonClicked) {
+            if (startButtonClicked) {
                 g2D.drawImage(startButtonClick,gameWidth/2-75, gameHeight/2-75,null);
             }
-
-            else if (startButtonHovering){
+            else if (startButtonHovering) {
                 g2D.drawImage(startButtonHover,gameWidth/2-75, gameHeight/2-75,null);
+            }
+            else {
+                g2D.drawImage(startButtonIdle,gameWidth/2-75, gameHeight/2-75,null);
             }
 
             if (redCarXVelocity < 0) {
                 g2D.drawImage(redCar, redCarX, redCarY, null);
             }
-
             else {
                 g2D.drawImage(redCar, redCarX + redCarWidth, redCarY, -redCarWidth, redCarHeight, null);
             }
@@ -137,16 +134,11 @@ public class GamePanel extends JPanel implements Runnable, ActionListener, Mouse
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void mouseClicked(MouseEvent e) {
         if (e.getSource()==startButton) {
             startButton.setVisible(false);
             startScreenActive = false;
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -158,7 +150,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener, Mouse
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        startButtonClicked = false;
+            startButtonClicked = false;
     }
 
     @Override
