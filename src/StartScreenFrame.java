@@ -18,12 +18,15 @@ public class StartScreenFrame extends JFrame implements ActionListener {
         button.setBorderPainted(false);
         button.addActionListener(this);
         this.setTitle("Saxion Campus Tycoon");
+        this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.add(button);
         this.add(startScreenPanel);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        ImageIcon image = new ImageIcon("pics\\tycoonLogo.png");
+        this.setIconImage(image.getImage());
     }
 
     @Override

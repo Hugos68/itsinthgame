@@ -12,13 +12,15 @@ public class MainGameScreenFrame extends JFrame implements ActionListener, Mouse
 
     MainGameScreenFrame() {
         mainGameScreenPanel = new MainGameScreenPanel();
-
         this.setTitle("Saxion Campus Tycoon");
+        this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.add(mainGameScreenPanel);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        ImageIcon image = new ImageIcon("pics\\tycoonLogo.png");
+        this.setIconImage(image.getImage());
     }
     @Override
     public void actionPerformed(ActionEvent e) {
