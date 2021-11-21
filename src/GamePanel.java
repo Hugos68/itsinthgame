@@ -12,7 +12,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     final int gameWidth = 1280;
     final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
-    final Image background = new ImageIcon("assets\\background.png").getImage();
+    final Image backGroundImage = new ImageIcon("assets\\background.png").getImage();
     final Thread gameThread;
 
     //sound inputs
@@ -32,13 +32,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Image startButtonIdle = new ImageIcon("assets\\Startbuttonidle.png").getImage();
     Image startButtonHover = new ImageIcon("assets\\Startbuttonhover.png").getImage();
     Image startButtonClick = new ImageIcon("assets\\Startbuttonclick.png").getImage();
-    Image redCar = new ImageIcon("assets\\redcarpixel.png").getImage();
-
+    Image redCarImage = new ImageIcon("assets\\redcarpixel.png").getImage();
+    Image truckImage = new ImageIcon("assets\\truck1.png").getImage();
     int redCarXVelocity = 5;
     int redCarX = 0;
     int redCarY = 665;
-    int redCarHeight = redCar.getHeight(null);
-    int redCarWidth = redCar.getWidth(null);
+    int redCarHeight = redCarImage.getHeight(null);
+    int redCarWidth = redCarImage.getWidth(null);
     JButton startButton;
 
     //game screen variables
@@ -115,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
 
-        g2D.drawImage(background,0,0,null);
+        g2D.drawImage(backGroundImage,0,0,null);
 
         //draw start screen
         if (startScreenActive) {
@@ -133,10 +133,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
 
             if (redCarXVelocity < 0) {
-                g2D.drawImage(redCar, redCarX, redCarY, null);
+                g2D.drawImage(redCarImage, redCarX, redCarY, null);
             }
             else {
-                g2D.drawImage(redCar, redCarX + redCarWidth, redCarY, -redCarWidth, redCarHeight, null);
+                g2D.drawImage(redCarImage, redCarX + redCarWidth, redCarY, -redCarWidth, redCarHeight, null);
             }
 
         }
