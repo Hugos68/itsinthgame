@@ -205,6 +205,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource()==startButton) {
+            playClickSound();
             startButtonClicked = true;
         }
     }
@@ -213,7 +214,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void mouseReleased(MouseEvent e) {
         startButtonClicked = false;
         if (e.getSource()==startButton && startButtonHovering) {
-            playClickSound();
             startButton.setVisible(false);
             playSoundtrack(false);
             startScreenActive = false;
