@@ -5,19 +5,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
-    //final variables
+    //game properties
     final int gameWidth = 1280;
     final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
     final Image background = new ImageIcon("assets\\saxionBackground.png").getImage();
-    final File file = new File("assets\\soundtrack.wav");
-   final  AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-    Clip playSoundtrack = AudioSystem.getClip();
+    final Thread gameThread;
 
+    //soundtrack input
+    final File file = new File("assets\\soundtrack.wav");
+    final AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+    final Clip playSoundtrack = AudioSystem.getClip();
 
     //start screen variables
     boolean startScreenActive = true;
@@ -33,11 +34,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int redCarY = 665;
     int redCarHeight = redCar.getHeight(null);
     int redCarWidth = redCar.getWidth(null);
-
-    Random random;
-    Thread gameThread;
     JButton startButton;
-
 
     public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -62,13 +59,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             this.add(startButton);
         }
 
-
-
         //create thread
         gameThread = new Thread(this);
         gameThread.start();
     }
-
 
     @Override
     public void run() {
@@ -90,11 +84,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 }
                 Thread.sleep((long) remainingTime);
                 nextDrawTime += frameTime;
-
-            } catch(InterruptedException e){
-
+            }
+            catch(InterruptedException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
