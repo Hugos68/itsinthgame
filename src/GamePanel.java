@@ -15,11 +15,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     final Image background = new ImageIcon("assets\\background.png").getImage();
     final Thread gameThread;
 
-    //soundtrack input
-    final AudioInputStream titleScreenSoundStream = AudioSystem.getAudioInputStream(new File("assets\\titlescreensong.wav"));
-    final Clip playSoundtrack;
-    final AudioInputStream  clickStream = AudioSystem.getAudioInputStream(new File("assets\\click.wav"));
-    final Clip playClick;
+    //sound inputs
+    final AudioInputStream titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(new File("assets\\titlescreensong.wav"));
+    final Clip titleScreenSoundTrack = AudioSystem.getClip();
+    final AudioInputStream clickSoundStream = AudioSystem.getAudioInputStream(new File("assets\\click.wav"));
+    final Clip clickSound = AudioSystem.getClip();
+    final AudioInputStream buildSoundStream = AudioSystem.getAudioInputStream(new File("assets\\build.wav"));
+    final Clip buildSound = AudioSystem.getClip();
+
 
     //start screen variables
     boolean startScreenActive = true;
@@ -30,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Image startButtonHover = new ImageIcon("assets\\Startbuttonhover.png").getImage();
     Image startButtonClick = new ImageIcon("assets\\Startbuttonclick.png").getImage();
     Image redCar = new ImageIcon("assets\\redcarpixel.png").getImage();
+
     int redCarXVelocity = 5;
     int redCarX = 0;
     int redCarY = 665;
@@ -48,17 +52,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setDoubleBuffered(true);
         this.setLayout(null);
 
-        //panel assets
-        playSoundtrack = AudioSystem.getClip();
-        playSoundtrack.open(titleScreenSoundStream);
-        playSoundtrack.loop(Clip.LOOP_CONTINUOUSLY);
-        playSoundtrack.start();
-
-        //click sound
-        playClick = AudioSystem.getClip();
-        playClick.open(clickStream);
-
-
+        //panel addons
+        playTitleScreenSoundTrack(true);
         startButton = new JButton();
         startButton.setBackground(Color.YELLOW);
         startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
@@ -149,32 +144,71 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             //TODO draw game screen
         }
 
-
-
         g2D.dispose();
     }
 
+    public void playTitleScreenSoundTrack(boolean play) {
+        if (play) {
+            try {
+                titleScreenSoundTrack.open(titleScreenSoundTrackStream);
+                titleScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
+                titleScreenSoundTrack.start();
+            } catch (Exception e) {System.out.println(e.getMessage());}
+        }
+        if (!play) {
+            try {
+                titleScreenSoundTrack.stop();
+                titleScreenSoundTrack.close();
+            } catch (Exception e) {System.out.println(e.getMessage());}
+        }
+    }
+
+    public void playClickSound() {
+        try {
+            if (!clickSound.isOpen()) {
+                clickSound.open(clickSoundStream);
+            }
+            clickSound.setMicrosecondPosition(0);
+            clickSound.start();
+        } catch (Exception e) {System.out.println(e.getMessage());}
+    }
+
+    public void playBuildSound() {
+        try {
+            if (!buildSound.isOpen()) {
+                buildSound.open(buildSoundStream);
+            }
+            buildSound.setMicrosecondPosition(0);
+            buildSound.start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource()==startButton) {
-            playClick.start();
-            startButton.setVisible(false);
-            startScreenActive = false;
-            playSoundtrack.stop();
-            gameScreenActive = true;
-        }
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource()==startButton) {
             startButtonClicked = true;
+
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-            startButtonClicked = false;
+        startButtonClicked = false;
+        if (e.getSource()==startButton && startButtonHovering) {
+            playClickSound();
+            startButton.setVisible(false);
+            startScreenActive = false;
+            playTitleScreenSoundTrack(false);
+            gameScreenActive = true;
+        }
     }
 
     @Override
@@ -186,8 +220,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getSource()==startButton) {
+        if (e.getSource() == startButton) {
             startButtonHovering = false;
         }
     }
+
+
 }
