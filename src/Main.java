@@ -1,8 +1,11 @@
+import javax.sound.sampled.*;
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -12,10 +15,12 @@ public class Main {
         frame.add(gamePanel);
 
         frame.pack();
-
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
 
+
+
     }
+
 }

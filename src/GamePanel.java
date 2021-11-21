@@ -1,7 +1,11 @@
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
@@ -9,28 +13,33 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     final int gameWidth = 1280;
     final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
-    final Image background = new ImageIcon("pics\\saxionBackground.png").getImage();
+    final Image background = new ImageIcon("assets\\saxionBackground.png").getImage();
+    final File file = new File("assets\\soundtrack.wav");
+   final  AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+    Clip playSoundtrack = AudioSystem.getClip();
+
 
     //start screen variables
     boolean startScreenActive = true;
     boolean startButtonHovering = false;
     boolean startButtonClicked = false;
-    Image titleText = new ImageIcon("pics\\titletext.png").getImage();
-    Image startButtonIdle = new ImageIcon("pics\\Startbutton.png").getImage();
-    Image startButtonHover = new ImageIcon("pics\\Startbuttonhover.png").getImage();
-    Image startButtonClick = new ImageIcon("pics\\Startbuttonclick.png").getImage();
-    Image redCar = new ImageIcon("pics\\redcarpixel.png").getImage();
+    Image titleText = new ImageIcon("assets\\titletext.png").getImage();
+    Image startButtonIdle = new ImageIcon("assets\\Startbuttonidle.png").getImage();
+    Image startButtonHover = new ImageIcon("assets\\Startbuttonhover.png").getImage();
+    Image startButtonClick = new ImageIcon("assets\\Startbuttonclick.png").getImage();
+    Image redCar = new ImageIcon("assets\\redcarpixel.png").getImage();
     int redCarXVelocity = 5;
     int redCarX = 0;
-    int redCarY = 610;
+    int redCarY = 665;
     int redCarHeight = redCar.getHeight(null);
     int redCarWidth = redCar.getWidth(null);
 
+    Random random;
     Thread gameThread;
     JButton startButton;
 
 
-    public GamePanel() {
+    public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //panel properties
         this.setPreferredSize(new Dimension(gameWidth,gameHeight));
@@ -39,6 +48,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         //start screen panel adds
         if (startScreenActive) {
+
+            //start music
+            playSoundtrack.open(audioStream);
+
+            //add button
             startButton = new JButton();
             startButton.setBackground(Color.YELLOW);
             startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
@@ -47,6 +61,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             startButton.addMouseListener(this);
             this.add(startButton);
         }
+
+
 
         //create thread
         gameThread = new Thread(this);
@@ -85,6 +101,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void update() {
 
         if (startScreenActive) {
+
+            if (!playSoundtrack.isRunning()) {
+                playSoundtrack.start();
+            }
 
             //TODO set random collision borders
             if (redCarX >= gameWidth || redCarX < -redCarWidth) {
@@ -137,6 +157,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (e.getSource()==startButton) {
             startButton.setVisible(false);
             startScreenActive = false;
+            playSoundtrack.stop();
         }
     }
 
