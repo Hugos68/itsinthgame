@@ -12,13 +12,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     final int gameWidth = 1280;
     final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
-    final Image background = new ImageIcon("assets\\saxionBackground.png").getImage();
+    final Image background = new ImageIcon("assets\\background.png").getImage();
     final Thread gameThread;
 
     //soundtrack input
-    final File soundtrackStart = new File("assets\\soundtrack.wav");
-    final AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundtrackStart);
+    final AudioInputStream titleScreenSoundStream = AudioSystem.getAudioInputStream(new File("assets\\titlescreensong.wav"));
     final Clip playSoundtrack;
+    final AudioInputStream  clickStream = AudioSystem.getAudioInputStream(new File("assets\\click.wav"));
+    final Clip playClick;
 
     //start screen variables
     boolean startScreenActive = true;
@@ -49,9 +50,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         //panel assets
         playSoundtrack = AudioSystem.getClip();
-        playSoundtrack.open(audioStream);
+        playSoundtrack.open(titleScreenSoundStream);
         playSoundtrack.loop(Clip.LOOP_CONTINUOUSLY);
         playSoundtrack.start();
+
+        //click sound
+        playClick = AudioSystem.getClip();
+        playClick.open(clickStream);
+
 
         startButton = new JButton();
         startButton.setBackground(Color.YELLOW);
@@ -151,6 +157,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource()==startButton) {
+            playClick.start();
             startButton.setVisible(false);
             startScreenActive = false;
             playSoundtrack.stop();
