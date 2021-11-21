@@ -216,8 +216,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (e.getSource()==startButton && startButtonHovering) {
             playClickSound();
             startButton.setVisible(false);
-            startScreenActive = false;
             playSoundtrack(false);
+            startScreenActive = false;
             gameScreenActive = true;
         }
     }
