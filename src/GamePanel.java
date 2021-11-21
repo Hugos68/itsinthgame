@@ -16,8 +16,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     final Thread gameThread;
 
     //soundtrack input
-    final File file = new File("assets\\soundtrack.wav");
-    final AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+    final File soundtrackStart = new File("assets\\soundtrack.wav");
+    final AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundtrackStart);
     final Clip playSoundtrack;
 
     //start screen variables
@@ -35,6 +35,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int redCarHeight = redCar.getHeight(null);
     int redCarWidth = redCar.getWidth(null);
     JButton startButton;
+
+    //game screen variables
+    boolean gameScreenActive;
+
 
     public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -135,8 +139,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
 
         }
+        if (gameScreenActive) {
+            //TODO draw game screen
+        }
 
-        //TODO draw game screen
+
 
         g2D.dispose();
     }
@@ -147,6 +154,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             startButton.setVisible(false);
             startScreenActive = false;
             playSoundtrack.stop();
+            gameScreenActive = true;
         }
     }
 
