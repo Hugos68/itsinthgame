@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -88,6 +86,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         if (startScreenActive) {
 
+            //TODO set random collision borders
             if (redCarX >= gameWidth || redCarX < -redCarWidth) {
                 redCarXVelocity = redCarXVelocity * -1;
             }
@@ -101,14 +100,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
+
         g2D.drawImage(background,0,0,null);
 
         //draw start screen
         if (startScreenActive) {
 
-            g2D.drawImage(titleText, 0, -15, null);
-
-            //TODO FIX HOVERING AND CLICKING INTERACTIONS
+            g2D.drawImage(titleText, gameWidth/2-354, 75, null);
 
             if (startButtonClicked) {
                 g2D.drawImage(startButtonClick,gameWidth/2-75, gameHeight/2-75,null);
@@ -128,6 +126,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
 
         }
+
         //TODO draw game screen
 
         g2D.dispose();
