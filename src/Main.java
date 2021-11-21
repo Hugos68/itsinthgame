@@ -1,4 +1,5 @@
-import javax.sound.sampled.*;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.io.IOException;
 
@@ -10,6 +11,8 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setTitle("Saxion Tycoon");
+        ImageIcon icon = new ImageIcon(new ImageIcon("assets\\icon.png").getImage());
+        frame.setIconImage(icon.getImage());
 
         GamePanel gamePanel = new GamePanel();
         frame.add(gamePanel);

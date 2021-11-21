@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setLayout(null);
 
         //panel addons
-        playTitleScreenSoundTrack(true);
+        playSoundtrack(true);
         startButton = new JButton();
         startButton.setBackground(Color.YELLOW);
         startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
@@ -147,24 +147,30 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.dispose();
     }
 
-    public void playTitleScreenSoundTrack(boolean play) {
-        if (play) {
-            try {
-                titleScreenSoundTrack.open(titleScreenSoundTrackStream);
-                titleScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
-                titleScreenSoundTrack.start();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+    public void playSoundtrack(boolean play) {
+        if (startScreenActive) {
+            if (play) {
+                try {
+                    titleScreenSoundTrack.open(titleScreenSoundTrackStream);
+                    titleScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
+                    titleScreenSoundTrack.start();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (!play) {
+                try {
+                    titleScreenSoundTrack.stop();
+                    titleScreenSoundTrack.close();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
-        if (!play) {
-            try {
-                titleScreenSoundTrack.stop();
-                titleScreenSoundTrack.close();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+        if (gameScreenActive) {
+            //TODO import game screen music and make it playable
         }
+
     }
 
     public void playClickSound() {
@@ -211,7 +217,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             playClickSound();
             startButton.setVisible(false);
             startScreenActive = false;
-            playTitleScreenSoundTrack(false);
+            playSoundtrack(false);
             gameScreenActive = true;
         }
     }
