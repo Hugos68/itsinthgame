@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     //soundtrack input
     final File file = new File("assets\\soundtrack.wav");
     final AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-    final Clip playSoundtrack = AudioSystem.getClip();
+    final Clip playSoundtrack;
 
     //start screen variables
     boolean startScreenActive = true;
@@ -43,25 +43,24 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setDoubleBuffered(true);
         this.setLayout(null);
 
-        //start screen panel adds
-        if (startScreenActive) {
+        //panel assets
+        playSoundtrack = AudioSystem.getClip();
+        playSoundtrack.open(audioStream);
+        playSoundtrack.loop(Clip.LOOP_CONTINUOUSLY);
+        playSoundtrack.start();
 
-            //start music
-            playSoundtrack.open(audioStream);
+        startButton = new JButton();
+        startButton.setBackground(Color.YELLOW);
+        startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
+        startButton.setOpaque(false);
+        startButton.setBorderPainted(false);
+        startButton.addMouseListener(this);
+        this.add(startButton);
 
-            //add button
-            startButton = new JButton();
-            startButton.setBackground(Color.YELLOW);
-            startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
-            startButton.setOpaque(false);
-            startButton.setBorderPainted(false);
-            startButton.addMouseListener(this);
-            this.add(startButton);
-        }
-
-        //create thread
+        //create game thread
         gameThread = new Thread(this);
         gameThread.start();
+
     }
 
     @Override
@@ -95,10 +94,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void update() {
 
         if (startScreenActive) {
-
-            if (!playSoundtrack.isRunning()) {
-                playSoundtrack.start();
-            }
 
             //TODO set random collision borders
             if (redCarX >= gameWidth || redCarX < -redCarWidth) {
