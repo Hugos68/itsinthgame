@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
@@ -40,8 +40,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int redCarY = 665;
     int redCarHeight = redCarImage.getHeight(null);
     int redCarWidth = redCarImage.getWidth(null);
+    int redCarLeftBorder = -gameWidth;
+    int redCarRightBorder = gameWidth;
     JButton startButton;
-    Random random;
 
     //game screen variables
     boolean gameScreenActive;
@@ -100,13 +101,24 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void update() {
 
+
+        //always update
+        if (redCarX == gameWidth/2) {
+            redCarLeftBorder =  gameWidth - gameWidth - getRandomInt(500,1500);
+            redCarRightBorder = gameWidth + getRandomInt(500, 1500);
+        }
+        if (redCarX >= redCarRightBorder || redCarX < redCarLeftBorder) {
+            redCarXVelocity = redCarXVelocity * -1;
+        }
+        redCarX = redCarX + redCarXVelocity;
+
+        //start screen updates
         if (startScreenActive) {
 
-            //TODO set random collision borders
-            if (redCarX >= gameWidth || redCarX < -redCarWidth) {
-                redCarXVelocity = redCarXVelocity * -1;
-            }
-            redCarX = redCarX + redCarXVelocity;
+        }
+
+        //game screen updates
+        if (gameScreenActive) {
 
         }
 
@@ -117,11 +129,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
 
+        //draw always
         g2D.drawImage(backGroundImage,0,0,null);
+
+        if (redCarXVelocity < 0) {
+            g2D.drawImage(redCarImage, redCarX, redCarY, null);
+        }
+        else {
+            g2D.drawImage(redCarImage, redCarX + redCarWidth, redCarY, -redCarWidth, redCarHeight, null);
+        }
 
         //draw start screen
         if (startScreenActive) {
-
             g2D.drawImage(titleText, gameWidth/2-354, 75, null);
 
             if (startButtonClicked) {
@@ -133,28 +152,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             else {
                 g2D.drawImage(startButtonIdle,gameWidth/2-75, gameHeight/2-75,null);
             }
-
-            if (redCarXVelocity < 0) {
-                g2D.drawImage(redCarImage, redCarX, redCarY, null);
-            }
-            else {
-                g2D.drawImage(redCarImage, redCarX + redCarWidth, redCarY, -redCarWidth, redCarHeight, null);
-            }
-
         }
+
         if (gameScreenActive) {
             //TODO draw game screen
         }
 
         g2D.dispose();
     }
+
     public int getRandomInt(int min, int max) {
-        random = new Random();
-        if (String.valueOf(max).charAt(0)=='-') {
-            max = max * -1;
-            return random.nextInt(((max+1) + min)-min) * -1;
-        }
-        return random.nextInt((max+1) + min)-min;
+        return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
     public void playSoundtrack(boolean play) {
@@ -180,7 +188,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (gameScreenActive) {
             //TODO import game screen music and make it playable
         }
-
     }
 
     public void playClickSound() {
