@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ITsinthegame:jar">
+    <output-path>$USER_HOME$/Downloads</output-path>
+    <root id="archive" name="ITsinthegame.jar">
+      <element id="module-output" name="ITsinthegame" />
+    </root>
+  </artifact>
+</component>
