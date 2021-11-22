@@ -176,7 +176,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         firstVehicleX = firstVehicleX + firstVehicleXVelocity;
 
         //border collision checking
-        if (secondVehicleX <= secondVehicleRightBorder || secondVehicleX > secondVehicleLeftBorder) {
+        if (secondVehicleX < secondVehicleRightBorder || secondVehicleX > secondVehicleLeftBorder) {
             secondVehicleXVelocity = secondVehicleXVelocity * -1;
             secondVehicle = vehicles.get(getRandomInt(0,5));
         }
@@ -290,7 +290,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         //general variables
         currentScreenActive = 0; // 0 = start screen, 1 = game screen
-        vehicles = new ArrayList<>();
+        vehicles = new ArrayList<>(5);
 
         //audio deceleration
         titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(new File("assets\\titlescreensong.wav"));
@@ -328,7 +328,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
 
         //first vehicle properties
-        firstRandomVehicle = vehicles.get(getRandomInt(0,6));
+        firstRandomVehicle = vehicles.get(getRandomInt(0,5));
         firstVehicle = firstRandomVehicle;
         firstVehicleXVelocity = 7;
         firstVehicleX = getRandomInt(-1000, -500);
