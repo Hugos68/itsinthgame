@@ -168,32 +168,32 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         g2D.dispose();
     }
+
     public void vehicleUpdate() {
 
         //border collision checking
-        if (firstVehicleX < firstVehicleRightBorder || firstVehicleX > firstVehicleLeftBorder) {
+        if (firstVehicleX > firstVehicleRightBorder || firstVehicleX < firstVehicleLeftBorder) {
             firstVehicleXVelocity = firstVehicleXVelocity * -1;
             firstVehicle = vehicles.get(getRandomInt(0,5));
         }
         firstVehicleX = firstVehicleX + firstVehicleXVelocity;
 
-        //border collision checking
-        if (secondVehicleX < secondVehicleRightBorder || secondVehicleX > secondVehicleLeftBorder) {
+        if (secondVehicleX > secondVehicleRightBorder || secondVehicleX < secondVehicleLeftBorder) {
             secondVehicleXVelocity = secondVehicleXVelocity * -1;
             secondVehicle = vehicles.get(getRandomInt(0,5));
         }
         secondVehicleX = secondVehicleX + secondVehicleXVelocity;
 
         //set random borders
-        if (firstVehicleX == gameWidth/2) {
-            firstVehicleRightBorder = gameWidth + getRandomInt(250, 750);
-            firstVehicleLeftBorder = getRandomInt(-750, -250);
+        if (firstVehicleX > gameWidth/2-5 && firstVehicleX < gameWidth/2+5) {
+            firstVehicleRightBorder = gameWidth + getRandomInt(250, 2500);
+            firstVehicleLeftBorder = -getRandomInt(250, 2500);
+            System.out.println(1);
         }
-
-        //set random borders
-        if (secondVehicleX == gameWidth/2) {
-            secondVehicleRightBorder = gameWidth + getRandomInt(250, 750);
-            secondVehicleLeftBorder = getRandomInt(-750, -250);
+        if (secondVehicleX > gameWidth/2-5 && secondVehicleX < gameWidth/2+5) {
+            secondVehicleRightBorder = gameWidth + getRandomInt(250, 2500);
+            secondVehicleLeftBorder = -getRandomInt(250, 2500);
+            System.out.println(2);
         }
 
     }
@@ -333,23 +333,23 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         firstRandomVehicle = vehicles.get(getRandomInt(0,5));
         firstVehicle = firstRandomVehicle;
         firstVehicleXVelocity = 7;
-        firstVehicleX = getRandomInt(-1000, -500);
+        firstVehicleX = -getRandomInt(250, 2500);
         firstVehicleY = 575;
         firstVehicleHeight = firstRandomVehicle.getHeight(null);
         firstVehicleWidth = firstRandomVehicle.getWidth(null);
-        firstVehicleRightBorder = -1000;
-        firstVehicleLeftBorder = gameWidth + 1000;
+        firstVehicleRightBorder = gameWidth;
+        firstVehicleLeftBorder = firstVehicleX-1;
 
         //second vehicle properties
         secondRandomVehicle = vehicles.get(getRandomInt(0,5));
         secondVehicle = secondRandomVehicle;
-        secondVehicleXVelocity = 7;
-        secondVehicleX = gameWidth + getRandomInt(250, 500);
+        secondVehicleXVelocity = -7;
+        secondVehicleX = gameWidth + getRandomInt(250, 2500);
         secondVehicleY = 665;
         secondVehicleHeight = secondRandomVehicle.getHeight(null);
         secondVehicleWidth = secondRandomVehicle.getWidth(null);
-        secondVehicleRightBorder = -1000;
-        secondVehicleLeftBorder = gameWidth + 1000;
+        secondVehicleRightBorder = secondVehicleX+1;
+        secondVehicleLeftBorder = 0;
 
 
         //game loop thread start
