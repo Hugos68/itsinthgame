@@ -188,12 +188,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (firstVehicleX > gameWidth/2-5 && firstVehicleX < gameWidth/2+5) {
             firstVehicleRightBorder = gameWidth + getRandomInt(250, 2500);
             firstVehicleLeftBorder = -getRandomInt(250, 2500);
-            System.out.println(1);
         }
         if (secondVehicleX > gameWidth/2-5 && secondVehicleX < gameWidth/2+5) {
             secondVehicleRightBorder = gameWidth + getRandomInt(250, 2500);
             secondVehicleLeftBorder = -getRandomInt(250, 2500);
-            System.out.println(2);
         }
 
     }
