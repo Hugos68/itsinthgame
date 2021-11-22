@@ -66,7 +66,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
 
     public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
         //panel properties
         this.setPreferredSize(new Dimension(gameWidth,gameHeight));
         this.setDoubleBuffered(true);
@@ -74,18 +73,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         variableDeceleration();
 
-        startGameThread();
-
+        startGame();
     }
 
     @Override
     public void run() {
-
         double frameTime = 1000000000/FPS;
         double nextDrawTime = System.nanoTime() + frameTime;
-
         while (!Thread.currentThread().isInterrupted()) {
-
             update();
             repaint();
 
@@ -105,7 +100,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
 
     public void update() {
-
         //always update
         checkAndSetVehiclePos();
         checkAndSetRandomVehicleBorders();
@@ -119,11 +113,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (currentScreenActive==1) {
 
         }
-
     }
 
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
 
@@ -158,31 +150,27 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             else {
                 g2D.drawImage(startButtonIdle,gameWidth/2-75, gameHeight/2-75,null);
             }
-
         }
 
         //draw game screen
         if (currentScreenActive==1) {
             //TODO draw game screen
         }
-
         g2D.dispose();
     }
 
     public void checkAndSetVehiclePos() {
-
         //border collision checking + car switch
         if (firstVehicleX > firstVehicleRightBorder || firstVehicleX < firstVehicleLeftBorder) {
             firstVehicleXVelocity = firstVehicleXVelocity * -1;
             setRandomVehicleColor(0);
-        }
-        firstVehicleX = firstVehicleX + firstVehicleXVelocity;
+        } firstVehicleX = firstVehicleX + firstVehicleXVelocity;
 
         if (secondVehicleX > secondVehicleRightBorder || secondVehicleX < secondVehicleLeftBorder) {
             secondVehicleXVelocity = secondVehicleXVelocity * -1;
             setRandomVehicleColor(1);
-        }
-        secondVehicleX = secondVehicleX + secondVehicleXVelocity;
+        } secondVehicleX = secondVehicleX + secondVehicleXVelocity;
+
         checkAndSetRandomVehicleBorders();
     }
 
@@ -201,7 +189,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (vehicleNumber==0) {
             do {firstVehicle = vehicles.get(getRandomIntBetween(0,5));} while (firstVehicle==secondVehicle);
         }
-        do {secondVehicle = vehicles.get(getRandomIntBetween(0,5));} while (secondVehicle==firstVehicle);
+        if (vehicleNumber==1) {
+            do {secondVehicle = vehicles.get(getRandomIntBetween(0,5));} while (secondVehicle==firstVehicle);
+        }
     }
 
     public int getRandomIntBetween(int min, int max) {
@@ -298,24 +288,22 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         //general variables
         currentScreenActive = 0; // 0 = start screen, 1 = game screen
-        vehicles = new ArrayList<>(5);
 
         //audio deceleration
-        //titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(new File("src\\Resource\\titlescreensong.wav"));
         titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("titlescreensong.wav")));
         clickSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("click.wav")));
         buildSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("build.wav")));
         titleScreenSoundTrack = AudioSystem.getClip();
         clickSound = AudioSystem.getClip();
         buildSound = AudioSystem.getClip();
-        playSoundtrackOfCurrentScreen(true);
 
-        //image deceleration
+        //Image imports
         backGroundImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png"))).getImage();
         titleText = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png"))).getImage();
         startButtonIdle = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png"))).getImage();
         startButtonHover = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonhover.png"))).getImage();
         startButtonClick = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonclick.png"))).getImage();
+        vehicles = new ArrayList<>(5);
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redcarpixel.png"))).getImage());
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("greencarpixel.png"))).getImage());
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("pinkcarpixel.png"))).getImage());
@@ -334,7 +322,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButton.setBorderPainted(false);
         startButton.addMouseListener(this);
         this.add(startButton);
-
 
         //first vehicle properties
         firstRandomVehicle = vehicles.get(getRandomIntBetween(0,5));
@@ -359,7 +346,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         secondVehicleLeftBorder = 0;
 
     }
-    public void startGameThread() {
+    public void startGame() {
+        playSoundtrackOfCurrentScreen(true);
         gameThread = new Thread(this);
         gameThread.start();
     }
