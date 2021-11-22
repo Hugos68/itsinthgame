@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int redCarHeight = redCarImage.getHeight(null);
     int redCarWidth = redCarImage.getWidth(null);
     JButton startButton;
+    Random random;
 
     //game screen variables
     boolean gameScreenActive;
@@ -146,6 +148,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         g2D.dispose();
     }
+    public int getRandomInt(int min, int max) {
+        random = new Random();
+        if (String.valueOf(max).charAt(0)=='-') {
+            max = max * -1;
+            return random.nextInt(((max+1) + min)-min) * -1;
+        }
+        return random.nextInt((max+1) + min)-min;
+    }
 
     public void playSoundtrack(boolean play) {
         if (startScreenActive) {
@@ -196,7 +206,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             System.out.println(e.getMessage());
         }
     }
-
 
     @Override
     public void mouseClicked(MouseEvent e) {
