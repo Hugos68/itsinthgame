@@ -306,9 +306,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //image deceleration
         backGroundImage = new ImageIcon(getClass().getClassLoader().getResource("background.png")).getImage();
         titleText = new ImageIcon(getClass().getClassLoader().getResource("titletext.png")).getImage();
-        startButtonIdle = new ImageIcon(getClass().getClassLoader().getResource("Startbuttonidle.png")).getImage();
-        startButtonHover = new ImageIcon(getClass().getClassLoader().getResource("Startbuttonhover.png")).getImage();
-        startButtonClick = new ImageIcon(getClass().getClassLoader().getResource("Startbuttonclick.png")).getImage();
+        startButtonIdle = new ImageIcon(getClass().getClassLoader().getResource("startbuttonidle.png")).getImage();
+        startButtonHover = new ImageIcon(getClass().getClassLoader().getResource("startbuttonhover.png")).getImage();
+        startButtonClick = new ImageIcon(getClass().getClassLoader().getResource("startbuttonclick.png")).getImage();
         vehicles.add(new ImageIcon(getClass().getClassLoader().getResource("redcarpixel.png")).getImage());
         vehicles.add(new ImageIcon(getClass().getClassLoader().getResource("greencarpixel.png")).getImage());
         vehicles.add(new ImageIcon(getClass().getClassLoader().getResource("pinkcarpixel.png")).getImage());
