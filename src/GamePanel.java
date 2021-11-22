@@ -25,8 +25,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     final Clip buildSound = AudioSystem.getClip();
 
 
+    int currentScreenActive = 0;
+    //0 = start screen
+    //1 = game screen
+
     //start screen variables
-    boolean startScreenActive = true;
     boolean startButtonHovering = false;
     boolean startButtonClicked = false;
     Image titleText = new ImageIcon("assets\\titletext.png").getImage();
@@ -45,7 +48,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     JButton startButton;
 
     //game screen variables
-    boolean gameScreenActive;
 
 
     public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -113,12 +115,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         redCarX = redCarX + redCarXVelocity;
 
         //start screen updates
-        if (startScreenActive) {
+        if (currentScreenActive==0) {
 
         }
 
         //game screen updates
-        if (gameScreenActive) {
+        if (currentScreenActive==1) {
 
         }
 
@@ -140,7 +142,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
 
         //draw start screen
-        if (startScreenActive) {
+        if (currentScreenActive==0) {
+
             g2D.drawImage(titleText, gameWidth/2-354, 75, null);
 
             if (startButtonClicked) {
@@ -152,9 +155,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             else {
                 g2D.drawImage(startButtonIdle,gameWidth/2-75, gameHeight/2-75,null);
             }
+
         }
 
-        if (gameScreenActive) {
+        if (currentScreenActive==1) {
             //TODO draw game screen
         }
 
@@ -166,7 +170,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
 
     public void playSoundtrack(boolean play) {
-        if (startScreenActive) {
+        if (currentScreenActive==0) {
             if (play) {
                 try {
                     titleScreenSoundTrack.open(titleScreenSoundTrackStream);
@@ -185,7 +189,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 }
             }
         }
-        if (gameScreenActive) {
+        if (currentScreenActive==1) {
             //TODO import game screen music and make it playable
         }
     }
@@ -232,8 +236,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (e.getSource()==startButton && startButtonHovering) {
             startButton.setVisible(false);
             playSoundtrack(false);
-            startScreenActive = false;
-            gameScreenActive = true;
+            currentScreenActive = 1;
         }
     }
 
