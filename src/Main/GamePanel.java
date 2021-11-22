@@ -1,3 +1,5 @@
+package Main;
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
@@ -293,26 +295,26 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         vehicles = new ArrayList<>(5);
 
         //audio deceleration
-        titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(new File("assets\\titlescreensong.wav"));
-        clickSoundStream = AudioSystem.getAudioInputStream(new File("assets\\click.wav"));
-        buildSoundStream = AudioSystem.getAudioInputStream(new File("assets\\build.wav"));
+        titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(new File("src\\Main\\assets\\titlescreensong.wav"));
+        clickSoundStream = AudioSystem.getAudioInputStream(new File("src\\Main\\assets\\click.wav"));
+        buildSoundStream = AudioSystem.getAudioInputStream(new File("src\\Main\\assets\\build.wav"));
         titleScreenSoundTrack = AudioSystem.getClip();
         clickSound = AudioSystem.getClip();
         buildSound = AudioSystem.getClip();
         playSoundtrack(true);
 
         //image deceleration
-        backGroundImage = new ImageIcon("assets\\background.png").getImage();
-        titleText = new ImageIcon("assets\\titletext.png").getImage();
-        startButtonIdle = new ImageIcon("assets\\Startbuttonidle.png").getImage();
-        startButtonHover = new ImageIcon("assets\\Startbuttonhover.png").getImage();
+        backGroundImage = new ImageIcon("src\\Main\\assets\\background.png").getImage();
+        titleText = new ImageIcon("src\\Main\\assets\\titletext.png").getImage();
+        startButtonIdle = new ImageIcon("src\\Main\\assets\\Startbuttonidle.png").getImage();
+        startButtonHover = new ImageIcon("src\\Main\\assets\\Startbuttonhover.png").getImage();
         startButtonClick = new ImageIcon("assets\\Startbuttonclick.png").getImage();
-        vehicles.add(new ImageIcon("assets\\redcarpixel.png").getImage());
-        vehicles.add(new ImageIcon("assets\\greencarpixel.png").getImage());
-        vehicles.add(new ImageIcon("assets\\pinkcarpixel.png").getImage());
-        vehicles.add(new ImageIcon("assets\\bluecarpixel.png").getImage());
-        vehicles.add(new ImageIcon("assets\\orangecarpixel.png").getImage());
-        vehicles.add(new ImageIcon("assets\\purplecarpixel.png").getImage());
+        vehicles.add(new ImageIcon("src\\Main\\assets\\redcarpixel.png").getImage());
+        vehicles.add(new ImageIcon("src\\Main\\assets\\greencarpixel.png").getImage());
+        vehicles.add(new ImageIcon("src\\Main\\assets\\pinkcarpixel.png").getImage());
+        vehicles.add(new ImageIcon("src\\Main\\assets\\bluecarpixel.png").getImage());
+        vehicles.add(new ImageIcon("src\\Main\\assets\\orangecarpixel.png").getImage());
+        vehicles.add(new ImageIcon("src\\Main\\assets\\purplecarpixel.png").getImage());
 
         //boolean deceleration
         startButtonHovering = false;
