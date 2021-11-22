@@ -174,13 +174,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //border collision checking
         if (firstVehicleX > firstVehicleRightBorder || firstVehicleX < firstVehicleLeftBorder) {
             firstVehicleXVelocity = firstVehicleXVelocity * -1;
-            firstVehicle = vehicles.get(getRandomInt(0,5));
+            while (firstVehicle==secondVehicle) {
+                firstVehicle = vehicles.get(getRandomInt(0,5));
+            }
         }
         firstVehicleX = firstVehicleX + firstVehicleXVelocity;
 
         if (secondVehicleX > secondVehicleRightBorder || secondVehicleX < secondVehicleLeftBorder) {
             secondVehicleXVelocity = secondVehicleXVelocity * -1;
-            secondVehicle = vehicles.get(getRandomInt(0,5));
+            while (firstVehicle == secondVehicle) {
+                secondVehicle = vehicles.get(getRandomInt(0,5));
+            }
         }
         secondVehicleX = secondVehicleX + secondVehicleXVelocity;
 
