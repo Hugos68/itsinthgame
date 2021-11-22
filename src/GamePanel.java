@@ -5,49 +5,64 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
-    //game properties
+    //general game properties
     final int gameWidth = 1280;
     final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
-    final Image backGroundImage = new ImageIcon("assets\\background.png").getImage();
-    final Thread gameThread;
 
-    //sound inputs
-    final AudioInputStream titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(new File("assets\\titlescreensong.wav"));
-    final Clip titleScreenSoundTrack = AudioSystem.getClip();
-    final AudioInputStream clickSoundStream = AudioSystem.getAudioInputStream(new File("assets\\click.wav"));
-    final Clip clickSound = AudioSystem.getClip();
-    final AudioInputStream buildSoundStream = AudioSystem.getAudioInputStream(new File("assets\\build.wav"));
-    final Clip buildSound = AudioSystem.getClip();
+    //general variables
+    int currentScreenActive;
+    ArrayList<Image> vehicles;
+    Thread gameThread;
 
+    //audio variables
+    AudioInputStream titleScreenSoundTrackStream;
+    AudioInputStream clickSoundStream;
+    AudioInputStream buildSoundStream;
+    Clip titleScreenSoundTrack;
+    Clip clickSound;
+    Clip buildSound;
 
-    int currentScreenActive = 0;
-    //0 = start screen
-    //1 = game screen
+    //Image variables
+    Image backGroundImage;
+    Image titleText;
+    Image startButtonIdle;
+    Image startButtonHover;
+    Image startButtonClick;
+    Image firstRandomVehicle;
+    Image secondRandomVehicle;
 
-    //start screen variables
-    boolean startButtonHovering = false;
-    boolean startButtonClicked = false;
-    Image titleText = new ImageIcon("assets\\titletext.png").getImage();
-    Image startButtonIdle = new ImageIcon("assets\\Startbuttonidle.png").getImage();
-    Image startButtonHover = new ImageIcon("assets\\Startbuttonhover.png").getImage();
-    Image startButtonClick = new ImageIcon("assets\\Startbuttonclick.png").getImage();
-    Image redCarImage = new ImageIcon("assets\\redcarpixel.png").getImage();
-    Image truckImage = new ImageIcon("assets\\truck1.png").getImage();
-    int redCarXVelocity = 5;
-    int redCarX = 0;
-    int redCarY = 665;
-    int redCarHeight = redCarImage.getHeight(null);
-    int redCarWidth = redCarImage.getWidth(null);
-    int redCarLeftBorder = -gameWidth;
-    int redCarRightBorder = gameWidth;
+    //JButton variables
     JButton startButton;
 
-    //game screen variables
+    //boolean variables
+    boolean startButtonHovering;
+    boolean startButtonClicked;
+
+    //first vehicle variables
+    Image firstVehicle;
+    int firstVehicleXVelocity;
+    int firstVehicleX;
+    int firstVehicleY;
+    int firstVehicleHeight;
+    int firstVehicleWidth;
+    int firstVehicleRightBorder;
+    int firstVehicleLeftBorder;
+
+    //second vehicle variables
+    Image secondVehicle;
+    int secondVehicleXVelocity;
+    int secondVehicleX;
+    int secondVehicleY;
+    int secondVehicleHeight;
+    int secondVehicleWidth;
+    int secondVehicleRightBorder;
+    int secondVehicleLeftBorder;
 
 
     public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -57,19 +72,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setDoubleBuffered(true);
         this.setLayout(null);
 
-        //panel addons
-        playSoundtrack(true);
-        startButton = new JButton();
-        startButton.setBackground(Color.YELLOW);
-        startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
-        startButton.setOpaque(false);
-        startButton.setBorderPainted(false);
-        startButton.addMouseListener(this);
-        this.add(startButton);
-
-        //create game thread
-        gameThread = new Thread(this);
-        gameThread.start();
+        //decelerate and start
+        variableDeceleration();
 
     }
 
@@ -82,7 +86,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         while (!Thread.currentThread().isInterrupted()) {
 
             update();
-
             repaint();
 
             try {
@@ -97,22 +100,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             catch(InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
     public void update() {
 
-
         //always update
-        if (redCarX == gameWidth/2) {
-            redCarLeftBorder =  gameWidth - gameWidth - getRandomInt(500,1500);
-            redCarRightBorder = gameWidth + getRandomInt(500, 1500);
-        }
-        if (redCarX >= redCarRightBorder || redCarX < redCarLeftBorder) {
-            redCarXVelocity = redCarXVelocity * -1;
-        }
-        redCarX = redCarX + redCarXVelocity;
+        vehicleUpdate();
 
         //start screen updates
         if (currentScreenActive==0) {
@@ -134,11 +128,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //draw always
         g2D.drawImage(backGroundImage,0,0,null);
 
-        if (redCarXVelocity < 0) {
-            g2D.drawImage(redCarImage, redCarX, redCarY, null);
+        if (firstVehicleXVelocity < 0) {
+            g2D.drawImage(firstVehicle, firstVehicleX, firstVehicleY, null);
         }
         else {
-            g2D.drawImage(redCarImage, redCarX + redCarWidth, redCarY, -redCarWidth, redCarHeight, null);
+            g2D.drawImage(firstVehicle, firstVehicleX + firstVehicleWidth, firstVehicleY, -firstVehicleWidth, firstVehicleHeight, null);
+        }
+
+        if (secondVehicleXVelocity < 0) {
+            g2D.drawImage(secondVehicle, secondVehicleX, secondVehicleY, null);
+        }
+        else {
+            g2D.drawImage(secondVehicle, secondVehicleX + secondVehicleWidth, secondVehicleY, -secondVehicleWidth, secondVehicleHeight, null);
         }
 
         //draw start screen
@@ -158,11 +159,41 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         }
 
+        //draw game screen
         if (currentScreenActive==1) {
             //TODO draw game screen
         }
 
         g2D.dispose();
+    }
+    public void vehicleUpdate() {
+
+        //border collision checking
+        if (firstVehicleX <= firstVehicleRightBorder || firstVehicleX > firstVehicleLeftBorder) {
+            firstVehicleXVelocity = firstVehicleXVelocity * -1;
+            firstVehicle = vehicles.get(getRandomInt(0,5));
+        }
+        firstVehicleX = firstVehicleX + firstVehicleXVelocity;
+
+        //border collision checking
+        if (secondVehicleX <= secondVehicleRightBorder || secondVehicleX > secondVehicleLeftBorder) {
+            secondVehicleXVelocity = secondVehicleXVelocity * -1;
+            secondVehicle = vehicles.get(getRandomInt(0,5));
+        }
+        secondVehicleX = secondVehicleX + secondVehicleXVelocity;
+
+        //set random borders
+        if (firstVehicleX == gameWidth/2) {
+            firstVehicleRightBorder = gameWidth + getRandomInt(250, 750);
+            firstVehicleLeftBorder = getRandomInt(-750, -250);
+        }
+
+        //set random borders
+        if (secondVehicleX == gameWidth/2) {
+            secondVehicleRightBorder = gameWidth + getRandomInt(250, 750);
+            secondVehicleLeftBorder = getRandomInt(-750, -250);
+        }
+
     }
 
     public int getRandomInt(int min, int max) {
@@ -218,6 +249,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
 
+
     @Override
     public void mouseClicked(MouseEvent e) {
     }
@@ -252,5 +284,74 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (e.getSource() == startButton) {
             startButtonHovering = false;
         }
+    }
+
+    public void variableDeceleration() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        //general variables
+        currentScreenActive = 0; // 0 = start screen, 1 = game screen
+        vehicles = new ArrayList<>();
+
+        //audio deceleration
+        titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(new File("assets\\titlescreensong.wav"));
+        clickSoundStream = AudioSystem.getAudioInputStream(new File("assets\\click.wav"));
+        buildSoundStream = AudioSystem.getAudioInputStream(new File("assets\\build.wav"));
+        titleScreenSoundTrack = AudioSystem.getClip();
+        clickSound = AudioSystem.getClip();
+        buildSound = AudioSystem.getClip();
+        playSoundtrack(true);
+
+        //image deceleration
+        backGroundImage = new ImageIcon("assets\\background.png").getImage();
+        titleText = new ImageIcon("assets\\titletext.png").getImage();
+        startButtonIdle = new ImageIcon("assets\\Startbuttonidle.png").getImage();
+        startButtonHover = new ImageIcon("assets\\Startbuttonhover.png").getImage();
+        startButtonClick = new ImageIcon("assets\\Startbuttonclick.png").getImage();
+        vehicles.add(new ImageIcon("assets\\redcarpixel.png").getImage());
+        vehicles.add(new ImageIcon("assets\\greencarpixel.png").getImage());
+        vehicles.add(new ImageIcon("assets\\pinkcarpixel.png").getImage());
+        vehicles.add(new ImageIcon("assets\\bluecarpixel.png").getImage());
+        vehicles.add(new ImageIcon("assets\\orangecarpixel.png").getImage());
+        vehicles.add(new ImageIcon("assets\\purplecarpixel.png").getImage());
+
+        //boolean deceleration
+        startButtonHovering = false;
+        startButtonClicked = false;
+
+        //JButton deceleration
+        startButton = new JButton();
+        startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
+        startButton.setOpaque(false);
+        startButton.setBorderPainted(false);
+        startButton.addMouseListener(this);
+        this.add(startButton);
+
+
+        //first vehicle properties
+        firstRandomVehicle = vehicles.get(getRandomInt(0,6));
+        firstVehicle = firstRandomVehicle;
+        firstVehicleXVelocity = 7;
+        firstVehicleX = getRandomInt(-1000, -500);
+        firstVehicleY = 575;
+        firstVehicleHeight = firstRandomVehicle.getHeight(null);
+        firstVehicleWidth = firstRandomVehicle.getWidth(null);
+        firstVehicleRightBorder = -1000;
+        firstVehicleLeftBorder = gameWidth + 1000;
+
+        //second vehicle properties
+        secondRandomVehicle = vehicles.get(getRandomInt(0,6));
+        secondVehicle = secondRandomVehicle;
+        secondVehicleXVelocity = 7;
+        secondVehicleX = gameWidth + getRandomInt(250, 500);
+        secondVehicleY = 665;
+        secondVehicleHeight = secondRandomVehicle.getHeight(null);
+        secondVehicleWidth = secondRandomVehicle.getWidth(null);
+        secondVehicleRightBorder = -1000;
+        secondVehicleLeftBorder = gameWidth + 1000;
+
+
+        //game loop thread start
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 }
