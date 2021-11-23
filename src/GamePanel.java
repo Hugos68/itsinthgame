@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //general game properties
-    final int gameWidth = 1280; final int gameHeight = (int) (gameWidth * 0.5625);
+    final int gameWidth = 1920; final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
 
     //general variables
@@ -339,7 +339,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         firstVehicle = firstRandomVehicle;
         firstVehicleVelocity = 7;
         firstVehicleX = -getRandomIntBetween(250, 2500);
-        firstVehicleY = 575;
+        firstVehicleY = 885;
         firstVehicleHeight = firstRandomVehicle.getHeight(null);
         firstVehicleWidth = firstRandomVehicle.getWidth(null);
         firstVehicleRightBorder = gameWidth;
@@ -350,7 +350,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         secondVehicle = secondRandomVehicle;
         secondVehicleVelocity = -7;
         secondVehicleX = gameWidth + getRandomIntBetween(250, 2500);
-        secondVehicleY = 665;
+        secondVehicleY = 1000;
         secondVehicleHeight = secondRandomVehicle.getHeight(null);
         secondVehicleWidth = secondRandomVehicle.getWidth(null);
         secondVehicleRightBorder = secondVehicleX+secondVehicleWidth+1;
