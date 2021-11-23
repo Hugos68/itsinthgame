@@ -161,12 +161,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //border collision checking + car switch
         if (firstVehicleX > firstVehicleRightBorder || firstVehicleX < firstVehicleLeftBorder) {
             firstVehicleVelocity = firstVehicleVelocity * -1;
-            setRandomVehicleColor(0);
+            getRandomVehicleColor(0);
         } firstVehicleX = firstVehicleX + firstVehicleVelocity;
 
         if (secondVehicleX > secondVehicleRightBorder || secondVehicleX < secondVehicleLeftBorder) {
             secondVehicleVelocity = secondVehicleVelocity * -1;
-            setRandomVehicleColor(1);
+            getRandomVehicleColor(1);
         } secondVehicleX = secondVehicleX + secondVehicleVelocity;
 
         checkAndSetRandomVehicleBorders();
@@ -184,13 +184,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
 
-    public void setRandomVehicleColor(int vehicleNumber) {
+    public void getRandomVehicleColor(int vehicleNumber) {
+        //ensure vehicle is different from previous self AND other vehicle
+        Image previousFirstVehicle = firstVehicle;
+        Image previousSecondVehicle = secondVehicle;
         if (vehicleNumber==0) {
-            do {firstVehicle = vehicles.get(getRandomIntBetween(0,5));} while (firstVehicle==secondVehicle);
+            do {firstVehicle = vehicles.get(getRandomIntBetween(0,5));} while (firstVehicle == secondVehicle && firstVehicle != previousFirstVehicle);
         }
-
         if (vehicleNumber==1) {
-            do {secondVehicle = vehicles.get(getRandomIntBetween(0,5));} while (secondVehicle==firstVehicle);
+            do {secondVehicle = vehicles.get(getRandomIntBetween(0,5));} while (secondVehicle == firstVehicle && secondVehicle != previousSecondVehicle);
         }
     }
 
@@ -342,7 +344,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         firstVehicleLeftBorder = firstVehicleX-1;
 
         //second vehicle properties
-        secondRandomVehicle = vehicles.get(getRandomIntBetween(0,5));
+        do {secondRandomVehicle = vehicles.get(getRandomIntBetween(0,5));} while (secondRandomVehicle==firstRandomVehicle);
         secondVehicle = secondRandomVehicle;
         secondVehicleVelocity = -7;
         secondVehicleX = gameWidth + getRandomIntBetween(250, 2500);
