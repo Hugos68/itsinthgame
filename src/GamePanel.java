@@ -88,7 +88,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void update() {
         //always update
         setVehiclePosAndColor();
-
         checkAndSetRandomVehicleBorders();
 
         //start screen updates
@@ -189,7 +188,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         Image previousFirstVehicle = firstVehicle;
         Image previousSecondVehicle = secondVehicle;
         if (vehicleNumber==0) {
-            do {firstVehicle = vehicles.get(getRandomIntBetween(0,5));} while (firstVehicle == secondVehicle && firstVehicle != previousFirstVehicle);
+            do {firstVehicle = vehicles.get(getRandomIntBetween(0,5));} while (firstVehicle == secondVehicle && firstVehicle == previousFirstVehicle);
         }
         if (vehicleNumber==1) {
             do {secondVehicle = vehicles.get(getRandomIntBetween(0,5));} while (secondVehicle == firstVehicle && secondVehicle != previousSecondVehicle);
