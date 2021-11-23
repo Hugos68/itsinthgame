@@ -116,7 +116,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         //draw start screen elements
         if (currentScreenActive == 0) {
-            g2D.drawImage(titleText, gameWidth / 2 - 354, gameHeight/7, null);
+            g2D.drawImage(titleText, gameWidth/2-titleText.getWidth(null)/2, gameHeight/7, null);
             drawStartButton(g2D);
         }
 
