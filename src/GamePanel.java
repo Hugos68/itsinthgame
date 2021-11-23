@@ -101,7 +101,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void update() {
         //always update
-        checkAndSetVehiclePos();
+        setVehiclePosAndColor();
         checkAndSetRandomVehicleBorders();
 
         //start screen updates
@@ -159,7 +159,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.dispose();
     }
 
-    public void checkAndSetVehiclePos() {
+    public void setVehiclePosAndColor() {
         //border collision checking + car switch
         if (firstVehicleX > firstVehicleRightBorder || firstVehicleX < firstVehicleLeftBorder) {
             firstVehicleXVelocity = firstVehicleXVelocity * -1;
@@ -198,9 +198,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
-    public void playSoundtrackOfCurrentScreen(boolean play) {
-        if (currentScreenActive==0) {
-            if (play) {
+    public void playSoundtrack() {
+            if (currentScreenActive==0) {
                 try {
                     titleScreenSoundTrack.open(titleScreenSoundTrackStream);
                     titleScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
@@ -209,20 +208,24 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     System.out.println(e.getMessage());
                 }
             }
-            if (!play) {
-                try {
-                    titleScreenSoundTrack.stop();
-                    titleScreenSoundTrack.close();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
+            if (currentScreenActive==1) {
+                //TODO start game soundtrack
+            }
+        }
+
+    public void stopSoundTrack() {
+        if (currentScreenActive==0) {
+            try {
+                titleScreenSoundTrack.stop();
+                titleScreenSoundTrack.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
         if (currentScreenActive==1) {
-            //TODO import game screen music and make it playable
+            //TODO stop game soundtrack
         }
     }
-
     public void playClickSound() {
         try {
             if (!clickSound.isOpen()) {
@@ -265,7 +268,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButtonClicked = false;
         if (e.getSource()==startButton && startButtonHovering) {
             startButton.setVisible(false);
-            playSoundtrackOfCurrentScreen(false);
+            stopSoundTrack();
             currentScreenActive = 1;
         }
     }
@@ -347,7 +350,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void startGame() {
-        playSoundtrackOfCurrentScreen(true);
+        playSoundtrack();
         gameThread = new Thread(this);
         gameThread.start();
     }
