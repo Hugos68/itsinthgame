@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     @Override
     public void run() {
 
-        double frameTime = 1000000000/FPS;
+        double frameTime = 1000000000f/FPS;
         double nextDrawTime = System.nanoTime() + frameTime;
 
         while (!Thread.currentThread().isInterrupted()) {
@@ -224,7 +224,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
 
-    public void variableDeceleration() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void variableDeceleration() {
         //general variables
         currentScreenActive = 0; // 0 = start screen, 1 = game screen
 
