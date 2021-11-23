@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Image backGroundImage; Image titleText;
     Image startButtonIdle; Image startButtonHover; Image startButtonClick;
     Image firstRandomVehicle; Image secondRandomVehicle;
-    Image casTestBuilding;
+    Image redBuilding;
 
     //JButton variables
     JButton startButton;
@@ -314,9 +314,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButtonIdle = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png"))).getImage();
         startButtonHover = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonhover.png"))).getImage();
         startButtonClick = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonclick.png"))).getImage();
-        casTestBuilding = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding.png"))).getImage();
-
-
+        redBuilding = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding.png"))).getImage();
         vehicles = new ArrayList<>(5);
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redcarpixel.png"))).getImage());
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("greencarpixel.png"))).getImage());
