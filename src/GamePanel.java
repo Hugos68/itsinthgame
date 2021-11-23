@@ -204,8 +204,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     titleScreenSoundTrack.open(titleScreenSoundTrackStream);
                     titleScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
                     titleScreenSoundTrack.start();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -220,7 +222,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 titleScreenSoundTrack.stop();
                 titleScreenSoundTrack.close();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
         if (currentScreenActive==1) {
@@ -235,7 +237,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             clickSound.setMicrosecondPosition(0);
             clickSound.start();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -247,7 +249,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             buildSound.setMicrosecondPosition(0);
             buildSound.start();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
