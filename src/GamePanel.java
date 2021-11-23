@@ -51,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //game screen variables
     int balance;
+    int placeBuildingY;
 
     public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         //panel properties
@@ -123,6 +124,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //draw game screen
         if (currentScreenActive==1) {
             //TODO draw game screen
+            g2D.drawImage(redBuilding,gameWidth/2-redBuilding.getWidth(null)/2,placeBuildingY,null);
         }
 
         g2D.dispose();
@@ -359,6 +361,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         //game screen properties
         balance = 0;
+        placeBuildingY = gameHeight/9*2;
     }
 
     public void startGame() {
