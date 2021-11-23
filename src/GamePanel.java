@@ -10,8 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
-    //general game properties
-    final int gameWidth = 1920; final int gameHeight = (int) (gameWidth * 0.5625);
+    final int gameWidth = 1920;
+    final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
 
     //general variables
@@ -19,29 +19,25 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     ArrayList<Image> vehicles;
     Thread gameThread;
 
-    //Audio Object
     Audio audio = new Audio();
 
-    //Image variables
     Image backGroundImage; Image titleText;
-    Image startButtonIdle; Image startButtonHover; Image startButtonClick;
-    Image firstRandomVehicle; Image secondRandomVehicle;
+    Image startButtonIdleImage; Image startButtonHoverImage; Image startButtonClickImage;
     Image redBuilding;
 
-    //JButton variables
     JButton startButton;
 
-    //boolean variables
-    boolean startButtonHovering; boolean startButtonClicked;
+    boolean mouseHoveringStartButton;
+    boolean mouseClickedStartButton;
 
-    //first vehicle variables
+    Image firstRandomVehicle;
     Image firstVehicle;
     int firstVehicleVelocity;
     int firstVehicleX; int firstVehicleY;
     int firstVehicleWidth; int firstVehicleHeight;
     int firstVehicleLeftBorder; int firstVehicleRightBorder;
 
-    //second vehicle variables
+    Image secondRandomVehicle;
     Image secondVehicle;
     int secondVehicleVelocity;
     int secondVehicleX; int secondVehicleY;
@@ -65,6 +61,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startGame();
     }
 
+
+
+
+
     public void update() {
         //always update
         updateVehicles();
@@ -79,7 +79,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         }
     }
-
     public void updateVehicles() {
         //ensures first Vehicle
         Image previousFirstVehicle = firstVehicle;
@@ -105,10 +104,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
 
+
+
+
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
-
         alwaysDraw(g2D);
 
         //draw start screen elements
@@ -122,10 +124,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             //TODO draw game screen
             g2D.drawImage(redBuilding,gameWidth/2-redBuilding.getWidth(null)/2,placeBuildingY,null);
         }
-
         g2D.dispose();
     }
-
     public void alwaysDraw(Graphics2D g2D) {
         g2D.drawImage(backGroundImage, 0, 0, null);
 
@@ -145,71 +145,74 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             g2D.drawImage(secondVehicle, secondVehicleX + secondVehicleWidth, secondVehicleY, -secondVehicleWidth, secondVehicleHeight, null);
         }
     }
-
     public void drawStartButton(Graphics2D g2D) {
-        if (startButtonClicked) {
-            g2D.drawImage(startButtonClick,gameWidth/2-startButtonClick.getWidth(null)/2, gameHeight/2-startButtonClick.getHeight(null)/2,null);
+        if (mouseClickedStartButton) {
+            g2D.drawImage(startButtonClickImage,gameWidth/2- startButtonClickImage.getWidth(null)/2, gameHeight/2- startButtonClickImage.getHeight(null)/2,null);
         }
 
-        else if (startButtonHovering) {
-            g2D.drawImage(startButtonHover,gameWidth/2-startButtonHover.getWidth(null)/2, gameHeight/2-startButtonHover.getHeight(null)/2,null);
+        else if (mouseHoveringStartButton) {
+            g2D.drawImage(startButtonHoverImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
         }
 
         else {
-            g2D.drawImage(startButtonIdle,gameWidth/2-startButtonIdle.getWidth(null)/2, gameHeight/2-startButtonIdle.getHeight(null)/2,null);
+            g2D.drawImage(startButtonIdleImage,gameWidth/2- startButtonIdleImage.getWidth(null)/2, gameHeight/2- startButtonIdleImage.getHeight(null)/2,null);
         }
     }
+
+
+
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource()==startButton) {
             Audio.playClickSound();
-            startButtonClicked = true;
+            mouseClickedStartButton = true;
         }
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
-        startButtonClicked = false;
-        if (e.getSource()==startButton && startButtonHovering) {
+        mouseClickedStartButton = false;
+        if (e.getSource()==startButton && mouseHoveringStartButton) {
             startButton.setVisible(false);
             Audio.stopSoundTrack(0);
             currentScreenActive = 1;
         }
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource()==startButton) {
-            startButtonHovering = true;
+            mouseHoveringStartButton = true;
         }
     }
-
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == startButton) {
-            startButtonHovering = false;
+            mouseHoveringStartButton = false;
         }
     }
+
+
+
+
 
     public void gameScreenVariables() {
         balance = 0;
         placeBuildingY = gameHeight/9*2;
     }
     public void setBooleans() {
-        startButtonHovering = false;
-        startButtonClicked = false;
+        mouseHoveringStartButton = false;
+        mouseClickedStartButton = false;
     }
     public void importImages() {
         backGroundImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png"))).getImage();
         titleText = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png"))).getImage();
-        startButtonIdle = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png"))).getImage();
-        startButtonHover = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonhover.png"))).getImage();
-        startButtonClick = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonclick.png"))).getImage();
+        startButtonIdleImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png"))).getImage();
+        startButtonHoverImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonhover.png"))).getImage();
+        startButtonClickImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonclick.png"))).getImage();
         redBuilding = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding.png"))).getImage();
     }
     public void createButtons() {
@@ -220,7 +223,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButton.addMouseListener(this);
         this.add(startButton);
     }
-
     public void createVehicleList () {
         vehicles = new ArrayList<>(5);
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redcarpixel.png"))).getImage());
@@ -252,10 +254,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         secondVehicleLeftBorder = 0;
     }
 
+
+
+
+
     public int getRandomIntBetween(int min, int max) {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
-
     public void startGame() {
         gameThread = new Thread(this);
         setBooleans();
@@ -267,7 +272,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         Audio.playSoundtrack(0);
         gameThread.start();
     }
-
     @Override
     public void run() {
 
