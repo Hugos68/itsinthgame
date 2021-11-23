@@ -48,6 +48,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int secondVehicleWidth; int secondVehicleHeight;
     int secondVehicleLeftBorder; int secondVehicleRightBorder;
 
+    //game screen variables
+    int balance;
+
     public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         //panel properties
         this.setPreferredSize(new Dimension(gameWidth,gameHeight));
@@ -352,6 +355,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         secondVehicleWidth = secondRandomVehicle.getWidth(null);
         secondVehicleRightBorder = secondVehicleX+secondVehicleWidth+1;
         secondVehicleLeftBorder = 0;
+
+        //game screen properties
+        balance = 0;
     }
 
     public void startGame() {
