@@ -55,15 +55,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setLayout(null);
 
         variableDeceleration();
+
         startGame();
     }
 
     @Override
     public void run() {
+
         double frameTime = 1000000000/FPS;
         double nextDrawTime = System.nanoTime() + frameTime;
+
         while (!Thread.currentThread().isInterrupted()) {
             update();
+
             repaint();
 
             try {
@@ -84,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void update() {
         //always update
         setVehiclePosAndColor();
+
         checkAndSetRandomVehicleBorders();
 
         //start screen updates
@@ -99,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         Graphics2D g2D = (Graphics2D) g;
 
         //draw elements no matter what screen is active
@@ -115,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (currentScreenActive==1) {
             //TODO draw game screen
         }
+
         g2D.dispose();
     }
 
@@ -122,6 +129,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (firstVehicleVelocity < 0) {
             g2D.drawImage(firstVehicle, firstVehicleX, firstVehicleY, null);
         }
+
         else {
             g2D.drawImage(firstVehicle, firstVehicleX + firstVehicleWidth, firstVehicleY, -firstVehicleWidth, firstVehicleHeight, null);
         }
@@ -129,17 +137,21 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (secondVehicleVelocity < 0) {
             g2D.drawImage(secondVehicle, secondVehicleX, secondVehicleY, null);
         }
+
         else {
             g2D.drawImage(secondVehicle, secondVehicleX + secondVehicleWidth, secondVehicleY, -secondVehicleWidth, secondVehicleHeight, null);
         }
     }
+
     public void drawStartButton(Graphics2D g2D) {
         if (startButtonClicked) {
             g2D.drawImage(startButtonClick,gameWidth/2-75, gameHeight/2-75,null);
         }
+
         else if (startButtonHovering) {
             g2D.drawImage(startButtonHover,gameWidth/2-75, gameHeight/2-75,null);
         }
+
         else {
             g2D.drawImage(startButtonIdle,gameWidth/2-75, gameHeight/2-75,null);
         }
@@ -165,6 +177,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             firstVehicleRightBorder = gameWidth + getRandomIntBetween(250, 2500);
             firstVehicleLeftBorder = -getRandomIntBetween(250, 2500);
         }
+
         if (secondVehicleX > gameWidth/2-5 && secondVehicleX < gameWidth/2+5) {
             secondVehicleRightBorder = gameWidth + getRandomIntBetween(250, 2500);
             secondVehicleLeftBorder = -getRandomIntBetween(250, 2500);
@@ -175,6 +188,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (vehicleNumber==0) {
             do {firstVehicle = vehicles.get(getRandomIntBetween(0,5));} while (firstVehicle==secondVehicle);
         }
+
         if (vehicleNumber==1) {
             do {secondVehicle = vehicles.get(getRandomIntBetween(0,5));} while (secondVehicle==firstVehicle);
         }
@@ -194,6 +208,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     System.out.println(e.getMessage());
                 }
             }
+
             if (currentScreenActive==1) {
                 //TODO start game soundtrack
             }
@@ -251,7 +266,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+
         startButtonClicked = false;
+
         if (e.getSource()==startButton && startButtonHovering) {
             startButton.setVisible(false);
             stopSoundTrack();
@@ -274,7 +291,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
 
     public void variableDeceleration() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
         //general variables
         currentScreenActive = 0; // 0 = start screen, 1 = game screen
 
@@ -333,8 +349,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         secondVehicleWidth = secondRandomVehicle.getWidth(null);
         secondVehicleRightBorder = secondVehicleX+secondVehicleWidth+1;
         secondVehicleLeftBorder = 0;
-
     }
+
     public void startGame() {
         playSoundtrack();
         gameThread = new Thread(this);
