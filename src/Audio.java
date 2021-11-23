@@ -25,9 +25,7 @@ public class Audio {
                 titleScreenSoundTrack.open(titleScreenSoundTrackStream);
                 titleScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
                 titleScreenSoundTrack.start();
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (LineUnavailableException | IOException e) {
                 e.printStackTrace();
             }
         }
