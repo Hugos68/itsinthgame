@@ -123,7 +123,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //draw game screen
         if (currentScreenActive==1) {
             //TODO draw game screen
-            g2D.drawImage(casTestBuilding,gameWidth / 2 - casTestBuilding.getWidth(null)/2, gameHeight/2-casTestBuilding.getWidth(null)/2,null);
         }
 
         g2D.dispose();
@@ -149,15 +148,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void drawStartButton(Graphics2D g2D) {
         if (startButtonClicked) {
-            g2D.drawImage(startButtonClick,gameWidth/2-75, gameHeight/2-75,null);
+            g2D.drawImage(startButtonClick,gameWidth/2-startButtonClick.getWidth(null)/2, gameHeight/2-startButtonClick.getHeight(null)/2,null);
         }
 
         else if (startButtonHovering) {
-            g2D.drawImage(startButtonHover,gameWidth/2-75, gameHeight/2-75,null);
+            g2D.drawImage(startButtonHover,gameWidth/2-startButtonHover.getWidth(null)/2, gameHeight/2-startButtonHover.getHeight(null)/2,null);
         }
 
         else {
-            g2D.drawImage(startButtonIdle,gameWidth/2-75, gameHeight/2-75,null);
+            g2D.drawImage(startButtonIdle,gameWidth/2-startButtonIdle.getWidth(null)/2, gameHeight/2-startButtonIdle.getHeight(null)/2,null);
         }
     }
 
