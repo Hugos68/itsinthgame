@@ -5,17 +5,21 @@ import java.util.Objects;
 public class Audio {
 
     AudioInputStream titleScreenSoundTrackStream;
+    AudioInputStream gameScreenSoundTrackStream;
     AudioInputStream clickSoundStream;
     AudioInputStream buildSoundStream;
     Clip titleScreenSoundTrack;
+    Clip gameScreenSoundTrack;
     Clip clickSound;
     Clip buildSound;
 
     public Audio() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("titlescreensong.wav")));
+        gameScreenSoundTrackStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("gamescreensong.wav")));
         clickSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("click.wav")));
         buildSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("build.wav")));
         titleScreenSoundTrack = AudioSystem.getClip();
+        gameScreenSoundTrack = AudioSystem.getClip();
         clickSound = AudioSystem.getClip();
         buildSound = AudioSystem.getClip();
     }
@@ -32,7 +36,13 @@ public class Audio {
         }
 
         if (currentScreenActive==1) {
-            //TODO start game soundtrack
+            try {
+                gameScreenSoundTrack.open(gameScreenSoundTrackStream);
+                gameScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
+                gameScreenSoundTrack.start();
+            } catch (LineUnavailableException | IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     public void stopSoundTrack(int currentScreenActive) {
@@ -45,7 +55,12 @@ public class Audio {
             }
         }
         if (currentScreenActive==1) {
-            //TODO stop game soundtrack
+            try {
+                gameScreenSoundTrack.stop();
+                gameScreenSoundTrack.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     public void playClickSound() {
