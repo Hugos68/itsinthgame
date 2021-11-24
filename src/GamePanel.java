@@ -1,6 +1,8 @@
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -22,11 +24,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //initialize buttons
     JButton startButton;
+    JButton exitGameButton;
+
+    //key binds
+    Action escape = new EscapeAction();
 
     //initialize state variables
     int currentScreenState;
     // 0 = start screen
     // 1 = game screen
+    // 2 = options
     int currentStartButtonState;
     // 0 = idle
     // 1 = hovering
@@ -47,11 +54,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setPreferredSize(new Dimension(gameWidth,gameHeight));
         this.setDoubleBuffered(true);
         this.setLayout(null);
+        this.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "escapeAction");
+        this.getActionMap().put("escapeAction", escape);
 
         startGame();
     }
-
-
 
     public void importImages() {
         backGroundImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png"))).getImage();
@@ -73,7 +80,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         currentScreenState = 0;
         currentStartButtonState = 0;
     }
-
     public void gameScreenVariables() {
         balance = 1000;
         frameCounter = 0;
@@ -116,19 +122,25 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATE AND DRAW SCREENS
     public void updateScreen() {
-        if (currentScreenState ==0) {
+        if (currentScreenState == 0) {
             updateStartScreen();
         }
-        if (currentScreenState ==1) {
+        if (currentScreenState == 1) {
             updateGameScreen();
+        }
+        if (currentScreenState == 2) {
+            updateSettingsScreen();
         }
     }
     public void drawScreen(Graphics2D g2D) {
-        if (currentScreenState ==0) {
+        if (currentScreenState == 0) {
             drawStartScreen(g2D);
         }
-        if (currentScreenState ==1) {
+        if (currentScreenState == 1) {
             drawGameScreen(g2D);
+        }
+        if (currentScreenState == 2) {
+            drawSettingsScreen(g2D);
         }
     }
 
@@ -162,6 +174,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.drawImage(redBuilding,gameWidth/2-redBuilding.getWidth(null)/2,placeBuildingY,null);
     }
 
+    //UPDATE AND DRAW SETTINGS SCREEN
+    public void updateSettingsScreen() {
+
+    }
+    public void drawSettingsScreen(Graphics2D g2D) {
+
+    }
+
     //DRAW AND UPDATE BALANCE
     public void updateBalance() {
         //TODO add building variables
@@ -170,20 +190,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //TODO draw balance
     }
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
-
         if (e.getSource()==startButton && SwingUtilities.isLeftMouseButton(e)) {
             audio.playClickSound();
             currentStartButtonState=2;
         }
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getSource()==startButton && currentStartButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
@@ -192,23 +208,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             audio.playSoundtrack(1);
             currentScreenState = 1;
         }
-
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource()==startButton) {
             currentStartButtonState = 1;
         }
     }
-
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource()==startButton) {
             currentStartButtonState = 0;
         }
     }
-
     @Override
     public void run() {
 
@@ -236,4 +248,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
 
+    public class EscapeAction extends  AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
 }
