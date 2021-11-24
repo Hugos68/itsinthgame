@@ -27,7 +27,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //key binds
     Action escape = new EscapeAction();
-    boolean escapePressed = false;
 
     //initialize state variables
     boolean settingsMenuActive;
@@ -134,7 +133,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (currentScreenState == 1) {
             updateGameScreen();
         }
-
     }
     public void drawScreen(Graphics2D g2D) {
         if (currentScreenState == 0) {
@@ -150,23 +148,23 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATE AND DRAW START SCREEN
     public void updateStartScreen() {
-
     }
     public void drawStartScreen(Graphics2D g2D) {
         g2D.drawImage(titleText, gameWidth/2-titleText.getWidth(null)/2, gameHeight/7, null);
-        if (currentStartButtonState == 2) {
-            g2D.drawImage(startButtonClickImage,gameWidth/2- startButtonClickImage.getWidth(null)/2, gameHeight/2- startButtonClickImage.getHeight(null)/2,null);
+        if (currentStartButtonState == 0) {
+            g2D.drawImage(startButtonIdleImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
         }
         else if (currentStartButtonState == 1) {
             g2D.drawImage(startButtonHoverImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
         }
         else {
-            g2D.drawImage(startButtonIdleImage,gameWidth/2- startButtonIdleImage.getWidth(null)/2, gameHeight/2- startButtonIdleImage.getHeight(null)/2,null);
+            g2D.drawImage(startButtonClickImage,gameWidth/2- startButtonClickImage.getWidth(null)/2, gameHeight/2- startButtonClickImage.getHeight(null)/2,null);
         }
     }
 
     //UPDATE AND DRAW GAME SCREEN
     public void updateGameScreen() {
+        startButton.setVisible(false);
         frameCounter++;
         if (frameCounter==120) {
             updateBalance();
@@ -192,6 +190,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawBalance(Graphics2D g2D) {
         //TODO draw balance
+    }
+
+    private void setAllButtonsVisible(boolean visible) {
+        startButton.setVisible(visible);
     }
 
     @Override
@@ -256,10 +258,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!settingsMenuActive) {
+                setAllButtonsVisible(false);
                 settingsMenuActive = true;
             }
             else {
                 currentScreenState = mostRecentScreen;
+                setAllButtonsVisible(true);
                 settingsMenuActive = false;
             }
         }
