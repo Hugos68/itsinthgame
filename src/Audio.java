@@ -4,22 +4,27 @@ import java.util.Objects;
 
 public class Audio {
 
-    static AudioInputStream titleScreenSoundTrackStream;
-    static AudioInputStream clickSoundStream;
-    static AudioInputStream buildSoundStream;
-    static Clip titleScreenSoundTrack;
-    static Clip clickSound;
-    static Clip buildSound;
+    AudioInputStream titleScreenSoundTrackStream;
+    AudioInputStream gameScreenSoundTrackStream;
+    AudioInputStream clickSoundStream;
+    AudioInputStream buildSoundStream;
+    Clip titleScreenSoundTrack;
+    Clip gameScreenSoundTrack;
+    Clip clickSound;
+    Clip buildSound;
 
     public Audio() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("titlescreensong.wav")));
+        gameScreenSoundTrackStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("gamescreensong.wav")));
         clickSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("click.wav")));
         buildSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("build.wav")));
         titleScreenSoundTrack = AudioSystem.getClip();
+        gameScreenSoundTrack = AudioSystem.getClip();
         clickSound = AudioSystem.getClip();
         buildSound = AudioSystem.getClip();
     }
-    public static void playSoundtrack(int currentScreenActive) {
+
+    public void playSoundtrack(int currentScreenActive) {
         if (currentScreenActive==0) {
             try {
                 titleScreenSoundTrack.open(titleScreenSoundTrackStream);
@@ -31,11 +36,16 @@ public class Audio {
         }
 
         if (currentScreenActive==1) {
-            //TODO start game soundtrack
+            try {
+                gameScreenSoundTrack.open(gameScreenSoundTrackStream);
+                gameScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
+                gameScreenSoundTrack.start();
+            } catch (LineUnavailableException | IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
-    public static void stopSoundTrack(int currentScreenActive) {
+    public void stopSoundTrack(int currentScreenActive) {
         if (currentScreenActive==0) {
             try {
                 titleScreenSoundTrack.stop();
@@ -45,10 +55,15 @@ public class Audio {
             }
         }
         if (currentScreenActive==1) {
-            //TODO stop game soundtrack
+            try {
+                gameScreenSoundTrack.stop();
+                gameScreenSoundTrack.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-    public static void playClickSound() {
+    public void playClickSound() {
         try {
             if (!clickSound.isOpen()) {
                 clickSound.open(clickSoundStream);
@@ -59,7 +74,6 @@ public class Audio {
             e.printStackTrace();
         }
     }
-
     public void playBuildSound() {
         try {
             if (!buildSound.isOpen()) {

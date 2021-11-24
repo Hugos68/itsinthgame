@@ -34,14 +34,14 @@ public class Vehicle {
         this.width = this.randomImage.getWidth(null);
         this.height = this.randomImage.getHeight(null);
 
-        if (vehicleType=="left") {
+        if (vehicleType.matches("left")) {
             this.velocity = 7;
             this.X = -getRandomIntBetween(250, 2500);
             this.Y = (int) ((double) gameHeight * 0.81944444444); //885
             this.rightBorder = gameWidth;
             this.leftBorder = this.X - 1;
         }
-        if (vehicleType=="right") {
+        if (vehicleType.matches("right")) {
             this.velocity = -7;
             this.X = gameWidth + getRandomIntBetween(250, 2500);
             this.Y = (int) ((double) gameHeight * 0.91666666666); //990
@@ -49,6 +49,7 @@ public class Vehicle {
             this.leftBorder = 0;
         }
     }
+
     public void updateVehicles() {
 
         //check for collisions and set corresponding velocity
@@ -68,7 +69,6 @@ public class Vehicle {
             this.leftBorder = -getRandomIntBetween(250, 2500);
         }
     }
-    
     public void drawVehicles(Graphics2D g2D) {
         if (this.velocity < 0) {
             g2D.drawImage(this.image, this.X, this.Y, null);
@@ -80,7 +80,7 @@ public class Vehicle {
 
     }
 
-    public int getRandomIntBetween(int min, int max) {
+    private int getRandomIntBetween(int min, int max) {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }
