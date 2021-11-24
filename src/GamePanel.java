@@ -1,6 +1,7 @@
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -22,11 +23,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //initialize buttons
     JButton startButton;
+    JButton exitGameButton;
+
+    //key binds
+    Action escape = new EscapeAction();
 
     //initialize state variables
+    boolean settingsMenuActive;
+    int mostRecentScreen;
     int currentScreenState;
     // 0 = start screen
-    // 1 = game screen
+    // 1 = game screen=
     int currentStartButtonState;
     // 0 = idle
     // 1 = hovering
@@ -47,11 +54,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setPreferredSize(new Dimension(gameWidth,gameHeight));
         this.setDoubleBuffered(true);
         this.setLayout(null);
+        this.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "escapeAction");
+        this.getActionMap().put("escapeAction", escape);
 
         startGame();
     }
-
-
 
     public void importImages() {
         backGroundImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png"))).getImage();
@@ -66,14 +73,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
         startButton.setOpaque(false);
         startButton.setBorderPainted(false);
+        startButton.setFocusable(false);
         startButton.addMouseListener(this);
         this.add(startButton);
     }
     public void setStates() {
         currentScreenState = 0;
         currentStartButtonState = 0;
+        settingsMenuActive = false;
     }
-
     public void gameScreenVariables() {
         balance = 1000;
         frameCounter = 0;
@@ -116,41 +124,47 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATE AND DRAW SCREENS
     public void updateScreen() {
-        if (currentScreenState ==0) {
+        if (!settingsMenuActive) {
+            mostRecentScreen = currentScreenState;
+        }
+        if (currentScreenState == 0) {
             updateStartScreen();
         }
-        if (currentScreenState ==1) {
+        if (currentScreenState == 1) {
             updateGameScreen();
         }
     }
     public void drawScreen(Graphics2D g2D) {
-        if (currentScreenState ==0) {
+        if (currentScreenState == 0) {
             drawStartScreen(g2D);
         }
-        if (currentScreenState ==1) {
+        if (currentScreenState == 1) {
             drawGameScreen(g2D);
+        }
+        if (settingsMenuActive) {
+            drawSettingsScreen(g2D);
         }
     }
 
     //UPDATE AND DRAW START SCREEN
     public void updateStartScreen() {
-
     }
     public void drawStartScreen(Graphics2D g2D) {
         g2D.drawImage(titleText, gameWidth/2-titleText.getWidth(null)/2, gameHeight/7, null);
-        if (currentStartButtonState == 2) {
-            g2D.drawImage(startButtonClickImage,gameWidth/2- startButtonClickImage.getWidth(null)/2, gameHeight/2- startButtonClickImage.getHeight(null)/2,null);
+        if (currentStartButtonState == 0) {
+            g2D.drawImage(startButtonIdleImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
         }
         else if (currentStartButtonState == 1) {
             g2D.drawImage(startButtonHoverImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
         }
         else {
-            g2D.drawImage(startButtonIdleImage,gameWidth/2- startButtonIdleImage.getWidth(null)/2, gameHeight/2- startButtonIdleImage.getHeight(null)/2,null);
+            g2D.drawImage(startButtonClickImage,gameWidth/2- startButtonClickImage.getWidth(null)/2, gameHeight/2- startButtonClickImage.getHeight(null)/2,null);
         }
     }
 
     //UPDATE AND DRAW GAME SCREEN
     public void updateGameScreen() {
+        startButton.setVisible(false);
         frameCounter++;
         if (frameCounter==120) {
             updateBalance();
@@ -162,6 +176,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.drawImage(redBuilding,gameWidth/2-redBuilding.getWidth(null)/2,placeBuildingY,null);
     }
 
+    //UPDATE AND DRAW SETTINGS SCREEN
+    public void updateSettingsScreen() {
+
+    }
+    public void drawSettingsScreen(Graphics2D g2D) {
+        g2D.fillRect(0,0,400,400);
+    }
+
     //DRAW AND UPDATE BALANCE
     public void updateBalance() {
         //TODO add building variables
@@ -170,20 +192,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //TODO draw balance
     }
 
+    private void setAllButtonsVisible(boolean visible) {
+        startButton.setVisible(visible);
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
-
         if (e.getSource()==startButton && SwingUtilities.isLeftMouseButton(e)) {
             audio.playClickSound();
             currentStartButtonState=2;
         }
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getSource()==startButton && currentStartButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
@@ -192,23 +214,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             audio.playSoundtrack(1);
             currentScreenState = 1;
         }
-
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource()==startButton) {
             currentStartButtonState = 1;
         }
     }
-
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource()==startButton) {
             currentStartButtonState = 0;
         }
     }
-
     @Override
     public void run() {
 
@@ -236,4 +254,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
 
+    public class EscapeAction extends  AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (!settingsMenuActive) {
+                setAllButtonsVisible(false);
+                settingsMenuActive = true;
+            }
+            else {
+                currentScreenState = mostRecentScreen;
+                setAllButtonsVisible(true);
+                settingsMenuActive = false;
+            }
+        }
+    }
 }
