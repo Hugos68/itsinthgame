@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void gameScreenVariables() {
         balance = 1000;
         frameCounter = 0;
-        placeBuildingY = gameHeight/9*2;
+        placeBuildingY = (int) (gameHeight*0.188);
     }
 
     public void startGame() {
@@ -159,6 +159,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawGameScreen(Graphics2D g2D) {
         drawBalance(g2D);
+        g2D.drawImage(redBuilding,gameWidth/2-redBuilding.getWidth(null)/2,placeBuildingY,null);
     }
 
     //DRAW AND UPDATE BALANCE
