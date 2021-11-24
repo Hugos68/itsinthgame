@@ -74,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
         startButton.setOpaque(false);
         startButton.setBorderPainted(false);
+        startButton.setFocusable(false);
         startButton.addMouseListener(this);
         this.add(startButton);
     }
