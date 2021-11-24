@@ -12,7 +12,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     final int gameWidth = 1920;
     final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
-    int currentScreenActive;
+
     Thread gameThread;
 
     //initialize images
@@ -23,9 +23,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     //initialize buttons
     JButton startButton;
 
-    //initialize booleans
-    boolean mouseHoveringStartButton;
-    boolean mouseClickedStartButton;
+    //initialize state variables
+    int currentScreenState;
+    // 0 = start screen
+    // 1 = game screen
+    int currentStartButtonState;
+    // 0 = idle
+    // 1 = hovering
+    // 2 = click
 
     //create class objects
     Audio audio = new Audio();
@@ -43,22 +48,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setDoubleBuffered(true);
         this.setLayout(null);
 
-        currentScreenActive = 0;
-        // 0 = start screen
-        // 1 = game screen
-
         startGame();
     }
 
-    public void gameScreenVariables() {
-        balance = 1000;
-        frameCounter = 0;
-        placeBuildingY = gameHeight/9*2;
-    }
-    public void setBooleans() {
-        mouseHoveringStartButton = false;
-        mouseClickedStartButton = false;
-    }
+
+
     public void importImages() {
         backGroundImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png"))).getImage();
         titleText = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png"))).getImage();
@@ -75,12 +69,22 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButton.addMouseListener(this);
         this.add(startButton);
     }
+    public void setStates() {
+        currentScreenState = 0;
+        currentStartButtonState = 0;
+    }
+
+    public void gameScreenVariables() {
+        balance = 1000;
+        frameCounter = 0;
+        placeBuildingY = gameHeight/9*2;
+    }
 
     public void startGame() {
         gameThread = new Thread(this);
-        setBooleans();
         importImages();
         createButtons();
+        setStates();
         gameScreenVariables();
         audio.playSoundtrack(0);
         gameThread.start();
@@ -112,18 +116,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATE AND DRAW SCREENS
     public void updateScreen() {
-        if (currentScreenActive==0) {
+        if (currentScreenState ==0) {
             updateStartScreen();
         }
-        if (currentScreenActive==1) {
+        if (currentScreenState ==1) {
             updateGameScreen();
         }
     }
     public void drawScreen(Graphics2D g2D) {
-        if (currentScreenActive==0) {
+        if (currentScreenState ==0) {
             drawStartScreen(g2D);
         }
-        if (currentScreenActive==1) {
+        if (currentScreenState ==1) {
             drawGameScreen(g2D);
         }
     }
@@ -134,10 +138,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawStartScreen(Graphics2D g2D) {
         g2D.drawImage(titleText, gameWidth/2-titleText.getWidth(null)/2, gameHeight/7, null);
-        if (mouseClickedStartButton) {
+        if (currentStartButtonState == 2) {
             g2D.drawImage(startButtonClickImage,gameWidth/2- startButtonClickImage.getWidth(null)/2, gameHeight/2- startButtonClickImage.getHeight(null)/2,null);
         }
-        else if (mouseHoveringStartButton) {
+        else if (currentStartButtonState == 1) {
             g2D.drawImage(startButtonHoverImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
         }
         else {
@@ -172,33 +176,34 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getSource()==startButton) {
+
+        if (e.getSource()==startButton && SwingUtilities.isLeftMouseButton(e)) {
             audio.playClickSound();
-            mouseClickedStartButton = true;
+            currentStartButtonState=2;
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        mouseClickedStartButton = false;
-        if (e.getSource()==startButton && mouseHoveringStartButton) {
+        if (e.getSource()==startButton && currentStartButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
             startButton.setVisible(false);
             audio.stopSoundTrack(0);
-            currentScreenActive = 1;
+            currentScreenState = 1;
         }
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource()==startButton) {
-            mouseHoveringStartButton = true;
+            currentStartButtonState = 1;
         }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getSource() == startButton) {
-            mouseHoveringStartButton = false;
+        if (e.getSource()==startButton) {
+            currentStartButtonState = 0;
         }
     }
 
