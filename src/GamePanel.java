@@ -2,7 +2,6 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -28,12 +27,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //key binds
     Action escape = new EscapeAction();
+    boolean escapePressed = false;
 
     //initialize state variables
+    boolean settingsMenuActive;
+    int mostRecentScreen;
     int currentScreenState;
     // 0 = start screen
-    // 1 = game screen
-    // 2 = options
+    // 1 = game screen=
     int currentStartButtonState;
     // 0 = idle
     // 1 = hovering
@@ -79,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void setStates() {
         currentScreenState = 0;
         currentStartButtonState = 0;
+        settingsMenuActive = false;
     }
     public void gameScreenVariables() {
         balance = 1000;
@@ -122,25 +124,26 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATE AND DRAW SCREENS
     public void updateScreen() {
+        if (!settingsMenuActive) {
+            mostRecentScreen = currentScreenState;
+        }
         if (currentScreenState == 0) {
             updateStartScreen();
         }
         if (currentScreenState == 1) {
             updateGameScreen();
         }
-        if (currentScreenState == 2) {
-            updateSettingsScreen();
-        }
+
     }
     public void drawScreen(Graphics2D g2D) {
+        if (settingsMenuActive) {
+            drawSettingsScreen(g2D);
+        }
         if (currentScreenState == 0) {
             drawStartScreen(g2D);
         }
         if (currentScreenState == 1) {
             drawGameScreen(g2D);
-        }
-        if (currentScreenState == 2) {
-            drawSettingsScreen(g2D);
         }
     }
 
@@ -179,7 +182,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void drawSettingsScreen(Graphics2D g2D) {
-
+        g2D.fillRect(0,0,400,400);
     }
 
     //DRAW AND UPDATE BALANCE
@@ -251,7 +254,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public class EscapeAction extends  AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            if (!settingsMenuActive) {
+                settingsMenuActive = true;
+            }
+            else {
+                currentScreenState = mostRecentScreen;
+                settingsMenuActive = false;
+            }
         }
     }
 }
