@@ -24,25 +24,37 @@ public class Audio {
         buildSound = AudioSystem.getClip();
     }
 
-    public void playSoundtrack(int currentScreenActive) {
-        if (currentScreenActive==0) {
+    public void playSoundtrack(int currentScreenState) {
+        if (currentScreenState==0) {
             try {
-                titleScreenSoundTrack.open(titleScreenSoundTrackStream);
-                titleScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
+                if (!titleScreenSoundTrack.isOpen()) {
+                    titleScreenSoundTrack.open(titleScreenSoundTrackStream);
+                    titleScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
+                }
                 titleScreenSoundTrack.start();
             } catch (LineUnavailableException | IOException e) {
                 e.printStackTrace();
             }
         }
 
-        if (currentScreenActive==1) {
+        if (currentScreenState==1) {
             try {
-                gameScreenSoundTrack.open(gameScreenSoundTrackStream);
-                gameScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
+                if(!gameScreenSoundTrack.isOpen()) {
+                    gameScreenSoundTrack.open(gameScreenSoundTrackStream);
+                    gameScreenSoundTrack.loop(Clip.LOOP_CONTINUOUSLY);
+                }
                 gameScreenSoundTrack.start();
             } catch (LineUnavailableException | IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    public void pauseSoundTrack(int currentScreenState) {
+        if (currentScreenState==0) {
+            titleScreenSoundTrack.stop();
+        }
+        if (currentScreenState==1) {
+            gameScreenSoundTrack.stop();
         }
     }
     public void stopSoundTrack(int currentScreenActive) {

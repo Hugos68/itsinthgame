@@ -23,7 +23,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //initialize buttons
     JButton startButton;
-    JButton exitGameButton;
 
     //key binds
     Action escape = new EscapeAction();
@@ -36,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     // 1 = game screen=
     int currentStartButtonState;
     // 0 = idle
-    // 1 = hovering
+    // 1 = hover
     // 2 = click
 
     //create class objects
@@ -100,8 +99,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATE AND DRAW
     public void update() {
-        updateAesthetics();
-        updateScreen();
+        if (!settingsMenuActive) {
+            updateAesthetics();
+            updateScreen();
+        }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -135,14 +136,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void drawScreen(Graphics2D g2D) {
+        if (settingsMenuActive) {
+            drawSettingsScreen(g2D);
+        }
         if (currentScreenState == 0) {
             drawStartScreen(g2D);
         }
         if (currentScreenState == 1) {
             drawGameScreen(g2D);
-        }
-        if (settingsMenuActive) {
-            drawSettingsScreen(g2D);
         }
     }
 
@@ -152,14 +153,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawStartScreen(Graphics2D g2D) {
         g2D.drawImage(titleText, gameWidth/2-titleText.getWidth(null)/2, gameHeight/7, null);
         if (currentStartButtonState == 0) {
-            g2D.drawImage(startButtonIdleImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
-        }
+                g2D.drawImage(startButtonIdleImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
+            }
         else if (currentStartButtonState == 1) {
-            g2D.drawImage(startButtonHoverImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
-        }
+                g2D.drawImage(startButtonHoverImage,gameWidth/2- startButtonHoverImage.getWidth(null)/2, gameHeight/2- startButtonHoverImage.getHeight(null)/2,null);
+            }
         else {
             g2D.drawImage(startButtonClickImage,gameWidth/2- startButtonClickImage.getWidth(null)/2, gameHeight/2- startButtonClickImage.getHeight(null)/2,null);
         }
+
     }
 
     //UPDATE AND DRAW GAME SCREEN
@@ -192,39 +194,56 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //TODO draw balance
     }
 
-    private void setAllButtonsVisible(boolean visible) {
-        startButton.setVisible(visible);
+    private void setCurrentScreenButtons(boolean visible) {
+        //always set button states to 0
+        if (mostRecentScreen==0) {
+            startButton.setVisible(visible);
+            currentStartButtonState=0;
+        }
+        else {
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (!settingsMenuActive) {
+
+        }
     }
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getSource()==startButton && SwingUtilities.isLeftMouseButton(e)) {
-            audio.playClickSound();
-            currentStartButtonState=2;
+        if (!settingsMenuActive) {
+            if (e.getSource()==startButton && SwingUtilities.isLeftMouseButton(e)) {
+                audio.playClickSound();
+                currentStartButtonState=2;
+            }
         }
     }
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getSource()==startButton && currentStartButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
-            startButton.setVisible(false);
-            audio.stopSoundTrack(0);
-            audio.playSoundtrack(1);
-            currentScreenState = 1;
+        if (!settingsMenuActive) {
+            if (e.getSource() == startButton && currentStartButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                startButton.setVisible(false);
+                audio.stopSoundTrack(0);
+                audio.playSoundtrack(1);
+                currentScreenState = 1;
+            }
         }
     }
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (e.getSource()==startButton) {
-            currentStartButtonState = 1;
+        if (!settingsMenuActive) {
+            if (e.getSource() == startButton) {
+                currentStartButtonState = 1;
+            }
         }
     }
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getSource()==startButton) {
-            currentStartButtonState = 0;
+        if (!settingsMenuActive) {
+            if (e.getSource() == startButton) {
+                currentStartButtonState = 0;
+            }
         }
     }
     @Override
@@ -235,9 +254,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         while (!Thread.currentThread().isInterrupted()) {
 
-            update();
-
-            repaint();
+                update();
+                repaint();
 
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
@@ -258,12 +276,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!settingsMenuActive) {
-                setAllButtonsVisible(false);
+                audio.pauseSoundTrack(mostRecentScreen);
+                setCurrentScreenButtons(false);
                 settingsMenuActive = true;
             }
             else {
                 currentScreenState = mostRecentScreen;
-                setAllButtonsVisible(true);
+                audio.playSoundtrack(mostRecentScreen);
+                setCurrentScreenButtons(true);
                 settingsMenuActive = false;
             }
         }
