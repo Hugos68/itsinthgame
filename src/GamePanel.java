@@ -137,14 +137,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void drawScreen(Graphics2D g2D) {
-        if (settingsMenuActive) {
-            drawSettingsScreen(g2D);
-        }
         if (currentScreenState == 0) {
             drawStartScreen(g2D);
         }
         if (currentScreenState == 1) {
             drawGameScreen(g2D);
+        }
+        if (settingsMenuActive) {
+            drawSettingsScreen(g2D);
         }
     }
 
