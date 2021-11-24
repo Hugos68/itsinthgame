@@ -5,33 +5,36 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
+    //game properties
     final int gameWidth = 1920;
     final int gameHeight = (int) (gameWidth * 0.5625);
     final int FPS = 60;
-
     int currentScreenActive;
     Thread gameThread;
 
+    //initialize images
     Image backGroundImage, titleText;
     Image startButtonIdleImage, startButtonHoverImage, startButtonClickImage;
     Image redBuilding;
 
+    //initialize buttons
     JButton startButton;
 
+    //initialize booleans
     boolean mouseHoveringStartButton;
     boolean mouseClickedStartButton;
 
+    //create class objects
     Audio audio = new Audio();
     Vehicle firstVehicle = new Vehicle("left");
     Vehicle secondVehicle = new Vehicle("right");
 
     //game screen variables
     int balance;
-    int frameCounter = 0;
+    int frameCounter;
     int placeBuildingY;
 
     public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -46,6 +49,44 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         startGame();
     }
+
+    public void gameScreenVariables() {
+        balance = 1000;
+        frameCounter = 0;
+        placeBuildingY = gameHeight/9*2;
+    }
+    public void setBooleans() {
+        mouseHoveringStartButton = false;
+        mouseClickedStartButton = false;
+    }
+    public void importImages() {
+        backGroundImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png"))).getImage();
+        titleText = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png"))).getImage();
+        startButtonIdleImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png"))).getImage();
+        startButtonHoverImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonhover.png"))).getImage();
+        startButtonClickImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonclick.png"))).getImage();
+        redBuilding = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding.png"))).getImage();
+    }
+    public void createButtons() {
+        startButton = new JButton();
+        startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
+        startButton.setOpaque(false);
+        startButton.setBorderPainted(false);
+        startButton.addMouseListener(this);
+        this.add(startButton);
+    }
+
+    public void startGame() {
+        gameThread = new Thread(this);
+        setBooleans();
+        importImages();
+        createButtons();
+        gameScreenVariables();
+        audio.playSoundtrack(0);
+        gameThread.start();
+    }
+
+    //UPDATE AND DRAW
     public void update() {
         updateAesthetics();
         updateScreen();
@@ -57,7 +98,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawScreen(g2D);
         g2D.dispose();
     }
-
 
     //UPDATE AND DRAW AESTHETICS
     public void updateAesthetics() {
@@ -88,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
 
+    //UPDATE AND DRAW START SCREEN
     public void updateStartScreen() {
 
     }
@@ -104,6 +145,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
 
+    //UPDATE AND DRAW GAME SCREEN
     public void updateGameScreen() {
         frameCounter++;
         if (frameCounter==120) {
@@ -115,57 +157,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawBalance(g2D);
     }
 
+    //DRAW AND UPDATE BALANCE
     public void updateBalance() {
         //TODO add building variables
     }
     public void drawBalance(Graphics2D g2D) {
-        g2D.setColor(Color.YELLOW);
-        g2D.fillRect(1800,0,120,100);
-        g2D.setColor(Color.BLACK);
-        g2D.drawRect(1800,0,120,100);
-        g2D.drawString(String.valueOf(balance),1860,50);
+        //TODO draw balance
     }
 
-
-
-
-
-
-
-    public void gameScreenVariables() {
-        balance = 0;
-        placeBuildingY = gameHeight/9*2;
-    }
-    public void setBooleans() {
-        mouseHoveringStartButton = false;
-        mouseClickedStartButton = false;
-    }
-    public void importImages() {
-        backGroundImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png"))).getImage();
-        titleText = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png"))).getImage();
-        startButtonIdleImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png"))).getImage();
-        startButtonHoverImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonhover.png"))).getImage();
-        startButtonClickImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonclick.png"))).getImage();
-        redBuilding = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding.png"))).getImage();
-    }
-    public void createButtons() {
-        startButton = new JButton();
-        startButton.setBounds(gameWidth/2-75, gameHeight/2-75,150,150);
-        startButton.setOpaque(false);
-        startButton.setBorderPainted(false);
-        startButton.addMouseListener(this);
-        this.add(startButton);
-    }
-
-    public void startGame() {
-        gameThread = new Thread(this);
-        setBooleans();
-        importImages();
-        createButtons();
-        gameScreenVariables();
-        Audio.playSoundtrack(0);
-        gameThread.start();
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -174,7 +173,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource()==startButton) {
-            Audio.playClickSound();
+            audio.playClickSound();
             mouseClickedStartButton = true;
         }
     }
@@ -184,7 +183,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         mouseClickedStartButton = false;
         if (e.getSource()==startButton && mouseHoveringStartButton) {
             startButton.setVisible(false);
-            Audio.stopSoundTrack(0);
+            audio.stopSoundTrack(0);
             currentScreenActive = 1;
         }
     }
@@ -229,4 +228,5 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
         }
     }
+
 }

@@ -4,12 +4,12 @@ import java.util.Objects;
 
 public class Audio {
 
-    static AudioInputStream titleScreenSoundTrackStream;
-    static AudioInputStream clickSoundStream;
-    static AudioInputStream buildSoundStream;
-    static Clip titleScreenSoundTrack;
-    static Clip clickSound;
-    static Clip buildSound;
+    AudioInputStream titleScreenSoundTrackStream;
+    AudioInputStream clickSoundStream;
+    AudioInputStream buildSoundStream;
+    Clip titleScreenSoundTrack;
+    Clip clickSound;
+    Clip buildSound;
 
     public Audio() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("titlescreensong.wav")));
@@ -19,7 +19,8 @@ public class Audio {
         clickSound = AudioSystem.getClip();
         buildSound = AudioSystem.getClip();
     }
-    public static void playSoundtrack(int currentScreenActive) {
+
+    public void playSoundtrack(int currentScreenActive) {
         if (currentScreenActive==0) {
             try {
                 titleScreenSoundTrack.open(titleScreenSoundTrackStream);
@@ -34,8 +35,7 @@ public class Audio {
             //TODO start game soundtrack
         }
     }
-
-    public static void stopSoundTrack(int currentScreenActive) {
+    public void stopSoundTrack(int currentScreenActive) {
         if (currentScreenActive==0) {
             try {
                 titleScreenSoundTrack.stop();
@@ -48,7 +48,7 @@ public class Audio {
             //TODO stop game soundtrack
         }
     }
-    public static void playClickSound() {
+    public void playClickSound() {
         try {
             if (!clickSound.isOpen()) {
                 clickSound.open(clickSoundStream);
@@ -59,7 +59,6 @@ public class Audio {
             e.printStackTrace();
         }
     }
-
     public void playBuildSound() {
         try {
             if (!buildSound.isOpen()) {
