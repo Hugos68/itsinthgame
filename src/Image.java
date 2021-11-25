@@ -18,6 +18,9 @@ public class Image {
     BufferedImage bluecarpixel;
     BufferedImage orangecarpixel;
     BufferedImage purplecarpixel;
+    BufferedImage stopButtonIdleImage;
+    BufferedImage stopButtonHoverImage;
+    BufferedImage stopButtonClickImage;
 
     Image() throws IOException {
         backGroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png")));
@@ -33,5 +36,8 @@ public class Image {
         bluecarpixel = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("bluecarpixel.png")));
         orangecarpixel = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("orangecarpixel.png")));
         purplecarpixel= ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("purplecarpixel.png")));
+        stopButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonidle.png")));
+        stopButtonHoverImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonhover.png")));
+        stopButtonClickImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonclick.png")));
     }
 }
