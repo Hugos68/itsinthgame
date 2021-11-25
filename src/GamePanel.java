@@ -41,6 +41,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         // 0 = start screen
         // 1 = game screen
 
+
+
         //game screen variables
         int balance;
         int frameCounter;
@@ -56,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         currentStartButtonState = 0;
 
         exitButton = new JButton();
-        exitButton.setBounds(gameWidth/2-86,gameHeight/2,173,101);
+        exitButton.setBounds(gameWidth/2-150,gameHeight/2,300,100);
         exitButton.setOpaque(false);
         exitButton.setBorderPainted(false);
         exitButton.setFocusable(false);
@@ -89,7 +91,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
 
     //UPDATES
-    public void update(){
+    public void update() {
         if (!settingsMenuActive) {
             updateAesthetics();
             updateScreen();
@@ -103,9 +105,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (!settingsMenuActive) {
             mostRecentScreen = currentScreenState;
         }
+        if (currentScreenState == 0) {
+            updateStartScreen();
+        }
         if (currentScreenState == 1) {
             updateGameScreen();
         }
+    }
+    public void updateStartScreen() {
     }
     public void updateGameScreen() {
         startButton.setVisible(false);
@@ -117,6 +124,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void updateBalance() {
         //TODO add building variables
+    }
+    public void updateSettingsScreen() {
+
     }
 
     //REPAINT
@@ -174,13 +184,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawSettingsExitButton(Graphics2D g2D) {
         //TODO get exit button in 3 different states 300x100
         if (currentExitButtonState == 0) {
-            g2D.drawImage(image.stopButtonIdleImage,gameWidth/2-image.stopButtonIdleImage.getWidth(null)/2,gameHeight/2,null);
+            g2D.drawImage(image.stopButtonIdleImage,gameWidth/2- image.startButtonHoverImage.getWidth(null)/2, gameHeight/2- image.startButtonHoverImage.getHeight(null)/2,null);
+            //g2D.fillRect(gameWidth/2-150,gameHeight/2,300,100);
         }
         else if (currentExitButtonState == 1) {
-            g2D.drawImage(image.stopButtonHoverImage,gameWidth/2-image.stopButtonHoverImage.getWidth(null)/2,gameHeight/2+12,null);
+            g2D.drawImage(image.stopButtonHoverImage,gameWidth/2- image.startButtonHoverImage.getWidth(null)/2, gameHeight/2- image.startButtonHoverImage.getHeight(null)/2,null);
         }
         else {
-            g2D.drawImage(image.stopButtonClickImage,gameWidth/2-image.stopButtonClickImage.getWidth(null)/2,gameHeight/2+12,null);
+            g2D.drawImage(image.stopButtonClickImage,gameWidth/2- image.startButtonClickImage.getWidth(null)/2, gameHeight/2- image.startButtonClickImage.getHeight(null)/2,null);
         }
     }
 
@@ -200,11 +211,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         }
     }
-
     private int getRandomIntBetween(int min, int max) {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
-
     @Override
     public void run() {
         double frameTime = 1000000000f/FPS;
