@@ -74,29 +74,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         placeBuildingY = (int) (gameHeight*0.188);
     }
 
-    @Override
-    public void run() {
-        double frameTime = 1000000000f/FPS;
-        double nextDrawTime = System.nanoTime() + frameTime;
-        while (!Thread.currentThread().isInterrupted()) {
 
-            update();
-            repaint();
-
-            try {
-                double remainingTime = nextDrawTime - System.nanoTime();
-                remainingTime = remainingTime / 1000000;
-                if (remainingTime < 0) {
-                    remainingTime = 0;
-                }
-                Thread.sleep((long) remainingTime);
-                nextDrawTime += frameTime;
-            }
-            catch(InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     //START GAME
     public void startGame() {
@@ -229,7 +207,29 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     private int getRandomIntBetween(int min, int max) {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
+    @Override
+    public void run() {
+        double frameTime = 1000000000f/FPS;
+        double nextDrawTime = System.nanoTime() + frameTime;
+        while (!Thread.currentThread().isInterrupted()) {
 
+            update();
+            repaint();
+
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime / 1000000;
+                if (remainingTime < 0) {
+                    remainingTime = 0;
+                }
+                Thread.sleep((long) remainingTime);
+                nextDrawTime += frameTime;
+            }
+            catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public void mouseClicked(MouseEvent e) {
         if (!settingsMenuActive) {
