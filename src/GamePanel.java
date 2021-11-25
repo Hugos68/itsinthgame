@@ -182,7 +182,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void drawSettingsExitButton(Graphics2D g2D) {
-        //TODO get exit button in 3 different states 300x100
+
         if (currentExitButtonState == 0) {
             g2D.drawImage(image.stopButtonIdleImage,gameWidth/2-image.stopButtonIdleImage.getWidth(null)/2,gameHeight/2,null);
         }
