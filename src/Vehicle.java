@@ -20,7 +20,7 @@ public class Vehicle {
     int rightBorder;
     int leftBorder;
 
-    public Vehicle(String vehicleType) {
+    public Vehicle(int velocity, int startPosX, int startPosY) {
         vehicles = new ArrayList<>(5);
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("redcarpixel.png"))).getImage());
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("greencarpixel.png"))).getImage());
@@ -28,26 +28,15 @@ public class Vehicle {
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("bluecarpixel.png"))).getImage());
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("orangecarpixel.png"))).getImage());
         vehicles.add(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("purplecarpixel.png"))).getImage());
-
         this.randomImage = vehicles.get(getRandomIntBetween(0, 5));
         this.image = this.randomImage;
         this.width = this.randomImage.getWidth(null);
         this.height = this.randomImage.getHeight(null);
-
-        if (vehicleType.matches("left")) {
-            this.velocity = 7;
-            this.X = -getRandomIntBetween(250, 2500);
-            this.Y = (int) ((double) gameHeight * 0.81944444444); //885
-            this.rightBorder = gameWidth;
-            this.leftBorder = this.X - 1;
-        }
-        if (vehicleType.matches("right")) {
-            this.velocity = -7;
-            this.X = gameWidth + getRandomIntBetween(250, 2500);
-            this.Y = (int) ((double) gameHeight * 0.91666666666); //990
-            this.rightBorder = this.X + this.width + 1;
-            this.leftBorder = 0;
-        }
+        this.velocity = velocity;
+        this.X = startPosX;
+        this.Y = startPosY;
+        if (startPosX < 0) { leftBorder = startPosX -1; rightBorder = gameWidth;}
+        if (startPosX > 0) { rightBorder = startPosX +1; leftBorder = 0;}
     }
 
     public void updateVehicles() {
@@ -80,7 +69,8 @@ public class Vehicle {
 
     }
 
-    private int getRandomIntBetween(int min, int max) {
+    public int getRandomIntBetween(int min, int max) {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
+
 }

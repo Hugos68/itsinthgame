@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable, MouseListener {
 
@@ -39,16 +40,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     // 2 = click
 
     //create class objects
-    Audio audio = new Audio();
-    Vehicle firstVehicle = new Vehicle("left");
-    Vehicle secondVehicle = new Vehicle("right");
+    Audio audio;
+    Vehicle firstVehicle = new Vehicle(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) gameHeight * 0.81944444444));
+    Vehicle secondVehicle = new Vehicle(-7, gameWidth + this. getRandomIntBetween(250, 2500), (int) ((double) gameHeight * 0.91666666666));
 
     //game screen variables
     int balance;
     int frameCounter;
     int placeBuildingY;
 
-    public GamePanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public GamePanel() {
         //panel properties
         this.setPreferredSize(new Dimension(gameWidth,gameHeight));
         this.setDoubleBuffered(true);
@@ -76,6 +77,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButton.addMouseListener(this);
         this.add(startButton);
     }
+    public void createObjects() {
+        try {
+            audio = new Audio();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     public void setStates() {
         currentScreenState = 0;
         currentStartButtonState = 0;
@@ -90,6 +99,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void startGame() {
         gameThread = new Thread(this);
         importImages();
+        createObjects();
         createButtons();
         setStates();
         gameScreenVariables();
@@ -202,6 +212,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         else {
         }
+    }
+
+    private int getRandomIntBetween(int min, int max) {
+        return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
     @Override
