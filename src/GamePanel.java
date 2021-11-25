@@ -18,12 +18,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Thread gameThread;
 
     //initialize images
-    Image backGroundImage, titleText;
+    Image backGroundImage, titleText, settingsMenu;
     Image startButtonIdleImage, startButtonHoverImage, startButtonClickImage;
     Image redBuilding;
 
     //initialize buttons
+    //button states:
+    // 0 = idle
+    // 1 = hover
+    // 2 = click
     JButton startButton;
+    int currentStartButtonState;
+    JButton exitButton;
+    int currentExitButtonState;
 
     //key binds
     Action escape = new EscapeAction();
@@ -34,10 +41,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int currentScreenState;
     // 0 = start screen
     // 1 = game screen=
-    int currentStartButtonState;
-    // 0 = idle
-    // 1 = hover
-    // 2 = click
+
 
     //create class objects
     Audio audio;
@@ -63,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void importImages() {
         backGroundImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png"))).getImage();
         titleText = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png"))).getImage();
+        settingsMenu = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("settingsmenutest.png"))).getImage();
         startButtonIdleImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png"))).getImage();
         startButtonHoverImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonhover.png"))).getImage();
         startButtonClickImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonclick.png"))).getImage();
@@ -75,7 +80,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         startButton.setBorderPainted(false);
         startButton.setFocusable(false);
         startButton.addMouseListener(this);
+        currentStartButtonState = 0;
+
+        exitButton = new JButton();
+        exitButton.setBounds(gameWidth/2-150,gameHeight/2,300,100);
+        exitButton.setOpaque(false);
+        exitButton.setBorderPainted(false);
+        exitButton.setFocusable(false);
+        exitButton.addMouseListener(this);
+        currentExitButtonState = 0;
+
         this.add(startButton);
+        this.add(exitButton);
     }
     public void createObjects() {
         try {
@@ -87,7 +103,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void setStates() {
         currentScreenState = 0;
-        currentStartButtonState = 0;
         settingsMenuActive = false;
     }
     public void gameScreenVariables() {
@@ -146,14 +161,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void drawScreen(Graphics2D g2D) {
-        if (settingsMenuActive) {
-            drawSettingsScreen(g2D);
-        }
         if (currentScreenState == 0) {
             drawStartScreen(g2D);
         }
         if (currentScreenState == 1) {
             drawGameScreen(g2D);
+        }
+        if (settingsMenuActive) {
+            drawSettingsScreen(g2D);
         }
     }
 
@@ -193,8 +208,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void drawSettingsScreen(Graphics2D g2D) {
-        g2D.fillRect(0,0,400,400);
+        g2D.fillRect(gameWidth/2-300,gameHeight/2-450,600,900);
+        g2D.drawImage(settingsMenu,0,0,null);
+        //TODO get exit button in 3 different states 300x100
+        if (currentExitButtonState == 0) {
+            g2D.fillRect(gameWidth/2-150,gameHeight/2,300,100);
+        }
+        else if (currentExitButtonState == 1) {
+            g2D.fillRect(gameWidth/2-150,gameHeight/2,300,100);
+        }
+        else {
+            g2D.fillRect(gameWidth/2-150,gameHeight/2,300,100);
+        }
     }
+
 
     //DRAW AND UPDATE BALANCE
     public void updateBalance() {
@@ -205,12 +232,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
 
     private void setCurrentScreenButtons(boolean visible) {
-        //always set button states to 0
+        //reminder: always set button states to 0
+        exitButton.setVisible(!visible);
         if (mostRecentScreen==0) {
             startButton.setVisible(visible);
             currentStartButtonState=0;
         }
         else {
+
         }
     }
 
@@ -232,6 +261,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 currentStartButtonState=2;
             }
         }
+        else {
+            if (e.getSource()==exitButton && SwingUtilities.isLeftMouseButton(e)) {
+                audio.playClickSound();
+                currentExitButtonState=2;
+            }
+        }
     }
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -243,6 +278,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 currentScreenState = 1;
             }
         }
+        else {
+            if (e.getSource() == exitButton && currentExitButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                System.exit(1);
+            }
+        }
     }
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -251,12 +291,22 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 currentStartButtonState = 1;
             }
         }
+        else {
+            if (e.getSource() == exitButton) {
+                currentExitButtonState = 1;
+            }
+        }
     }
     @Override
     public void mouseExited(MouseEvent e) {
         if (!settingsMenuActive) {
             if (e.getSource() == startButton) {
                 currentStartButtonState = 0;
+            }
+        }
+        else {
+            if (e.getSource() == exitButton) {
+                currentExitButtonState = 0;
             }
         }
     }
