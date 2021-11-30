@@ -29,7 +29,7 @@ public class Image {
     BufferedImage redBuilding5;
 
     Image() throws IOException {
-        backGroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png")));
+        backGroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("background.jpg")));
         titleText = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png")));
         settingsMenu = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("settingsmenutest.png")));
         startButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png")));

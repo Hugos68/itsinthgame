@@ -341,7 +341,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.buyButton.setVisible(false);
                 audio.playBuildSound();
                 gameState += 1;
-                button.currentBuyButtonState = 0;
+                button.currentBuyButtonState = 1;
             }
         }
         else {
