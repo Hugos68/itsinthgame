@@ -22,7 +22,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         Vehicle firstVehicle = new Vehicle(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.81944444444));
         Vehicle secondVehicle = new Vehicle(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.91666666666));
 
-
         //screen variables
         int currentScreenState = 0;
         int mostRecentScreen = 0;
@@ -30,13 +29,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         // 0 = start screen
         // 1 = game screen
 
-
-
         //game screen variables
         int balance;
         int frameCounter;
         int placeBuildingY;
-
 
     public void setGameScreenVariables() {
         balance = 1000;
@@ -149,7 +145,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //TODO draw balance
     }
     public void drawSettingsScreen(Graphics2D g2D) {
-        g2D.fillRect(Constants.GAMEWIDTH/2-300,Constants.GAMEHEIGHT/2-450,600,900);
         g2D.drawImage(image.settingsMenu,0,0,null);
         drawSettingsButton(g2D);
 
