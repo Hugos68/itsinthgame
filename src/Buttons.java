@@ -28,7 +28,7 @@ public class Buttons {
         currentExitButtonState = 0;
 
         buyButton = new JButton();
-        buyButton.setBounds(10,1,100,100);
+        buyButton.setBounds(4,68,100,60);
         buyButton.setOpaque(false);
         buyButton.setBorderPainted(false);
         buyButton.setFocusable(false);
