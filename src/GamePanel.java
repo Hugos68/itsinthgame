@@ -69,6 +69,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
+        gameState = 1;
         gameThread.start();
     }
 
@@ -119,9 +120,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void updateBalance() {
         switch (gameState) {
-            case 0:
-                balance += (int) (100 * moneyMultiplier);
             case 1:
+                balance += (int) (100 * moneyMultiplier);
+            case 2:
 
         }
 
@@ -177,9 +178,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
-            case 0:
-                g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null);
             case 1:
+                g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null);
+            case 2:
+                g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null);
+                g2D.drawImage(image.redBuilding2, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2 + image.redBuilding1.getWidth(null), placeBuildingY, null);
         }
     }
     public void drawBuyButton(Graphics2D g2D) {
@@ -338,10 +341,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 currentScreenState = 1;
             }
             if (e.getSource() == button.buyButton && button.currentBuyButtonState == 2 && SwingUtilities.isLeftMouseButton(e)){
-                button.buyButton.setVisible(false);
                 audio.playBuildSound();
                 gameState += 1;
-                button.currentBuyButtonState = 1;
+                button.currentBuyButtonState = 2;
             }
         }
         else {
