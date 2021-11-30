@@ -11,7 +11,6 @@ public class Image {
     BufferedImage startButtonIdleImage;
     BufferedImage startButtonHoverImage;
     BufferedImage startButtonClickImage;
-    BufferedImage redBuilding;
     BufferedImage redcarpixel;
     BufferedImage greencarpixel;
     BufferedImage pinkcarpixel;
@@ -22,6 +21,13 @@ public class Image {
     BufferedImage stopButtonHoverImage;
     BufferedImage stopButtonClickImage;
 
+    //redbuilding
+    BufferedImage redBuilding1;
+    BufferedImage redBuilding2;
+    BufferedImage redBuilding3;
+    BufferedImage redBuilding4;
+    BufferedImage redBuilding5;
+
     Image() throws IOException {
         backGroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("background.png")));
         titleText = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png")));
@@ -29,7 +35,6 @@ public class Image {
         startButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png")));
         startButtonHoverImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonhover.png")));
         startButtonClickImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonclick.png")));
-        redBuilding = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding5.png")));
         redcarpixel = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redcarpixel.png")));
         greencarpixel = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("greencarpixel.png")));
         pinkcarpixel = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("pinkcarpixel.png")));
@@ -39,5 +44,14 @@ public class Image {
         stopButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonidle.png")));
         stopButtonHoverImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonhover.png")));
         stopButtonClickImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonclick.png")));
+
+        //redbuilding
+        redBuilding1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding1.png")));
+        redBuilding2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding2.png")));
+        redBuilding3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding3.png")));
+        redBuilding4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding4.png")));
+        redBuilding5 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding5.png")));
+
+
     }
 }

@@ -30,14 +30,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         // 1 = game screen
 
         //game screen variables
+        int gameState;
         int balance;
         int frameCounter;
         int placeBuildingY;
+        double moneyMultiplier;
 
     public void setGameScreenVariables() {
+        gameState = 0;
         balance = 1000;
         frameCounter = 0;
-        placeBuildingY = (int) (Constants.GAMEHEIGHT*0.188);
+        placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
     }
 
 
@@ -92,7 +95,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void updateBalance() {
-        //TODO add building variables
+        switch (gameState) {
+            case 0:
+                moneyMultiplier = 1.05;
+            case 1:
+            balance += (int) (100 * moneyMultiplier);
+        }
     }
     public void updateSettingsScreen() {
 
@@ -139,10 +147,32 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawGameScreen(Graphics2D g2D) {
         drawBalance(g2D);
-        g2D.drawImage(image.redBuilding,Constants.GAMEWIDTH/2-image.redBuilding.getWidth(null)/2,placeBuildingY,null);
+        drawBuildings(g2D);
+    }
+    public void drawBuildings(Graphics2D g2D) {
+        switch (gameState) {
+            case 0:
+                g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null);
+            case 1:
+        }
     }
     public void drawBalance(Graphics2D g2D) {
-        //TODO draw balance
+        //BACKGROUND
+        Color saxionGreen = new Color(50,120,50);
+        g2D.setPaint(saxionGreen);
+        g2D.fillRoundRect((int)((Constants.GAMEWIDTH/10) *8.958333333333333) -1, 2, 200,100, 10,10);
+        //BORDER
+        g2D.setPaint(Color.BLACK);
+        Stroke oldStroke = g2D.getStroke();
+        g2D.setStroke(new BasicStroke(2));
+        g2D.drawRoundRect((int)((Constants.GAMEWIDTH/10) *8.958333333333333) -1, 2, 200,100, 10,10);
+        g2D.setStroke(oldStroke);
+        //TEKST
+        g2D.setPaint(Color.BLACK);
+        g2D.setFont(new Font("Ariel", Font.BOLD, 30));
+        g2D.drawString("Your money: ", (Constants.GAMEWIDTH/10)*9 -1, 40);
+        g2D.setFont(new Font("Ariel", Font.BOLD, 36));
+        g2D.drawString("€ " + balance , (Constants.GAMEWIDTH/10)*9 -1, 85);
     }
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
