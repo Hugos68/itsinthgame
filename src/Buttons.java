@@ -9,6 +9,7 @@ public class Buttons {
     //2 = click
     JButton startButton; int currentStartButtonState;
     JButton exitButton; int currentExitButtonState;
+    JButton menuButton; int currentMenuButtonState;
     JButton buyButton; int currentBuyButtonState;
 
     Buttons() {
@@ -32,5 +33,12 @@ public class Buttons {
         buyButton.setBorderPainted(false);
         buyButton.setFocusable(false);
         currentBuyButtonState = 0;
+
+        menuButton = new JButton();
+        menuButton.setBounds(Constants.GAMEWIDTH/2-120,Constants.GAMEHEIGHT/2-109,173,101);
+        menuButton.setOpaque(false);
+        menuButton.setBorderPainted(false);
+        menuButton.setFocusable(false);
+        currentMenuButtonState = 0;
     }
 }

@@ -61,7 +61,7 @@ public class Audio {
         if (currentScreenActive==0) {
             try {
                 titleScreenSoundTrack.stop();
-                titleScreenSoundTrack.close();
+                titleScreenSoundTrack.setMicrosecondPosition(0);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -69,7 +69,7 @@ public class Audio {
         if (currentScreenActive==1) {
             try {
                 gameScreenSoundTrack.stop();
-                gameScreenSoundTrack.close();
+                gameScreenSoundTrack.setMicrosecondPosition(0);
             } catch (Exception e) {
                 e.printStackTrace();
             }
