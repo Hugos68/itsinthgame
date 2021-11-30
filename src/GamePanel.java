@@ -57,6 +57,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         button.startButton.addMouseListener(this);
         this.add(button.exitButton);
         button.exitButton.addMouseListener(this);
+        this.add(button.buyButton);
+        button.buyButton.addMouseListener(this);
         setGameScreenVariables();
         audio.playSoundtrack(0);
         gameThread.start();
@@ -133,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawStartScreen(Graphics2D g2D) {
         g2D.drawImage(image.titleText, Constants.GAMEWIDTH/2-image.titleText.getWidth(null)/2, Constants.GAMEHEIGHT/7, null);
         drawStartScreenButton(g2D);
+
     }
     public void drawStartScreenButton(Graphics2D g2D) {
         if (button.currentStartButtonState == 0) {
@@ -145,9 +148,31 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             g2D.drawImage(image.startButtonClickImage,Constants.GAMEWIDTH/2- image.startButtonClickImage.getWidth(null)/2, Constants.GAMEHEIGHT/2- image.startButtonClickImage.getHeight(null)/2,null);
         }
     }
+    public void drawBuyButton(Graphics2D g2D) {
+        g2D.setPaint(Color.GRAY);
+        if (button.currentBuyButtonState == 0) {
+            g2D.fillRoundRect(10,1,100,60,10,10);
+            g2D.setPaint(Color.BLACK);
+            g2D.drawString("BUY", 20,45);
+        }
+        else if (button.currentBuyButtonState == 1) {
+            g2D.setPaint(Color.BLACK);
+            g2D.fillRoundRect(10,1,100,60,10,10);
+            g2D.setPaint(Color.GRAY);
+            g2D.drawString("BUY", 20,45);
+        }
+        else {
+            g2D.setPaint(Color.GRAY);
+            g2D.fillRoundRect(10,1,100,60,10,10);
+            g2D.setPaint(Color.BLACK);
+            g2D.drawString("BUY", 20,45);
+
+        }
+    }
     public void drawGameScreen(Graphics2D g2D) {
         drawBalance(g2D);
         drawBuildings(g2D);
+        drawBuyButton(g2D);
     }
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
@@ -252,6 +277,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             audio.playClickSound();
             button.currentStartButtonState=2;
         }
+        if (e.getSource()==button.buyButton && SwingUtilities.isLeftMouseButton(e)){
+            audio.playClickSound();
+            button.currentBuyButtonState = 2;
+        }
     }
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -261,6 +290,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 audio.stopSoundTrack(0);
                 audio.playSoundtrack(1);
                 currentScreenState = 1;
+            }
+            if (e.getSource() == button.buyButton && button.currentBuyButtonState == 2 && SwingUtilities.isLeftMouseButton(e)){
+                button.buyButton.setVisible(false);
+                audio.playBuildSound();
+                gameState += 1;
+                button.currentBuyButtonState = 0;
             }
         }
         else {
@@ -275,6 +310,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.startButton) {
                 button.currentStartButtonState = 1;
             }
+            if (e.getSource() == button.buyButton){
+                button.currentBuyButtonState = 1;
+            }
         }
         else {
             if (e.getSource() == button.exitButton) {
@@ -287,6 +325,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (!settingsMenuActive) {
             if (e.getSource() == button.startButton) {
                 button.currentStartButtonState = 0;
+            }
+            if (e.getSource() == button.buyButton){
+                button.currentBuyButtonState = 0;
             }
         }
         else {

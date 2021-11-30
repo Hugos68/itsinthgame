@@ -9,6 +9,7 @@ public class Buttons {
     //2 = click
     JButton startButton; int currentStartButtonState;
     JButton exitButton; int currentExitButtonState;
+    JButton buyButton; int currentBuyButtonState;
 
     Buttons() {
         startButton = new JButton();
@@ -24,5 +25,12 @@ public class Buttons {
         exitButton.setBorderPainted(false);
         exitButton.setFocusable(false);
         currentExitButtonState = 0;
+
+        buyButton = new JButton();
+        buyButton.setBounds(10,1,100,100);
+        buyButton.setOpaque(false);
+        buyButton.setBorderPainted(false);
+        buyButton.setFocusable(false);
+        currentBuyButtonState = 0;
     }
 }
