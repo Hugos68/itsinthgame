@@ -313,7 +313,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void mouseReleased(MouseEvent e) {
         if (!settingsMenuActive) {
             if (e.getSource() == button.startButton && button.currentStartButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
-                audio.stopSoundTrack(0fixe;
+                audio.stopSoundTrack(0);
                 audio.stopSoundTrack(1);
                 audio.playSoundtrack(1);
                 currentScreenState = 1;
