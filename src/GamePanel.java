@@ -46,10 +46,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         moneyMultiplier = 1.05;
-        currentBuilding = "Villa Serphos" ;
-        upgradePrice = 1000;
-        buyScreenBuilding = "" + currentBuilding + " Version: " + ((gameState / 5)+1) + "." + gameState % 5;
-    }
+      }
 
     //START GAME
     public void startGame() {
@@ -112,8 +109,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             updateBalance();
             frameCounter=0;
         }
+        updateNextBuilding();
     }
     public void updateNextBuilding() {
+        currentBuilding = "Villa Serphos" ;
+        upgradePrice = 1000;
+        buyScreenBuilding = "" + currentBuilding + " Version: " + ((gameState / 5)+1) + "." + gameState % 5;
 
     }
     public void updateBalance() {
@@ -347,7 +348,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.exitButton && button.currentExitButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
                 stopGame();
             }
-            if (e.getSource() == button.menuButton && button.currentMenuButtonState == 2 && mostRecentScreen == 1 && SwingUtilities.isLeftMouseButton(e)) {
+            if (e.getSource() == button.menuButton && button.currentMenuButtonState == 2 && mostRecentScreen != 0 && SwingUtilities.isLeftMouseButton(e)) {
                 audio.playSoundtrack(0);
                 currentScreenState = 0;
                 setSettingsMenuButtonStates(false);
