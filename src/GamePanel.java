@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int balance;
     int frameCounter;
     int placeBuildingY;
+    int placeBuildingX;
     double moneyMultiplier;
     String currentBuilding;
     int upgradePrice;
@@ -44,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         balance = 1000;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
+        placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
         moneyMultiplier = 1.05;
       }
 
@@ -68,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
+
         gameState = 1;
         gameThread.start();
     }
@@ -118,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void updateBalance() {
+        //TODO SET MULTIPLIER HIGHER FOR EACH GAME STATE
         switch (gameState) {
             case 1:
                 balance += (int) (100 * moneyMultiplier);
@@ -178,10 +182,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
             case 1:
-                g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null); break;
+                g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null); break;
             case 2:
-                g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null);
-                g2D.drawImage(image.redBuilding2, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2 + image.redBuilding1.getWidth(null), placeBuildingY, null); break;
+                g2D.drawImage(image.redBuilding2, placeBuildingX, placeBuildingY, null); break;
+            case 3:
+                g2D.drawImage(image.redBuilding3, placeBuildingX, placeBuildingY, null); break;
+            case 4:
+                g2D.drawImage(image.redBuilding4, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null); break;
+            case 5:
+                g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null); break;
         }
     }
     public void drawBuyButton(Graphics2D g2D) {
