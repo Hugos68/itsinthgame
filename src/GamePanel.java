@@ -35,7 +35,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int upgradePrice;
     String buyScreenBuilding;
 
-
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
@@ -179,10 +178,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
             case 1:
-                g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null);
+                g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null); break;
             case 2:
                 g2D.drawImage(image.redBuilding1, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2, placeBuildingY, null);
-                g2D.drawImage(image.redBuilding2, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2 + image.redBuilding1.getWidth(null), placeBuildingY, null);
+                g2D.drawImage(image.redBuilding2, Constants.GAMEWIDTH / 2 - image.redBuilding1.getWidth(null) / 2 + image.redBuilding1.getWidth(null), placeBuildingY, null); break;
         }
     }
     public void drawBuyButton(Graphics2D g2D) {
@@ -265,7 +264,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
 
 
-
     private void setSettingsMenuButtonStates(boolean visibility) {
         button.exitButton.setVisible(visibility);
         button.menuButton.setVisible(visibility);
@@ -282,6 +280,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     private int getRandomIntBetween(int min, int max) {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
+
+
     @Override
     public void run() {
         double frameTime = 1000000000f/Constants.FPS;
@@ -362,9 +362,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
         }
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
+        //TODO DRAW NEXT BUILDING IN GRAY WHEN HOVERING ON BUY BUTTON
         if (!settingsMenuActive) {
             if (e.getSource() == button.startButton) {
                 button.currentStartButtonState = 1;
