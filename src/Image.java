@@ -21,6 +21,10 @@ public class Image {
     BufferedImage stopButtonHoverImage;
     BufferedImage stopButtonClickImage;
 
+    BufferedImage menuButtonIdleImage;
+    BufferedImage menuButtonHoverImage;
+    BufferedImage menuButtonClickImage;
+
     //redbuilding
     BufferedImage redBuilding1;
     BufferedImage redBuilding2;
@@ -44,6 +48,10 @@ public class Image {
         stopButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonidle.png")));
         stopButtonHoverImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonhover.png")));
         stopButtonClickImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonclick.png")));
+
+        menuButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("menubuttonidle.png")));
+        menuButtonHoverImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("menubuttonhover.png")));
+        menuButtonClickImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("menubuttonclick.png")));
 
         //redbuilding
         redBuilding1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding1.png")));

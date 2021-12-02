@@ -35,7 +35,7 @@ public class Buttons {
         currentBuyButtonState = 0;
 
         menuButton = new JButton();
-        menuButton.setBounds(Constants.GAMEWIDTH/2-120,Constants.GAMEHEIGHT/2-109,173,101);
+        menuButton.setBounds(Constants.GAMEWIDTH/2-86,Constants.GAMEHEIGHT/2-109,173,101);
         menuButton.setOpaque(false);
         menuButton.setBorderPainted(false);
         menuButton.setFocusable(false);

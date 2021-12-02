@@ -234,6 +234,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
         drawStopButton(g2D);
+        drawMenuButton(g2D);
 
     }
     public void drawStopButton(Graphics2D g2D) {
@@ -250,11 +251,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawMenuButton(Graphics2D g2D) {
         if (button.currentMenuButtonState == 0) {
-           // g2D.drawImage(image.menuButtonIdleImage, Constants.GAMEWIDTH / 2 - image.menuButtonIdleImage.getWidth(null) / 2, Constants.GAMEHEIGHT / 2-121, null);
+            g2D.drawImage(image.menuButtonIdleImage, Constants.GAMEWIDTH / 2 - image.menuButtonIdleImage.getWidth(null) / 2, Constants.GAMEHEIGHT / 2-121, null);
         } else if (button.currentMenuButtonState == 1) {
-           // g2D.drawImage(image.menuButtonHoverImage, Constants.GAMEWIDTH / 2 - image.menuButtonHoverImage.getWidth(null) / 2, Constants.GAMEHEIGHT / 2-109, null);
+            g2D.drawImage(image.menuButtonHoverImage, Constants.GAMEWIDTH / 2 - image.menuButtonHoverImage.getWidth(null) / 2, Constants.GAMEHEIGHT / 2-109, null);
         } else {
-          //  g2D.drawImage(image.menuButtonClickImage, Constants.GAMEWIDTH / 2 - image.menuButtonClickImage.getWidth(null) / 2, Constants.GAMEHEIGHT / 2-109, null);
+            g2D.drawImage(image.menuButtonClickImage, Constants.GAMEWIDTH / 2 - image.menuButtonClickImage.getWidth(null) / 2, Constants.GAMEHEIGHT / 2-109, null);
         }
     }
 
@@ -326,7 +327,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             audio.playClickSound();
             button.currentExitButtonState=2;
         }
-        if (e.getSource()== button.menuButton && SwingUtilities.isLeftMouseButton(e)) {
+        if (e.getSource()== button.menuButton && mostRecentScreen!=0 && SwingUtilities.isLeftMouseButton(e)) {
             audio.playClickSound();
             button.currentMenuButtonState=2;
         }
@@ -338,6 +339,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 audio.stopSoundTrack(0);
                 audio.stopSoundTrack(1);
                 audio.playSoundtrack(1);
+                button.currentMenuButtonState = 0;
+                button.currentExitButtonState = 0;
                 currentScreenState = 1;
             }
             if (e.getSource() == button.buyButton && button.currentBuyButtonState == 2 && SwingUtilities.isLeftMouseButton(e)){
@@ -351,6 +354,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 stopGame();
             }
             if (e.getSource() == button.menuButton && button.currentMenuButtonState == 2 && mostRecentScreen != 0 && SwingUtilities.isLeftMouseButton(e)) {
+                button.currentMenuButtonState = 0;
                 audio.playSoundtrack(0);
                 currentScreenState = 0;
                 setSettingsMenuButtonStates(false);
