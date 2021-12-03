@@ -35,14 +35,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     String currentBuilding;
     int upgradePrice;
     String buyScreenBuilding;
-
+    int lastGamestate;
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 1000;
+        balance = 100;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
@@ -113,6 +113,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             frameCounter=0;
         }
         updateNextBuilding();
+
     }
     public void updateNextBuilding() {
         upgradePrice = 1000;
@@ -121,6 +122,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void updateBalance() {
         //TODO SET MULTIPLIER HIGHER FOR EACH GAME STATE
+
         switch (gameState) {
             case 1:
                 balance += (int) (100 * moneyMultiplier);
@@ -213,17 +215,26 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         }
 
+
+
         g2D.setPaint(Color.BLACK);
         g2D.setStroke(new BasicStroke(3));
         g2D.drawRoundRect(2,2,250,60,10,10);
         g2D.setFont(new Font("Ariel", Font.BOLD, 20));
-        g2D.drawString("Next building is:  €" + upgradePrice, 6, 24);
+        g2D.drawString("Next building is:  €", 6, 24);
+        Color newGreen = new Color(50, 180, 50);
+        if (upgradePrice > balance){
+            g2D.setPaint(Color.RED);
+        }else {
+            g2D.setPaint(newGreen);
+        }
+        g2D.drawString("" + upgradePrice, 188, 24);
+        g2D.setPaint(Color.BLACK);
         g2D.drawString(buyScreenBuilding, 6,51);
     }
     public void drawBalance(Graphics2D g2D) {
         //BACKGROUND
-        Color saxionGreen = new Color(50,120,50);
-        g2D.setPaint(saxionGreen);
+        g2D.setPaint(Constants.saxionGreen);
         g2D.fillRoundRect((int)((Constants.GAMEWIDTH/10) *8.958333333333333) -1, 2, 200,100, 10,10);
         //BORDER
         g2D.setPaint(Color.BLACK);
@@ -352,8 +363,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 currentScreenState = 1;
             }
             if (e.getSource() == button.buyButton && button.currentBuyButtonState == 2 && SwingUtilities.isLeftMouseButton(e)){
-                audio.playBuildSound();
-                gameState += 1;
+                if (balance >= upgradePrice) {
+                    gameState += 1;
+                    balance -= upgradePrice;
+                    audio.playBuildSound();
+                }
                 button.currentBuyButtonState = 2;
             }
         }
