@@ -25,6 +25,7 @@ public class Audio {
         gameScreenSoundTrack = AudioSystem.getClip();
         clickSound = AudioSystem.getClip();
         buildSound = AudioSystem.getClip();
+        errorSound = AudioSystem.getClip();
     }
 
     public void playSoundtrack(int currentScreenState) {
