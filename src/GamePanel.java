@@ -115,9 +115,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         updateNextBuilding();
     }
     public void updateNextBuilding() {
-        currentBuilding = "Villa Serphos" ;
         upgradePrice = 1000;
-        buyScreenBuilding = "" + currentBuilding + " Version: " + ((gameState / 5)+1) + "." + gameState % 5;
+        buyScreenBuilding = "Saxion Version: " + ((gameState / 6)+1) + "." + gameState % 6;
 
     }
     public void updateBalance() {
