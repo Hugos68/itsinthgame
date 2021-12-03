@@ -35,18 +35,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     String currentBuilding;
     int upgradePrice;
     String buyScreenBuilding;
-    int lastGamestate;
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 100;
+        balance = 1000;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
-        moneyMultiplier = 1.05;
+
       }
 
     //START GAME
@@ -70,8 +69,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
-
-        gameState = 1;
         gameThread.start();
     }
 
@@ -108,7 +105,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         button.startButton.setVisible(false);
         button.buyButton.setVisible(true);
         frameCounter++;
-        if (frameCounter==120) {
+        if (frameCounter==60) {
             updateBalance();
             frameCounter=0;
         }
@@ -117,19 +114,38 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void updateNextBuilding() {
         upgradePrice = 1000;
-        buyScreenBuilding = "Saxion Version: " + ((gameState / 6)+1) + "." + gameState % 6;
-
+        if (gameState != 0) {
+            buyScreenBuilding = "Saxion Version: " + (((gameState / 6)+1) + "." + gameState % 6);
+        }else{
+            buyScreenBuilding = "Saxion Version: 0.0";
+        }
     }
     public void updateBalance() {
         //TODO SET MULTIPLIER HIGHER FOR EACH GAME STATE
 
         switch (gameState) {
             case 1:
-                balance += (int) (100 * moneyMultiplier);
+                moneyMultiplier = 1.5;
+                break;
             case 2:
-
+                moneyMultiplier = 2;
+                break;
+            case 3:
+                moneyMultiplier = 3;
+                break;
+            case 4:
+                moneyMultiplier = 4;
+                break;
+            case 5:
+                moneyMultiplier = 5;
+                break;
+            default:
+                moneyMultiplier = 0;
+                break;
         }
-
+        /* Voor building only*/
+        moneyMultiplier *= 20;
+        balance += (int) (10 * moneyMultiplier);
     }
     public void updateSettingsScreen() {
 
