@@ -383,6 +383,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     gameState += 1;
                     balance -= upgradePrice;
                     audio.playBuildSound();
+                }else{
+                    audio.playErrorSound();
                 }
                 button.currentBuyButtonState = 2;
             }
