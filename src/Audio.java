@@ -20,6 +20,7 @@ public class Audio {
         gameScreenSoundTrackStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("gamescreensong.wav")));
         clickSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("click.wav")));
         buildSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("build.wav")));
+        errorSoundStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("errorsound.wav")));
         titleScreenSoundTrack = AudioSystem.getClip();
         gameScreenSoundTrack = AudioSystem.getClip();
         clickSound = AudioSystem.getClip();
