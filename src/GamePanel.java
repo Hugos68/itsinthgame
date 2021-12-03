@@ -15,8 +15,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Buttons button = new Buttons();
     Audio audio = new Audio();
     Image image = new Image();
-    Vehicle firstVehicle = new Vehicle(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.81944444444));
-    Vehicle secondVehicle = new Vehicle(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.91666666666));
+    MovingObject firstMovingObject = new MovingObject(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.81944444444));
+    MovingObject secondMovingObject = new MovingObject(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.91666666666));
 
     //screen variables
     int currentScreenState = 0;
@@ -86,8 +86,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void updateAesthetics() {
-        firstVehicle.updateVehicles();
-        secondVehicle.updateVehicles();
+        firstMovingObject.updateVehicles();
+        secondMovingObject.updateVehicles();
     }
     public void updateScreen() {
         if (!settingsMenuActive) {
@@ -144,8 +144,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawAesthetics(Graphics2D g2D) {
         g2D.drawImage(image.backGroundImage, 0, 0, null);
-        firstVehicle.drawVehicles(g2D);
-        secondVehicle.drawVehicles(g2D);
+        firstMovingObject.drawVehicles(g2D);
+        secondMovingObject.drawVehicles(g2D);
     }
     public void drawScreen(Graphics2D g2D) {
         if (currentScreenState == 0) {

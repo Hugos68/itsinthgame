@@ -20,6 +20,8 @@ public class Image {
     BufferedImage stopButtonIdleImage;
     BufferedImage stopButtonHoverImage;
     BufferedImage stopButtonClickImage;
+    BufferedImage cloud1;
+    BufferedImage cloud2;
 
     BufferedImage menuButtonIdleImage;
     BufferedImage menuButtonHoverImage;
@@ -48,6 +50,8 @@ public class Image {
         stopButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonidle.png")));
         stopButtonHoverImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonhover.png")));
         stopButtonClickImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("stopbuttonclick.png")));
+        cloud1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("midcloud1.png")));
+        cloud2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("midcloud2.png")));
 
         menuButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("menubuttonidle.png")));
         menuButtonHoverImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("menubuttonhover.png")));

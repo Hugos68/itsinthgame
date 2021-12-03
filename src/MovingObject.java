@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Vehicle {
+public class MovingObject {
 
     final int gameWidth = 1920;
     final int gameHeight = (int) (gameWidth * 0.5625);
     
     Image image;
     ArrayList<BufferedImage> vehicles;
+    ArrayList<BufferedImage> clouds;
     BufferedImage randomImage;
     BufferedImage color;
     int velocity;
@@ -23,7 +24,7 @@ public class Vehicle {
     int rightBorder;
     int leftBorder;
 
-    public Vehicle(int velocity, int startPosX, int startPosY) throws IOException {
+    public MovingObject(int velocity, int startPosX, int startPosY) throws IOException {
         image = new Image();
         vehicles = new ArrayList<>(5);
         vehicles.add(image.redcarpixel);
@@ -32,6 +33,11 @@ public class Vehicle {
         vehicles.add(image.pinkcarpixel);
         vehicles.add(image.orangecarpixel);
         vehicles.add(image.purplecarpixel);
+
+        clouds = new ArrayList<>(1);
+        clouds.add(image.cloud1);
+        clouds.add(image.cloud2);
+
         this.randomImage = vehicles.get(getRandomIntBetween(0, 5));
         this.color = this.randomImage;
         this.width = this.randomImage.getWidth(null);
