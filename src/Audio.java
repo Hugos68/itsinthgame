@@ -8,10 +8,12 @@ public class Audio {
     AudioInputStream gameScreenSoundTrackStream;
     AudioInputStream clickSoundStream;
     AudioInputStream buildSoundStream;
+    AudioInputStream errorSoundStream;
     Clip titleScreenSoundTrack;
     Clip gameScreenSoundTrack;
     Clip clickSound;
     Clip buildSound;
+    Clip errorSound;
 
     public Audio() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         titleScreenSoundTrackStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getClassLoader().getResource("titlescreensong.wav")));
@@ -93,6 +95,17 @@ public class Audio {
             }
             buildSound.setMicrosecondPosition(0);
             buildSound.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void playErrorSound() {
+        try {
+            if (!errorSound.isOpen()) {
+                errorSound.open(errorSoundStream);
+            }
+            errorSound.setMicrosecondPosition(0);
+            errorSound.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
