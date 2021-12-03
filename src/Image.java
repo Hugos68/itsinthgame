@@ -34,6 +34,9 @@ public class Image {
     BufferedImage redBuilding4;
     BufferedImage redBuilding5;
 
+    //yellowbuilding
+    BufferedImage yellowbuilding;
+
     Image() throws IOException {
         backGroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("background.jpg")));
         titleText = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png")));
@@ -63,6 +66,9 @@ public class Image {
         redBuilding3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding3.png")));
         redBuilding4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding4.png")));
         redBuilding5 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding5.png")));
+
+        //yellowbuilding
+        yellowbuilding = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding.png")));
 
 
     }
