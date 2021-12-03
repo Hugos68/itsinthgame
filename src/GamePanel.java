@@ -35,7 +35,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     String currentBuilding;
     int upgradePrice;
     String buyScreenBuilding;
-    int lastGamestate;
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
