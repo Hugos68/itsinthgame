@@ -1,2 +1,2 @@
-# itsinthgame
-ITs in the game is a Java project for school where we build a game that allows you to build your own Saxion school
+#It's in the game: Saxion Tycoon
+"It's in the game" is a school project where you have to build any type of game that is in some way related to Technology, we chose to build a game with the programming language: Java, we did this because Java is the main language that we learn at school, so it would be convenient to learn something from this project too for future school endeavours.
