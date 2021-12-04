@@ -195,6 +195,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawBalance(g2D);
         drawBuildings(g2D);
         drawBuyButton(g2D);
+        drawMoveScreenButton(g2D);
     }
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
@@ -230,9 +231,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             g2D.drawString("BUY", 15,110);
 
         }
-
-
-
         g2D.setPaint(Color.BLACK);
         g2D.setStroke(new BasicStroke(3));
         g2D.drawRoundRect(2,2,250,60,10,10);
@@ -291,6 +289,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         } else {
             g2D.drawImage(image.menuButtonClickImage, Constants.GAMEWIDTH / 2 - image.menuButtonClickImage.getWidth(null) / 2, Constants.GAMEHEIGHT / 2-109, null);
         }
+    }
+    public void drawMoveScreenButton(Graphics2D g2D){
+        g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT /2, null);
+        g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
     }
 
     //STOP GAME

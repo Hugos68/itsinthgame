@@ -27,6 +27,9 @@ public class Image {
     BufferedImage menuButtonHoverImage;
     BufferedImage menuButtonClickImage;
 
+    BufferedImage arrowRechtsImage;
+    BufferedImage arrowLinksImage;
+
     //redbuilding
     BufferedImage redBuilding1;
     BufferedImage redBuilding2;
@@ -59,6 +62,9 @@ public class Image {
         menuButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("menubuttonidle.png")));
         menuButtonHoverImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("menubuttonhover.png")));
         menuButtonClickImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("menubuttonclick.png")));
+
+        arrowLinksImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("Pijllinks.png")));
+        arrowRechtsImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("Pijlrechts.png")));
 
         //redbuilding
         redBuilding1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding1.png")));
