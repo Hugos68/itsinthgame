@@ -298,6 +298,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         System.exit(1);
     }
 
+    private void areYouSureWindow() {
+        if (JOptionPane.showConfirmDialog(null,"Are you sure you want to exit?",null, JOptionPane.YES_NO_OPTION) == 0) {
+            stopGame();
+        }
+    }
+
 
     private void setSettingsMenuButtonStates(boolean visibility) {
         button.exitButton.setVisible(visibility);
@@ -391,7 +397,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         else {
             if (e.getSource() == button.exitButton && button.currentExitButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
-                stopGame();
+                areYouSureWindow();
+                button.currentExitButtonState=0;
             }
             if (e.getSource() == button.menuButton && button.currentMenuButtonState == 2 && mostRecentScreen != 0 && SwingUtilities.isLeftMouseButton(e)) {
                 button.currentMenuButtonState = 0;
