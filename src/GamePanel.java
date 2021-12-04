@@ -15,8 +15,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Buttons button = new Buttons();
     Audio audio = new Audio();
     Image image = new Image();
-    MovingObject firstMovingObject = new MovingObject(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.81944444444));
-    MovingObject secondMovingObject = new MovingObject(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.91666666666));
+    MovingObject firstMovingObject = new MovingObject(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.78));
+    MovingObject secondMovingObject = new MovingObject(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.89));
 
     //screen variables
     int currentScreenState = 0;
