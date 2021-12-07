@@ -15,8 +15,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Buttons button = new Buttons();
     Audio audio = new Audio();
     Image image = new Image();
-    MovingObject firstMovingObject = new MovingObject(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.81944444444));
-    MovingObject secondMovingObject = new MovingObject(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.91666666666));
+    MovingObject firstMovingObject = new MovingObject(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.78));
+    MovingObject secondMovingObject = new MovingObject(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.89));
 
     //screen variables
     int currentScreenState = 0;
@@ -195,6 +195,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawBalance(g2D);
         drawBuildings(g2D);
         drawBuyButton(g2D);
+        drawMoveScreenButton(g2D);
     }
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
@@ -230,9 +231,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             g2D.drawString("BUY", 15,110);
 
         }
-
-
-
         g2D.setPaint(Color.BLACK);
         g2D.setStroke(new BasicStroke(3));
         g2D.drawRoundRect(2,2,250,60,10,10);
@@ -292,10 +290,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             g2D.drawImage(image.menuButtonClickImage, Constants.GAMEWIDTH / 2 - image.menuButtonClickImage.getWidth(null) / 2, Constants.GAMEHEIGHT / 2-109, null);
         }
     }
+    public void drawMoveScreenButton(Graphics2D g2D){
+        g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT /2, null);
+        g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+    }
 
     //STOP GAME
     public void stopGame() {
         System.exit(1);
+    }
+
+    private void areYouSureWindow() {
+        if (JOptionPane.showConfirmDialog(null,"Are you sure you want to exit?",null, JOptionPane.YES_NO_OPTION) == 0) {
+            stopGame();
+        }
     }
 
 
@@ -383,13 +391,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     gameState += 1;
                     balance -= upgradePrice;
                     audio.playBuildSound();
+                }else{
+                    audio.playErrorSound();
                 }
                 button.currentBuyButtonState = 2;
             }
         }
         else {
             if (e.getSource() == button.exitButton && button.currentExitButtonState == 2 && SwingUtilities.isLeftMouseButton(e)) {
-                stopGame();
+                areYouSureWindow();
+                button.currentExitButtonState=0;
             }
             if (e.getSource() == button.menuButton && button.currentMenuButtonState == 2 && mostRecentScreen != 0 && SwingUtilities.isLeftMouseButton(e)) {
                 button.currentMenuButtonState = 0;
