@@ -291,7 +291,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void drawMoveScreenButton(Graphics2D g2D){
-        g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT /2, null);
+        if (button.currentMoveScreenButtonState == 0) {
+            g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT / 2, null);
+        }
+        if (button.currentMoveScreenButtonState == 1){
+            g2D.fillRect(0, Constants.GAMEHEIGHT / 2, 100,100);
+        }
+
         g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
     }
 
@@ -421,6 +427,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.buyButton){
                 button.currentBuyButtonState = 1;
             }
+            if (e.getSource() == button.moveScreenButton){
+                button.currentMoveScreenButtonState = 1;
+            }
         }
         else {
             if (e.getSource() == button.exitButton) {
@@ -439,6 +448,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
             if (e.getSource() == button.buyButton){
                 button.currentBuyButtonState = 0;
+            }
+            if (e.getSource() == button.moveScreenButton){
+                button.currentMoveScreenButtonState = 0;
             }
         }
         else {

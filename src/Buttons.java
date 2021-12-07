@@ -11,6 +11,7 @@ public class Buttons {
     JButton exitButton; int currentExitButtonState;
     JButton menuButton; int currentMenuButtonState;
     JButton buyButton; int currentBuyButtonState;
+    JButton moveScreenButton; int currentMoveScreenButtonState;
 
     Buttons() {
         startButton = new JButton();
@@ -40,5 +41,12 @@ public class Buttons {
         menuButton.setBorderPainted(false);
         menuButton.setFocusable(false);
         currentMenuButtonState = 0;
+
+        moveScreenButton = new JButton();
+        moveScreenButton.setBounds(0, Constants.GAMEHEIGHT /2,150,150);
+        moveScreenButton.setOpaque(false);
+        moveScreenButton.setBorderPainted(false);
+        moveScreenButton.setFocusable(false);
+        currentMoveScreenButtonState = 0;
     }
 }
