@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int donerOdds;
     double moneyMultiplier;
     String currentBuilding;
+    boolean priceUpdated;
 
     String buyScreenBuilding;
     boolean donerBreak;
@@ -50,6 +51,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
         donerBreak = false;
+        upgradePrice = 1000;
+        priceUpdated = false;
       }
 
     //START GAME
@@ -109,7 +112,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void updateNextBuilding() {
-        upgradePrice = 1000;
+
         if (gameState != 0) {
             buyScreenBuilding = "Saxion Version: " + (((gameState / 6)+1) + "." + gameState % 6);
         }else{
@@ -153,6 +156,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         updateNextBuilding();
         if (getRandomIntBetween(0,donerOdds)==donerOdds/2 && gameState!=0) {
             donerBreak();
+        }
+
+        if (gameState % 6 == 0 && gameState != 0 && !priceUpdated){
+            upgradePrice += 1000;
+            priceUpdated = true;
+        }
+        if (gameState % 6 != 0){
+            priceUpdated = false;
         }
     }
 
@@ -299,7 +310,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void drawMoveScreenButton(Graphics2D g2D){
-        g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT /2, null);
+        if (button.currentMoveScreenButtonState == 0) {
+            g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT / 2, null);
+        }
+        if (button.currentMoveScreenButtonState == 1){
+            g2D.fillRect(0, Constants.GAMEHEIGHT / 2, 100,100);
+        }
+
         g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
     }
     public void drawDonerBreak(Graphics2D g2D) {
@@ -436,6 +453,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.buyButton){
                 button.currentBuyButtonState = 1;
             }
+            if (e.getSource() == button.moveScreenButton){
+                button.currentMoveScreenButtonState = 1;
+            }
         }
         else {
             if (e.getSource() == button.exitButton) {
@@ -454,6 +474,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
             if (e.getSource() == button.buyButton){
                 button.currentBuyButtonState = 0;
+            }
+            if (e.getSource() == button.moveScreenButton){
+                button.currentMoveScreenButtonState = 0;
             }
         }
         else {
