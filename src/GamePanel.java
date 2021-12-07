@@ -296,10 +296,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
 
     //STOP GAME
-    public void stopGame() {
+    private void stopGame() {
         System.exit(1);
     }
-
     private void areYouSureWindow() {
         if (JOptionPane.showConfirmDialog(null,"Are you sure you want to exit?",null, JOptionPane.YES_NO_OPTION) == 0) {
             stopGame();
