@@ -31,10 +31,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int frameCounter;
     int placeBuildingY;
     int placeBuildingX;
+    int upgradePrice;
+    int donerOdds;
     double moneyMultiplier;
     String currentBuilding;
-    int upgradePrice;
+
     String buyScreenBuilding;
+    boolean donerBreak;
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
@@ -43,9 +46,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         gameState = 0;
         balance = 1000;
         frameCounter = 0;
+        donerOdds = 20000;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
-
+        donerBreak = false;
       }
 
     //START GAME
@@ -74,12 +78,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATES
     public void update() {
-        if (!settingsMenuActive) {
+        if (!settingsMenuActive && !donerBreak) {
             updateAesthetics();
             updateScreen();
-        }
-        else {
-
         }
     }
     public void updateAesthetics() {
@@ -104,12 +105,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void updateGameScreen() {
         button.startButton.setVisible(false);
         button.buyButton.setVisible(true);
-        frameCounter++;
-        if (frameCounter==60) {
-            updateBalance();
-            frameCounter=0;
-        }
-        updateNextBuilding();
+        updateGameStateVariables();
 
     }
     public void updateNextBuilding() {
@@ -120,23 +116,29 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             buyScreenBuilding = "Saxion Version: 0.0";
         }
     }
-    public void updateBalance() {
-        //TODO SET MULTIPLIER HIGHER FOR EACH GAME STATE
+    public void updateGameStateVariables() {
+        frameCounter++;
 
+        //TODO SET MULTIPLIER HIGHER FOR EACH GAME STATE
         switch (gameState) {
             case 1:
+                donerOdds=20000;
                 moneyMultiplier = 1.5;
                 break;
             case 2:
+                donerOdds=19250;
                 moneyMultiplier = 2;
                 break;
             case 3:
+                donerOdds=18500;
                 moneyMultiplier = 3;
                 break;
             case 4:
+                donerOdds=17750;
                 moneyMultiplier = 4;
                 break;
             case 5:
+                donerOdds=17000;
                 moneyMultiplier = 5;
                 break;
             default:
@@ -144,11 +146,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 break;
         }
         /* Voor building only*/
-        moneyMultiplier *= 20;
-        balance += (int) (10 * moneyMultiplier);
-    }
-    public void updateSettingsScreen() {
-
+        if (frameCounter%60==0) {
+            moneyMultiplier *= 20;
+            balance += (int) (10 * moneyMultiplier);
+        }
+        updateNextBuilding();
+        if (getRandomIntBetween(0,donerOdds)==donerOdds/2 && gameState!=0) {
+            donerBreak();
+        }
     }
 
     //REPAINT
@@ -173,6 +178,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         if (settingsMenuActive) {
             drawSettingsScreen(g2D);
+        }
+        if (donerBreak) {
+            drawDonerBreak(g2D);
         }
     }
     public void drawStartScreen(Graphics2D g2D) {
@@ -300,12 +308,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
     }
-
-    //STOP GAME
-    public void stopGame() {
-        System.exit(1);
+    public void drawDonerBreak(Graphics2D g2D) {
+        //TODO DRAW GUY THAT POPS UP AND SHOWS BUY OR DECLINE MENU
     }
 
+    //STOP GAME
+    private void stopGame() {
+        System.exit(1);
+    }
     private void areYouSureWindow() {
         if (JOptionPane.showConfirmDialog(null,"Are you sure you want to exit?",null, JOptionPane.YES_NO_OPTION) == 0) {
             stopGame();
@@ -328,6 +338,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     private int getRandomIntBetween(int min, int max) {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
+    private void donerBreak() {
+        donerBreak = true;
+        button.buyButton.setVisible(false);
+        //TODO SET BUY OR DECLINE BUTTONS TO VISIBLE (AND CREATE THEM)
     }
 
 
