@@ -321,6 +321,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawDonerBreak(Graphics2D g2D) {
         //TODO DRAW GUY THAT POPS UP AND SHOWS BUY OR DECLINE MENU
+        g2D.drawImage(image.donerGuy,0,0,null);
     }
 
     //STOP GAME
@@ -351,6 +352,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
     private void donerBreak() {
+        System.out.println("donerbreak!");
         donerBreak = true;
         button.buyButton.setVisible(false);
         //TODO SET BUY OR DECLINE BUTTONS TO VISIBLE (AND CREATE THEM)

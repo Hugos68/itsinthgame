@@ -30,6 +30,8 @@ public class Image {
     BufferedImage arrowRechtsImage;
     BufferedImage arrowLinksImage;
 
+    BufferedImage donerGuy;
+
     //redbuilding
     BufferedImage redBuilding1;
     BufferedImage redBuilding2;
@@ -65,6 +67,8 @@ public class Image {
 
         arrowLinksImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("Pijllinks.png")));
         arrowRechtsImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("Pijlrechts.png")));
+
+        donerGuy = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("donerpausemeneer.png"))));
 
         //redbuilding
         redBuilding1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("redbuilding1.png")));
