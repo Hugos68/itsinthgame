@@ -41,6 +41,7 @@ public class Image {
 
     //yellowbuilding
     BufferedImage yellowbuilding;
+    BufferedImage yellowbuilding2;
 
     Image() throws IOException {
         backGroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("background.jpg")));
@@ -79,6 +80,8 @@ public class Image {
 
         //yellowbuilding
         yellowbuilding = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding.png")));
+        yellowbuilding2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding2.png")));
+
 
 
     }
