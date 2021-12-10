@@ -220,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
             case 1:
-                g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null); break;
+               g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null); break;
             case 2:
                 g2D.drawImage(image.redBuilding2, placeBuildingX, placeBuildingY, null); break;
             case 3:
