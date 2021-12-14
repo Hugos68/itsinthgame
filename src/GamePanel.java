@@ -125,7 +125,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //TODO SET MULTIPLIER HIGHER FOR EACH GAME STATE
         switch (gameState) {
             case 1:
-                donerOdds=20000;
+                donerOdds=2000;
                 moneyMultiplier = 1.5;
                 break;
             case 2:
@@ -187,12 +187,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (currentScreenState == 1) {
             drawGameScreen(g2D);
         }
-        if (settingsMenuActive) {
-            drawSettingsScreen(g2D);
-        }
         if (donerBreak) {
             drawDonerBreak(g2D);
         }
+        if (settingsMenuActive) {
+            drawSettingsScreen(g2D);
+        }
+
     }
     public void drawStartScreen(Graphics2D g2D) {
         g2D.drawImage(image.titleText, Constants.GAMEWIDTH/2-image.titleText.getWidth(null)/2, Constants.GAMEHEIGHT/7, null);
@@ -219,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
             case 1:
-                g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null); break;
+               g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null); break;
             case 2:
                 g2D.drawImage(image.redBuilding2, placeBuildingX, placeBuildingY, null); break;
             case 3:
@@ -282,12 +283,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
         g2D.drawString("€ " + balance , (Constants.GAMEWIDTH/10)*9 -1, 85);
     }
-    public void drawSettingsScreen(Graphics2D g2D) {
-        g2D.drawImage(image.settingsMenu,0,0,null);
-        drawStopButton(g2D);
-        drawMenuButton(g2D);
-
-    }
     public void drawStopButton(Graphics2D g2D) {
 
         if (button.currentExitButtonState == 0) {
@@ -322,6 +317,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawDonerBreak(Graphics2D g2D) {
         //TODO DRAW GUY THAT POPS UP AND SHOWS BUY OR DECLINE MENU
         g2D.drawImage(image.donerGuy,0,0,null);
+    }
+    public void drawSettingsScreen(Graphics2D g2D) {
+        g2D.drawImage(image.settingsMenu,0,0,null);
+        drawStopButton(g2D);
+        drawMenuButton(g2D);
+
     }
 
     //STOP GAME

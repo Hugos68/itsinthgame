@@ -34,7 +34,7 @@ public class MovingObject {
         vehicles.add(image.orangecarpixel);
         vehicles.add(image.purplecarpixel);
 
-        clouds = new ArrayList<>(1);
+        clouds = new ArrayList<>(5);
         clouds.add(image.cloud1);
         clouds.add(image.cloud2);
 
@@ -47,7 +47,8 @@ public class MovingObject {
         this.Y = startPosY;
         if (startPosX < 0) { leftBorder = startPosX -1; rightBorder = gameWidth;}
         if (startPosX > 0) { rightBorder = startPosX +1; leftBorder = 0;}
-    }
+
+}
 
     public void updateVehicles() {
         //check for collisions and set corresponding velocity
