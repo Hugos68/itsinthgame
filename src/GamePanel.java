@@ -77,6 +77,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         button.buyButton.addMouseListener(this);
         this.add(button.moveScreenButtonLeft);
         button.moveScreenButtonLeft.addMouseListener(this);
+        this.add(button.moveScreenButtonRight);
+        button.moveScreenButtonRight.addMouseListener(this);
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
@@ -113,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         button.startButton.setVisible(false);
         button.buyButton.setVisible(true);
         updateGameStateVariables();
+        updateScreenMove();
 
     }
     public void updateNextBuilding() {
@@ -168,6 +171,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         if (gameState % 6 != 0){
             priceUpdated = false;
+        }
+    }
+    public void updateScreenMove() {
+        if (button.currentMoveScreenButtonStateRight==1) {
+            placeBuildingX -= 5;
+        }
+        if (button.currentMoveScreenButtonStateLeft == 1 && !greyLeftButton) {
+            placeBuildingX += 5;
         }
     }
 
@@ -309,22 +320,31 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void drawMoveScreenButton(Graphics2D g2D){
-        if (placeBuildingX <= 405){
+        if (placeBuildingX >= 405){
             greyLeftButton = true;
+        }else{
+            greyLeftButton = false;
         }
         if (button.currentMoveScreenButtonStateLeft == 0 && greyLeftButton){
-            g2D.setPaint(Color.RED);
-            g2D.fillRect(0, Constants.GAMEHEIGHT / 2, 100,100);
+            g2D.drawImage(image.arrowLinksImageGrey, 0, Constants.GAMEHEIGHT / 2, null);
         }
         if (button.currentMoveScreenButtonStateLeft == 0 && !greyLeftButton) {
             g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT / 2, null);
         }
-        if (button.currentMoveScreenButtonStateLeft == 1){
-            g2D.setPaint(Color.BLACK);
-            g2D.fillRect(0, Constants.GAMEHEIGHT / 2, 100,100);
-        }
+        if (button.currentMoveScreenButtonStateLeft == 1 && !greyLeftButton){
+            g2D.drawImage(image.arrowLinksImageRed, 0, Constants.GAMEHEIGHT / 2, null);
 
-        g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+        }
+        if (button.currentMoveScreenButtonStateLeft == 1 && greyLeftButton){
+            g2D.drawImage(image.arrowLinksImageGrey, 0, Constants.GAMEHEIGHT / 2, null);
+
+        }
+        if(button.currentMoveScreenButtonStateRight == 0) {
+            g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+        }
+        if(button.currentMoveScreenButtonStateRight == 1) {
+            g2D.drawImage(image.arrowRechtsImageRed, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+        }
     }
     public void drawDonerBreak(Graphics2D g2D) {
         //TODO DRAW GUY THAT POPS UP AND SHOWS BUY OR DECLINE MENU
@@ -472,6 +492,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.currentMoveScreenButtonStateLeft = 1;
 
             }
+            if (e.getSource() == button.moveScreenButtonRight){
+                button.currentMoveScreenButtonStateRight = 1;
+
+            }
         }
         else {
             if (e.getSource() == button.exitButton) {
@@ -494,6 +518,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.moveScreenButtonLeft){
                 button.currentMoveScreenButtonStateLeft = 0;
             }
+            if (e.getSource() == button.moveScreenButtonRight){
+                button.currentMoveScreenButtonStateRight = 0;
+            }
+
+
         }
         else {
             if (e.getSource() == button.exitButton) {
