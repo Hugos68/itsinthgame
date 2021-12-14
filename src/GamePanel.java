@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -231,6 +232,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawBuildings(g2D);
         drawBuyButton(g2D);
         drawMoveScreenButton(g2D);
+        drawPreviewBuilding(g2D);
     }
     public void drawBuildings(Graphics2D g2D) {
         switch (gameState) {
@@ -355,6 +357,27 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawStopButton(g2D);
         drawMenuButton(g2D);
 
+    }
+    public void drawPreviewBuilding(Graphics2D g2D){
+        if (button.currentBuyButtonState == 1){
+            switch(gameState) {
+                case 0:
+                    g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null);
+                    break;
+                case 1:
+                    g2D.drawImage(image.redBuilding2, placeBuildingX, placeBuildingY, null);
+                    break;
+                case 2:
+                    g2D.drawImage(image.redBuilding3, placeBuildingX, placeBuildingY, null);
+                    break;
+                case 3:
+                    g2D.drawImage(image.redBuilding4, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
+                    break;
+                case 4:
+                    g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
+                    break;
+            }
+        }
     }
 
     //STOP GAME

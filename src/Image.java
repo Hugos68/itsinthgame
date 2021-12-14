@@ -48,6 +48,8 @@ public class Image {
     BufferedImage yellowbuilding;
     BufferedImage yellowbuilding2;
 
+    BufferedImage previeuw;
+
     Image() throws IOException {
         backGroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("background.jpg")));
         titleText = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png")));
