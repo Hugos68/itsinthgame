@@ -36,6 +36,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     double moneyMultiplier;
     String currentBuilding;
     boolean priceUpdated;
+    int startPosition;
+    boolean greyLeftButton;
 
     String buyScreenBuilding;
     boolean donerBreak;
@@ -73,6 +75,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         button.menuButton.addMouseListener(this);
         this.add(button.buyButton);
         button.buyButton.addMouseListener(this);
+        this.add(button.moveScreenButtonLeft);
+        button.moveScreenButtonLeft.addMouseListener(this);
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
@@ -305,10 +309,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void drawMoveScreenButton(Graphics2D g2D){
-        if (button.currentMoveScreenButtonState == 0) {
+        if (placeBuildingX <= 405){
+            greyLeftButton = true;
+        }
+        if (button.currentMoveScreenButtonStateLeft == 0 && greyLeftButton){
+            g2D.setPaint(Color.RED);
+            g2D.fillRect(0, Constants.GAMEHEIGHT / 2, 100,100);
+        }
+        if (button.currentMoveScreenButtonStateLeft == 0 && !greyLeftButton) {
             g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT / 2, null);
         }
-        if (button.currentMoveScreenButtonState == 1){
+        if (button.currentMoveScreenButtonStateLeft == 1){
+            g2D.setPaint(Color.BLACK);
             g2D.fillRect(0, Constants.GAMEHEIGHT / 2, 100,100);
         }
 
@@ -456,8 +468,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.buyButton){
                 button.currentBuyButtonState = 1;
             }
-            if (e.getSource() == button.moveScreenButton){
-                button.currentMoveScreenButtonState = 1;
+            if (e.getSource() == button.moveScreenButtonLeft){
+                button.currentMoveScreenButtonStateLeft = 1;
+
             }
         }
         else {
@@ -478,8 +491,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.buyButton){
                 button.currentBuyButtonState = 0;
             }
-            if (e.getSource() == button.moveScreenButton){
-                button.currentMoveScreenButtonState = 0;
+            if (e.getSource() == button.moveScreenButtonLeft){
+                button.currentMoveScreenButtonStateLeft = 0;
             }
         }
         else {

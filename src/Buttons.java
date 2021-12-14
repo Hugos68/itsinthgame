@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class Buttons {
 
@@ -11,7 +12,7 @@ public class Buttons {
     JButton exitButton; int currentExitButtonState;
     JButton menuButton; int currentMenuButtonState;
     JButton buyButton; int currentBuyButtonState;
-    JButton moveScreenButton; int currentMoveScreenButtonState;
+    JButton moveScreenButtonLeft; int currentMoveScreenButtonStateLeft;
 
     Buttons() {
         startButton = new JButton();
@@ -42,11 +43,11 @@ public class Buttons {
         menuButton.setFocusable(false);
         currentMenuButtonState = 0;
 
-        moveScreenButton = new JButton();
-        moveScreenButton.setBounds(0, Constants.GAMEHEIGHT /2,150,150);
-        moveScreenButton.setOpaque(false);
-        moveScreenButton.setBorderPainted(false);
-        moveScreenButton.setFocusable(false);
-        currentMoveScreenButtonState = 0;
+        moveScreenButtonLeft = new JButton();
+        moveScreenButtonLeft.setBounds(0, Constants.GAMEHEIGHT /2,150,150);
+        moveScreenButtonLeft.setOpaque(false);
+        moveScreenButtonLeft.setBorderPainted(false);
+        moveScreenButtonLeft.setFocusable(false);
+        currentMoveScreenButtonStateLeft = 0;
     }
 }
