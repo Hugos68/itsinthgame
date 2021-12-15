@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.RGBImageFilter;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -41,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     boolean greyLeftButton;
 
     String buyScreenBuilding;
+    boolean blink;
     boolean donerBreak;
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
@@ -360,23 +364,30 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawPreviewBuilding(Graphics2D g2D){
         if (button.currentBuyButtonState == 1){
-            switch(gameState) {
-                case 0:
-                    g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null);
-                    break;
-                case 1:
-                    g2D.drawImage(image.redBuilding2, placeBuildingX, placeBuildingY, null);
-                    break;
-                case 2:
-                    g2D.drawImage(image.redBuilding3, placeBuildingX, placeBuildingY, null);
-                    break;
-                case 3:
-                    g2D.drawImage(image.redBuilding4, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
-                    break;
-                case 4:
-                    g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
-                    break;
+            if (frameCounter%15==0) {
+                blink = !blink;
             }
+
+            if (!blink) {
+                switch(gameState) {
+                    case 0:
+                        g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null);
+                        break;
+                    case 1:
+                        g2D.drawImage(image.redBuilding2, placeBuildingX, placeBuildingY, null);
+                        break;
+                    case 2:
+                        g2D.drawImage(image.redBuilding3, placeBuildingX, placeBuildingY, null);
+                        break;
+                    case 3:
+                        g2D.drawImage(image.redBuilding4, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
+                        break;
+                    case 4:
+                        g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
+                        break;
+                }
+            }
+
         }
     }
 
