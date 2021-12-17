@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     String buyScreenBuilding;
     boolean blink;
     boolean donerBreak;
+    boolean donerBreakDeclined;
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
@@ -58,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
         donerBreak = false;
+        donerBreakDeclined = false;
         upgradePrice = 1000;
         priceUpdated = false;
       }
@@ -74,16 +76,28 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         //add buttons
         this.add(button.startButton);
         button.startButton.addMouseListener(this);
+
         this.add(button.exitButton);
         button.exitButton.addMouseListener(this);
+
         this.add(button.menuButton);
         button.menuButton.addMouseListener(this);
+
         this.add(button.buyButton);
         button.buyButton.addMouseListener(this);
+
         this.add(button.moveScreenButtonLeft);
         button.moveScreenButtonLeft.addMouseListener(this);
+
         this.add(button.moveScreenButtonRight);
         button.moveScreenButtonRight.addMouseListener(this);
+
+        this.add(button.donerBreakAccept);
+        button.donerBreakAccept.addMouseListener(this);
+
+        this.add(button.donerBreakDecline);
+        button.donerBreakDecline.addMouseListener(this);
+
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
@@ -95,6 +109,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (!settingsMenuActive && !donerBreak) {
             updateAesthetics();
             updateScreen();
+        }
+        if (donerBreak) {
+            button.buyButton.setVisible(false);
+            button.donerBreakAccept.setVisible(true);
+            button.donerBreakDecline.setVisible(true);
         }
     }
     public void updateAesthetics() {
@@ -117,7 +136,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         button.startButton.setVisible(true);
     }
     public void updateGameScreen() {
-        button.startButton.setVisible(false);
+
         button.buyButton.setVisible(true);
         updateGameStateVariables();
         updateScreenMove();
@@ -163,11 +182,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         /* Voor building only*/
         if (frameCounter%60==0) {
             moneyMultiplier *= 20;
+            if (donerBreakDeclined) {
+                moneyMultiplier-=0.25;
+            }
             balance += (int) (10 * moneyMultiplier);
         }
         updateNextBuilding();
         if (getRandomIntBetween(0,donerOdds)==donerOdds/2 && gameState!=0) {
-            donerBreak();
+            donerBreak = true;
         }
 
         if (gameState % 6 == 0 && gameState != 0 && !priceUpdated){
@@ -355,6 +377,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawDonerBreak(Graphics2D g2D) {
         //TODO DRAW GUY THAT POPS UP AND SHOWS BUY OR DECLINE MENU
         g2D.drawImage(image.donerGuy,0,0,null);
+
+        g2D.setColor(Color.GREEN);
+        g2D.fillRect(1365,537,200,75);
+
+        g2D.setColor(Color.RED);
+        g2D.fillRect(1575,537,200,75);
     }
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
@@ -418,12 +446,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     private int getRandomIntBetween(int min, int max) {
         return  ThreadLocalRandom.current().nextInt(min, max + 1);
     }
-    private void donerBreak() {
-        System.out.println("donerbreak!");
-        donerBreak = true;
-        button.buyButton.setVisible(false);
-        //TODO SET BUY OR DECLINE BUTTONS TO VISIBLE (AND CREATE THEM)
-    }
 
 
     @Override
@@ -466,6 +488,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 audio.playClickSound();
                 button.currentBuyButtonState = 2;
             }
+            if (e.getSource()==button.donerBreakAccept && SwingUtilities.isLeftMouseButton(e)) {
+                audio.playClickSound();
+                button.currentDonerBreakAcceptState = 2;
+            }
+            if (e.getSource()==button.donerBreakDecline && SwingUtilities.isLeftMouseButton(e)) {
+                audio.playClickSound();
+                button.currentDonerBreakDeclineState = 2;
+            }
         }
         if (e.getSource()==button.exitButton && SwingUtilities.isLeftMouseButton(e)) {
             audio.playClickSound();
@@ -485,17 +515,27 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 audio.playSoundtrack(1);
                 button.currentMenuButtonState = 0;
                 button.currentExitButtonState = 0;
+                button.startButton.setVisible(false);
                 currentScreenState = 1;
             }
             if (e.getSource() == button.buyButton && button.currentBuyButtonState == 2 && SwingUtilities.isLeftMouseButton(e)){
                 if (balance >= upgradePrice) {
                     gameState += 1;
                     balance -= upgradePrice;
+                    donerBreakDeclined = false;
                     audio.playBuildSound();
                 }else{
                     audio.playErrorSound();
                 }
                 button.currentBuyButtonState = 2;
+            }
+            if (e.getSource()==button.donerBreakAccept && button.currentDonerBreakAcceptState == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                balance-=800;
+                donerBreak=false;
+            }
+            if (e.getSource()==button.donerBreakDecline && button.currentDonerBreakDeclineState == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                donerBreakDeclined = true;
+                donerBreak=false;
             }
         }
         else {
@@ -528,7 +568,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 1;
-
+            }
+            if (e.getSource() == button.donerBreakAccept) {
+                button.currentDonerBreakAcceptState = 1;
+            }
+            if (e.getSource() == button.donerBreakDecline) {
+                button.currentDonerBreakDeclineState = 1;
             }
         }
         else {
@@ -555,7 +600,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 0;
             }
-
+            if (e.getSource() == button.donerBreakAccept) {
+                button.currentDonerBreakAcceptState = 0;
+            }
+            if (e.getSource() == button.donerBreakDecline) {
+                button.currentDonerBreakDeclineState = 0;
+            }
 
         }
         else {

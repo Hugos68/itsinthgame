@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class Buttons {
 
@@ -12,6 +11,9 @@ public class Buttons {
     JButton exitButton; int currentExitButtonState;
     JButton menuButton; int currentMenuButtonState;
     JButton buyButton; int currentBuyButtonState;
+    JButton moveScreenButton; int currentMoveScreenButtonState;
+    JButton donerBreakAccept;  int currentDonerBreakAcceptState;
+    JButton donerBreakDecline; int currentDonerBreakDeclineState;
     JButton moveScreenButtonLeft; int currentMoveScreenButtonStateLeft;
     JButton moveScreenButtonRight; int currentMoveScreenButtonStateRight;
 
@@ -58,5 +60,25 @@ public class Buttons {
         moveScreenButtonRight.setBorderPainted(false);
         moveScreenButtonRight.setFocusable(false);
         currentMoveScreenButtonStateRight = 0;
+
+        donerBreakAccept = new JButton();
+        donerBreakAccept.setBounds(1365,537,200,75);
+        donerBreakAccept.setOpaque(false);
+        donerBreakAccept.setBorderPainted(false);
+        donerBreakAccept.setFocusable(false);
+        donerBreakAccept.setVisible(false);
+        currentDonerBreakAcceptState = 0;
+
+        donerBreakDecline = new JButton();
+        donerBreakDecline.setBounds(1575,537,200,75);
+        donerBreakDecline.setOpaque(false);
+        donerBreakDecline.setBorderPainted(false);
+        donerBreakDecline.setFocusable(false);
+        donerBreakDecline.setVisible(false);
+        currentDonerBreakDeclineState = 0;
+
+
+
+
     }
 }
