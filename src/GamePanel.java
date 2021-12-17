@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     String buyScreenBuilding;
     boolean blink;
     boolean donerBreak;
+    boolean donerBreakDeclined;
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
@@ -58,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
         donerBreak = false;
+        donerBreakDeclined = false;
         upgradePrice = 1000;
         priceUpdated = false;
       }
@@ -180,6 +182,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         /* Voor building only*/
         if (frameCounter%60==0) {
             moneyMultiplier *= 20;
+            if (donerBreakDeclined) {
+                moneyMultiplier-=0.25;
+            }
             balance += (int) (10 * moneyMultiplier);
         }
         updateNextBuilding();
@@ -517,6 +522,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 if (balance >= upgradePrice) {
                     gameState += 1;
                     balance -= upgradePrice;
+                    donerBreakDeclined = false;
                     audio.playBuildSound();
                 }else{
                     audio.playErrorSound();
@@ -528,7 +534,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 donerBreak=false;
             }
             if (e.getSource()==button.donerBreakDecline && button.currentDonerBreakDeclineState == 2 && SwingUtilities.isLeftMouseButton(e)) {
-                moneyMultiplier-=0.25;
+                donerBreakDeclined = true;
                 donerBreak=false;
             }
         }
