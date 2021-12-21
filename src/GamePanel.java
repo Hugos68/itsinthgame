@@ -564,10 +564,42 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
             if (e.getSource() == button.moveScreenButtonLeft){
                 button.currentMoveScreenButtonStateLeft = 1;
+                if(firstMovingObject.velocity <0){
+                    firstMovingObject.velocity += 4;
+                    System.out.println(firstMovingObject.velocity);
+                }
+                if(secondMovingObject.velocity < 0){
+                    secondMovingObject.velocity +=4;
+                    System.out.println(secondMovingObject.velocity);
+                }
+                if(firstMovingObject.velocity >0){
+                    firstMovingObject.velocity += 4;
+                    System.out.println(firstMovingObject.velocity);
+                }
+                if(secondMovingObject.velocity > 0){
+                    secondMovingObject.velocity +=4;
+                    System.out.println(secondMovingObject.velocity);
+                }
 
             }
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 1;
+                if(firstMovingObject.velocity > 0){
+                    firstMovingObject.velocity -= 4;
+                    System.out.println(firstMovingObject.velocity);
+                }
+                if(secondMovingObject.velocity > 0){
+                    secondMovingObject.velocity -=4;
+                    System.out.println(secondMovingObject.velocity);
+                }
+                if(firstMovingObject.velocity < 0){
+                    firstMovingObject.velocity -= 4;
+                    System.out.println(firstMovingObject.velocity);
+                }
+                if(secondMovingObject.velocity < 0){
+                    secondMovingObject.velocity -=4;
+                    System.out.println(secondMovingObject.velocity);
+                }
             }
             if (e.getSource() == button.donerBreakAccept) {
                 button.currentDonerBreakAcceptState = 1;
@@ -596,9 +628,33 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
             if (e.getSource() == button.moveScreenButtonLeft){
                 button.currentMoveScreenButtonStateLeft = 0;
+                if(firstMovingObject.velocity <0){
+                    firstMovingObject.velocity = -7;
+                }
+                if(secondMovingObject.velocity <0){
+                    secondMovingObject.velocity = -7;
+                }
+                if(firstMovingObject.velocity >0){
+                    firstMovingObject.velocity = 7;
+                }
+                if(secondMovingObject.velocity >0){
+                    secondMovingObject.velocity = 7;
+                }
             }
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 0;
+                if(firstMovingObject.velocity > 0){
+                    firstMovingObject.velocity = 7;
+                }
+                if(secondMovingObject.velocity > 0){
+                    secondMovingObject.velocity = 7;
+                }
+                if(firstMovingObject.velocity < 0){
+                    firstMovingObject.velocity = -7;
+                }
+                if(secondMovingObject.velocity < 0){
+                    secondMovingObject.velocity = -7;
+                }
             }
             if (e.getSource() == button.donerBreakAccept) {
                 button.currentDonerBreakAcceptState = 0;
