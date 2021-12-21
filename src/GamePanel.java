@@ -570,19 +570,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
             if (e.getSource() == button.moveScreenButtonLeft){
                 button.currentMoveScreenButtonStateLeft = 1;
-                if(firstMovingObject.velocity <0){
+                if(firstMovingObject.velocity <0 && !greyLeftButton){
                     firstMovingObject.velocity = -1;
                 }
-                if(secondMovingObject.velocity < 0){
+                if(secondMovingObject.velocity < 0 && !greyLeftButton) {
                     secondMovingObject.velocity =-1;
                 }
-                if(firstMovingObject.velocity >0){
+                if(firstMovingObject.velocity >0 && !greyLeftButton){
                     firstMovingObject.velocity = 1;
                 }
-                if(secondMovingObject.velocity > 0){
+                if(secondMovingObject.velocity > 0 && !greyLeftButton){
                     secondMovingObject.velocity =1;
                 }
-
             }
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 1;
