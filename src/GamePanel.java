@@ -202,7 +202,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void updateScreenMove() {
-        if (button.currentMoveScreenButtonStateRight==1) {
+        if (button.currentMoveScreenButtonStateRight==1 && !greyRightButton) {
             placeBuildingX -= 5;
         }
         if (button.currentMoveScreenButtonStateLeft == 1 && !greyLeftButton) {
@@ -605,17 +605,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 1;
-                if(firstMovingObject.velocity > 0){
+                if(firstMovingObject.velocity > 0 && !greyRightButton){
                     firstMovingObject.velocity = 1;
                 }
-                if(secondMovingObject.velocity > 0){
+                if(secondMovingObject.velocity > 0 && !greyRightButton){
                     secondMovingObject.velocity =1;
 
                 }
-                if(firstMovingObject.velocity < 0){
+                if(firstMovingObject.velocity < 0 && !greyRightButton){
                     firstMovingObject.velocity = -1;
                 }
-                if(secondMovingObject.velocity < 0){
+                if(secondMovingObject.velocity < 0 && !greyRightButton){
                     secondMovingObject.velocity =-1;
                 }
             }
