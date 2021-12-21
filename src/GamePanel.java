@@ -571,19 +571,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.moveScreenButtonLeft){
                 button.currentMoveScreenButtonStateLeft = 1;
                 if(firstMovingObject.velocity <0){
-                    firstMovingObject.velocity += 4;
+                    firstMovingObject.velocity -= 4;
                     System.out.println(firstMovingObject.velocity);
                 }
                 if(secondMovingObject.velocity < 0){
-                    secondMovingObject.velocity +=4;
+                    secondMovingObject.velocity -=4;
                     System.out.println(secondMovingObject.velocity);
                 }
                 if(firstMovingObject.velocity >0){
-                    firstMovingObject.velocity += 4;
+                    firstMovingObject.velocity -= 4;
                     System.out.println(firstMovingObject.velocity);
                 }
                 if(secondMovingObject.velocity > 0){
-                    secondMovingObject.velocity +=4;
+                    secondMovingObject.velocity -=4;
                     System.out.println(secondMovingObject.velocity);
                 }
 
@@ -591,19 +591,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 1;
                 if(firstMovingObject.velocity > 0){
-                    firstMovingObject.velocity -= 4;
+                    firstMovingObject.velocity += 4;
                     System.out.println(firstMovingObject.velocity);
                 }
                 if(secondMovingObject.velocity > 0){
-                    secondMovingObject.velocity -=4;
+                    secondMovingObject.velocity +=4;
                     System.out.println(secondMovingObject.velocity);
                 }
                 if(firstMovingObject.velocity < 0){
-                    firstMovingObject.velocity -= 4;
+                    firstMovingObject.velocity += 4;
                     System.out.println(firstMovingObject.velocity);
                 }
                 if(secondMovingObject.velocity < 0){
-                    secondMovingObject.velocity -=4;
+                    secondMovingObject.velocity +=4;
                     System.out.println(secondMovingObject.velocity);
                 }
             }
