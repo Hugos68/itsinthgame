@@ -33,6 +33,7 @@ public class Image {
     BufferedImage arrowLinksImage;
 
     BufferedImage arrowLinksImageGrey;
+    BufferedImage ArrowRechtsImageGrey;
 
     BufferedImage arrowRechtsImageRed;
     BufferedImage arrowLinksImageRed;
@@ -80,6 +81,7 @@ public class Image {
         arrowRechtsImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("Pijlrechts.png")));
 
         arrowLinksImageGrey = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijllinksGrey.png")));
+        arrowRechtsImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijlrechtsGrey.png")));
 
         arrowRechtsImageRed = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijlrechtsRood.png")));
         arrowLinksImageRed = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijllinksRood.png")));
