@@ -42,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     boolean priceUpdated;
     int startPosition;
     boolean greyLeftButton;
+    boolean greyRightButton;
 
     String buyScreenBuilding;
     boolean blink;
@@ -353,26 +354,45 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }else{
             greyLeftButton = false;
         }
-        if (button.currentMoveScreenButtonStateLeft == 0 && greyLeftButton){
-            g2D.drawImage(image.arrowLinksImageGrey, 0, Constants.GAMEHEIGHT / 2, null);
+        if (gameState < 5){
+            greyLeftButton = true;
+            greyRightButton = true;
+        }else{
+            greyRightButton = false;
         }
-        if (button.currentMoveScreenButtonStateLeft == 0 && !greyLeftButton) {
-            g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT / 2, null);
-        }
-        if (button.currentMoveScreenButtonStateLeft == 1 && !greyLeftButton){
-            g2D.drawImage(image.arrowLinksImageRed, 0, Constants.GAMEHEIGHT / 2, null);
+        //Left Button
+        {
+            if (button.currentMoveScreenButtonStateLeft == 0 && greyLeftButton) {
+                g2D.drawImage(image.arrowLinksImageGrey, 0, Constants.GAMEHEIGHT / 2, null);
+            }
+            if (button.currentMoveScreenButtonStateLeft == 0 && !greyLeftButton) {
+                g2D.drawImage(image.arrowLinksImage, 0, Constants.GAMEHEIGHT / 2, null);
+            }
+            if (button.currentMoveScreenButtonStateLeft == 1 && !greyLeftButton) {
+                g2D.drawImage(image.arrowLinksImageRed, 0, Constants.GAMEHEIGHT / 2, null);
 
-        }
-        if (button.currentMoveScreenButtonStateLeft == 1 && greyLeftButton){
-            g2D.drawImage(image.arrowLinksImageGrey, 0, Constants.GAMEHEIGHT / 2, null);
+            }
+            if (button.currentMoveScreenButtonStateLeft == 1 && greyLeftButton) {
+                g2D.drawImage(image.arrowLinksImageGrey, 0, Constants.GAMEHEIGHT / 2, null);
 
+            }
         }
-        if(button.currentMoveScreenButtonStateRight == 0) {
-            g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+        // Right Button
+        {
+            if (button.currentMoveScreenButtonStateRight == 0 && !greyRightButton) {
+                g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+            }
+            if (button.currentMoveScreenButtonStateRight == 1 && !greyRightButton) {
+                g2D.drawImage(image.arrowRechtsImageRed, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+            }
+            if (button.currentMoveScreenButtonStateRight == 0 && greyRightButton) {
+                g2D.drawImage(image.arrowRechtsImageGrey, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+            }
+            if (button.currentMoveScreenButtonStateRight == 1 && greyRightButton) {
+                g2D.drawImage(image.arrowRechtsImageGrey, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+            }
         }
-        if(button.currentMoveScreenButtonStateRight == 1) {
-            g2D.drawImage(image.arrowRechtsImageRed, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
-        }
+
     }
     public void drawDonerBreak(Graphics2D g2D) {
         //TODO DRAW GUY THAT POPS UP AND SHOWS BUY OR DECLINE MENU

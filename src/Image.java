@@ -33,6 +33,7 @@ public class Image {
     BufferedImage arrowLinksImage;
 
     BufferedImage arrowLinksImageGrey;
+    BufferedImage arrowRechtsImageGrey;
 
     BufferedImage arrowRechtsImageRed;
     BufferedImage arrowLinksImageRed;
@@ -80,6 +81,7 @@ public class Image {
         arrowRechtsImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("Pijlrechts.png")));
 
         arrowLinksImageGrey = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijllinksGrey.png")));
+        arrowRechtsImageGrey = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijlrechtsGrey.png")));
 
         arrowRechtsImageRed = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijlrechtsRood.png")));
         arrowLinksImageRed = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijllinksRood.png")));
@@ -106,27 +108,3 @@ public class Image {
         buildingList1.add(redBuilding5);
     }
 }
-//    public void imageToGrayScale(BufferedImage image1){
-//        BufferedImage image = new BufferedImage(image1.getWidth(), image1.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
-//        Graphics g = image.getGraphics();
-//        g.drawImage(image1, 0, 0, null);
-//    }
-//    public BufferedImage toBufferedImage(Image img)
-//    {
-//        if (img instanceof BufferedImage)
-//        {
-//            return (BufferedImage) img;
-//        }
-//
-//        // Create a buffered image with transparency
-//        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-//
-//        // Draw the image on to the buffered image
-//        Graphics2D bGr = bimage.createGraphics();
-//        bGr.drawImage(img, 0, 0, null);
-//        bGr.dispose();
-//
-//        // Return the buffered image
-//        return bimage;
-//    }
-//}
