@@ -530,8 +530,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.currentBuyButtonState = 2;
             }
             if (e.getSource()==button.donerBreakAccept && button.currentDonerBreakAcceptState == 2 && SwingUtilities.isLeftMouseButton(e)) {
-                balance-=800;
-                donerBreak=false;
+                if (balance >= 800) {
+                    balance-=800;
+                    donerBreak=false;
+                }
+                else {
+                    audio.playErrorSound();
+                }
+
             }
             if (e.getSource()==button.donerBreakDecline && button.currentDonerBreakDeclineState == 2 && SwingUtilities.isLeftMouseButton(e)) {
                 donerBreakDeclined = true;
