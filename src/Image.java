@@ -50,6 +50,7 @@ public class Image {
     //yellowbuilding
     BufferedImage yellowbuilding;
     BufferedImage yellowbuilding2;
+    BufferedImage yellowbuilding3;
 
     ArrayList<BufferedImage> buildingList1;
 
@@ -99,6 +100,7 @@ public class Image {
         //yellowbuilding
         yellowbuilding = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding.png")));
         yellowbuilding2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding2.png")));
+        yellowbuilding3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding3.png")));
 
         buildingList1 = new ArrayList<>();
         buildingList1.add(redBuilding1);

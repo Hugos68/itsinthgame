@@ -178,6 +178,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 donerOdds=17000;
                 moneyMultiplier = 5;
                 break;
+            case 6:
+                donerOdds=16250;
+                moneyMultiplier = 6;
+                break;
+            case 7:
+                donerOdds=15500;
+                moneyMultiplier = 7;
+                break;
+            case 8:
+                donerOdds=14750;
+                moneyMultiplier = 8;
+                break;
             default:
                 moneyMultiplier = 0;
                 break;
@@ -278,6 +290,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 g2D.drawImage(image.redBuilding4, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null); break;
             case 5:
                 g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null); break;
+            case 6:
+                g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null);
+                g2D.drawImage(image.yellowbuilding, placeBuildingX + 1300, placeBuildingY - 60, null); break;
+            case 7:
+                g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null);
+                if(blink) {
+                    g2D.drawImage(image.yellowbuilding2, placeBuildingX + 1300, placeBuildingY - 60, null);
+                    break;
+                }
+            case 8:
+                g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null);
+
+                g2D.drawImage(image.yellowbuilding3, placeBuildingX + 800, placeBuildingY - 223, null); break;
+
         }
     }
     public void drawBuyButton(Graphics2D g2D) {
@@ -438,6 +464,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     case 4:
                         g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
                         break;
+                    case 5:
+                        g2D.drawImage(image.yellowbuilding, placeBuildingX + 1300, placeBuildingY - 60, null);
+                        break;
+                    case 6:
+                        g2D.drawImage(image.yellowbuilding2, placeBuildingX + 1300, placeBuildingY - 60, null);
+                        break;
+                    case 7:
+                        if(!blink) {
+                            g2D.drawImage(image.yellowbuilding3, placeBuildingX + 800, placeBuildingY - 223, null);
+                            break;
+                        }
                 }
             }
 
