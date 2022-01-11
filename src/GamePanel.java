@@ -4,10 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageFilter;
-import java.awt.image.RGBImageFilter;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -19,8 +15,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Buttons button = new Buttons();
     Audio audio = new Audio();
     Image image = new Image();
-    MovingObject firstMovingObject = new MovingObject(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.78));
-    MovingObject secondMovingObject = new MovingObject(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.89));
+    MovingObject firstMovingObject = new MovingObject(7, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.78),"vehicle");
+    MovingObject secondMovingObject = new MovingObject(-7, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.89), "vehicle");
+
+    MovingObject cloud1 = new MovingObject(2, (this.getRandomIntBetween(250, 2500) * -1), (int) ((double) Constants.GAMEHEIGHT * 0.22),"cloud");
+    MovingObject cloud2 = new MovingObject(2, Constants.GAMEWIDTH + this.getRandomIntBetween(250, 2500), (int) ((double) Constants.GAMEHEIGHT * 0.11),"cloud");
 
     //screen variables
     int currentScreenState = 0;
@@ -118,8 +117,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void updateAesthetics() {
-        firstMovingObject.updateVehicles();
-        secondMovingObject.updateVehicles();
+        firstMovingObject.update();
+        secondMovingObject.update();
+
+        cloud1.update();
+        cloud2.update();
     }
     public void updateScreen() {
         if (!settingsMenuActive) {
@@ -220,8 +222,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawAesthetics(Graphics2D g2D) {
         g2D.drawImage(image.backGroundImage, 0, 0, null);
-        firstMovingObject.drawVehicles(g2D);
-        secondMovingObject.drawVehicles(g2D);
+        firstMovingObject.draw(g2D);
+        secondMovingObject.draw(g2D);
+        cloud1.draw(g2D);
+        cloud2.draw(g2D);
+
     }
     public void drawScreen(Graphics2D g2D) {
         if (currentScreenState == 0) {

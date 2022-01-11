@@ -23,9 +23,12 @@ public class MovingObject {
     int height;
     int rightBorder;
     int leftBorder;
+    String type;
 
-    public MovingObject(int velocity, int startPosX, int startPosY) throws IOException {
+    public MovingObject(int velocity, int startPosX, int startPosY, String type) throws IOException {
+
         image = new Image();
+
         vehicles = new ArrayList<>(5);
         vehicles.add(image.redcarpixel);
         vehicles.add(image.greencarpixel);
@@ -34,28 +37,39 @@ public class MovingObject {
         vehicles.add(image.orangecarpixel);
         vehicles.add(image.purplecarpixel);
 
-        clouds = new ArrayList<>(5);
+        clouds = new ArrayList<>(1);
         clouds.add(image.cloud1);
         clouds.add(image.cloud2);
+        
+        if (type.matches("cloud")) {
+            this.randomImage = clouds.get(getRandomIntBetween(0, 1));
+        }
 
-        this.randomImage = vehicles.get(getRandomIntBetween(0, 5));
+        if (type.matches("vehicle")) {
+            this.randomImage = vehicles.get(getRandomIntBetween(0, 5));
+        }
+
+
         this.color = this.randomImage;
         this.width = this.randomImage.getWidth(null);
         this.height = this.randomImage.getHeight(null);
         this.velocity = velocity;
         this.X = startPosX;
         this.Y = startPosY;
+        this.type = type;
         if (startPosX < 0) { leftBorder = startPosX -1; rightBorder = gameWidth;}
         if (startPosX > 0) { rightBorder = startPosX +1; leftBorder = 0;}
 
 }
 
-    public void updateVehicles() {
+    public void update() {
         //check for collisions and set corresponding velocity
         if (this.X > this.rightBorder || this.X < this.leftBorder) {
             //set new random color that isn't previous color
             BufferedImage previousColor = this.color;
-            do {this.color = vehicles.get(getRandomIntBetween(0,5));} while (this.color == previousColor);
+            if (type != "cloud") {
+                do {this.color = vehicles.get(getRandomIntBetween(0,5));} while (this.color == previousColor);
+            }
             this.velocity = this.velocity * -1;
         }
         this.X = this.X + this.velocity;
@@ -66,7 +80,7 @@ public class MovingObject {
         }
     }
 
-    public void drawVehicles(Graphics2D g2D) {
+    public void draw(Graphics2D g2D) {
         if (this.velocity < 0) {
             g2D.drawImage(this.color, this.X, this.Y, null);
         }
