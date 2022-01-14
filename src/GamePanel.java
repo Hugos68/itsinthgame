@@ -168,27 +168,27 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 break;
             case 3:
                 donerOdds=18500;
-                moneyMultiplier = 3;
+                moneyMultiplier = 4;
                 break;
             case 4:
                 donerOdds=17750;
-                moneyMultiplier = 4;
+                moneyMultiplier = 6;
                 break;
             case 5:
                 donerOdds=17000;
-                moneyMultiplier = 5;
+                moneyMultiplier = 8;
                 break;
             case 6:
                 donerOdds=16250;
-                moneyMultiplier = 6;
+                moneyMultiplier = 10;
                 break;
             case 7:
                 donerOdds=15500;
-                moneyMultiplier = 7;
+                moneyMultiplier = 12;
                 break;
             case 8:
                 donerOdds=14750;
-                moneyMultiplier = 8;
+                moneyMultiplier = 14;
                 break;
             default:
                 moneyMultiplier = 0;
@@ -196,7 +196,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         /* Voor building only*/
         if (frameCounter%60==0) {
-            moneyMultiplier *= 20;
             if (donerBreakDeclined) {
                 moneyMultiplier-=0.25;
             }
