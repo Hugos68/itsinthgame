@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     double moneyMultiplier;
     String currentBuilding;
     boolean priceUpdated;
-    int startPosition;
+    int additionalPlaceBuildingY;
     boolean greyLeftButton;
     boolean greyRightButton;
 
@@ -278,12 +278,24 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawPreviewBuilding(g2D);
     }
     public void drawBuildings(Graphics2D g2D) {
-        if (gameState>0 && gameState<5) {
+
+        if (gameState == 3 ){
+            placeBuildingY = 380;
+        }
+        if (gameState == 4 ){
+            placeBuildingY = 190;
+        }
+        if (gameState>5 && gameState<8){
+            additionalPlaceBuildingY = 120;
+        }
+
+
+        if (gameState>0 && gameState<=5) {
             g2D.drawImage(image.buildingListRedBuilding.get(gameState-1),placeBuildingX,placeBuildingY,null);
         }
-        if (gameState>=5) {
+        if (gameState>=6) {
             g2D.drawImage(image.buildingListRedBuilding.get(4),placeBuildingX,placeBuildingY,null);
-            g2D.drawImage(image.buildingListYellowBuilding.get(gameState - image.buildingListRedBuilding.size()),placeBuildingX+1200,placeBuildingY,null);
+            g2D.drawImage(image.buildingListYellowBuilding.get((gameState - image.buildingListRedBuilding.size())-1),placeBuildingX+1200,placeBuildingY + additionalPlaceBuildingY,null);
         }
         if(gameState > 8){
             g2D.drawImage(image.buildingListRedBuilding.get(4),placeBuildingX,placeBuildingY,null);
