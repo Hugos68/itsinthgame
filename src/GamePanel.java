@@ -278,31 +278,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawPreviewBuilding(g2D);
     }
     public void drawBuildings(Graphics2D g2D) {
-        switch (gameState) {
-            case 1:
-               g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null); break;
-            case 2:
-                g2D.drawImage(image.redBuilding2, placeBuildingX, placeBuildingY, null); break;
-            case 3:
-                g2D.drawImage(image.redBuilding3, placeBuildingX, placeBuildingY, null); break;
-            case 4:
-                g2D.drawImage(image.redBuilding4, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null); break;
-            case 5:
-                g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null); break;
-            case 6:
-                g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null);
-                g2D.drawImage(image.yellowbuilding, placeBuildingX + 1300, placeBuildingY - 60, null); break;
-            case 7:
-                g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null);
-                if(blink) {
-                    g2D.drawImage(image.yellowbuilding2, placeBuildingX + 1300, placeBuildingY - 60, null);
-                    break;
-                }
-            case 8:
-                g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY-(image.redBuilding4.getHeight()-image.redBuilding3.getHeight()), null);
-
-                g2D.drawImage(image.yellowbuilding3, placeBuildingX + 800, placeBuildingY - 223, null); break;
-
+        if (gameState>5) {
+            g2D.drawImage(image.buildingList1.get(5),placeBuildingX,placeBuildingY,null);
+        }
+        if (gameState>0) {
+            g2D.drawImage(image.buildingList1.get(gameState-1),placeBuildingX,placeBuildingY,null);
         }
     }
     public void drawBuyButton(Graphics2D g2D) {
@@ -447,34 +427,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
 
             if (!blink) {
-                switch(gameState) {
-                    case 0:
-                        g2D.drawImage(image.redBuilding1, placeBuildingX, placeBuildingY, null);
-                        break;
-                    case 1:
-                        g2D.drawImage(image.redBuilding2, placeBuildingX, placeBuildingY, null);
-                        break;
-                    case 2:
-                        g2D.drawImage(image.redBuilding3, placeBuildingX, placeBuildingY, null);
-                        break;
-                    case 3:
-                        g2D.drawImage(image.redBuilding4, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
-                        break;
-                    case 4:
-                        g2D.drawImage(image.redBuilding5, placeBuildingX, placeBuildingY - (image.redBuilding4.getHeight() - image.redBuilding3.getHeight()), null);
-                        break;
-                    case 5:
-                        g2D.drawImage(image.yellowbuilding, placeBuildingX + 1300, placeBuildingY - 60, null);
-                        break;
-                    case 6:
-                        g2D.drawImage(image.yellowbuilding2, placeBuildingX + 1300, placeBuildingY - 60, null);
-                        break;
-                    case 7:
-                        if(!blink) {
-                            g2D.drawImage(image.yellowbuilding3, placeBuildingX + 800, placeBuildingY - 223, null);
-                            break;
-                        }
-                }
+                g2D.drawImage(image.buildingList1.get(gameState),placeBuildingX,placeBuildingY,null);
             }
 
         }
