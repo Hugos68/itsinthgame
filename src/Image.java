@@ -52,7 +52,9 @@ public class Image {
     BufferedImage yellowbuilding2;
     BufferedImage yellowbuilding3;
 
-    ArrayList<BufferedImage> buildingList1;
+    ArrayList<BufferedImage> buildingListRedBuilding;
+    ArrayList<BufferedImage> buildingListYellowBuilding;
+    ArrayList<BufferedImage> buildinglistBlueBuilding;
 
 
     Image() throws IOException {
@@ -102,12 +104,19 @@ public class Image {
         yellowbuilding2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding2.png")));
         yellowbuilding3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding3.png")));
 
-        buildingList1 = new ArrayList<>();
-        buildingList1.add(redBuilding1);
-        buildingList1.add(redBuilding2);
-        buildingList1.add(redBuilding3);
-        buildingList1.add(redBuilding4);
-        buildingList1.add(redBuilding5);
+        buildingListRedBuilding = new ArrayList<>();
+        buildingListRedBuilding.add(redBuilding1);
+        buildingListRedBuilding.add(redBuilding2);
+        buildingListRedBuilding.add(redBuilding3);
+        buildingListRedBuilding.add(redBuilding4);
+        buildingListRedBuilding.add(redBuilding5);
+
+        buildingListYellowBuilding = new ArrayList<>();
+        buildingListYellowBuilding.add(yellowbuilding);
+        buildingListYellowBuilding.add(yellowbuilding2);
+        buildingListYellowBuilding.add(yellowbuilding3);
+
+        buildinglistBlueBuilding = new ArrayList<>();
     }
 }
 //    public void imageToGrayScale(BufferedImage image1){

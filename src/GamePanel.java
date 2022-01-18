@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 1000;
+        balance = 100000;
         frameCounter = 0;
         donerOdds = 20000;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
@@ -278,12 +278,21 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawPreviewBuilding(g2D);
     }
     public void drawBuildings(Graphics2D g2D) {
-        if (gameState>5) {
-            g2D.drawImage(image.buildingList1.get(5),placeBuildingX,placeBuildingY,null);
+        if (gameState>0 && gameState<5) {
+            g2D.drawImage(image.buildingListRedBuilding.get(gameState-1),placeBuildingX,placeBuildingY,null);
         }
-        if (gameState>0) {
-            g2D.drawImage(image.buildingList1.get(gameState-1),placeBuildingX,placeBuildingY,null);
+        if (gameState>=5) {
+            g2D.drawImage(image.buildingListRedBuilding.get(4),placeBuildingX,placeBuildingY,null);
+            g2D.drawImage(image.buildingListYellowBuilding.get(gameState - image.buildingListRedBuilding.size()),placeBuildingX+1200,placeBuildingY,null);
         }
+        if(gameState > 8){
+            g2D.drawImage(image.buildingListRedBuilding.get(4),placeBuildingX,placeBuildingY,null);
+            g2D.drawImage(image.buildingListYellowBuilding.get(2),placeBuildingX,placeBuildingY,null);
+            if(image.buildinglistBlueBuilding.size() > 0){
+                g2D.drawImage(image.buildinglistBlueBuilding.get(gameState - (image.buildingListRedBuilding.size() + image.buildingListYellowBuilding.size())),placeBuildingX,placeBuildingY,null);
+            }
+        }
+
     }
     public void drawBuyButton(Graphics2D g2D) {
         g2D.setPaint(Color.GRAY);
@@ -427,7 +436,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
 
             if (!blink) {
-                g2D.drawImage(image.buildingList1.get(gameState),placeBuildingX,placeBuildingY,null);
+                g2D.drawImage(image.buildingListRedBuilding.get(gameState),placeBuildingX,placeBuildingY,null);
+                g2D.drawImage(image.buildingListYellowBuilding.get(gameState - image.buildingListRedBuilding.size()),placeBuildingX,placeBuildingY,null);
             }
 
         }
