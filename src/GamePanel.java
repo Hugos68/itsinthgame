@@ -31,12 +31,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     //game screen variables
     int gameState;
     int balance;
+    int Monthstogo;
     int supplyAmount;
     int frameCounter;
     int placeBuildingY;
     int placeBuildingX;
     int upgradePrice;
     double moneyMultiplier;
+    boolean gebouwoud;
+    boolean gebouwDeclined;
     boolean priceUpdated;
     boolean outOfSupplies;
     boolean suppliesDeclined;
@@ -59,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         gameState = 0;
         balance = 100000;
         supplyAmount = 500;
+        Monthstogo = 6;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
@@ -109,6 +113,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.add(button.supplyDecline);
         button.supplyDecline.addMouseListener(this);
 
+        this.add(button.buildingAccept);
+        button.buildingAccept.addMouseListener(this);
+
+        this.add(button.buildingDecline);
+        button.buildingDecline.addMouseListener(this);
+
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
@@ -117,9 +127,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATES
     public void update() {
-        if (!settingsMenuActive && !donerBreak && !outOfSupplies) {
+        if (!settingsMenuActive && !donerBreak && !outOfSupplies && !gebouwoud) {
             updateAesthetics();
             updateScreen();
+        }
+        else if (gebouwoud) {
+            moneyMultiplier = (gameState * 2) - 2;
+            button.buyButton.setVisible(false);
+            button.buildingAccept.setVisible(true);
+            button.buildingDecline.setVisible(true);
+
         }
         else if (outOfSupplies) {
             moneyMultiplier = (gameState * 2) - 2;
@@ -192,13 +209,21 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 moneyMultiplier = 14;
                 break;
         }
+        if (frameCounter%1200==0 && gameState!=0) {
+            if (gameState!=0) {
+                Monthstogo -= 1;
+            }
+
+        }
         /* Voor building only*/
         if (frameCounter%60==0) {
+
             if (suppliesDeclined) {
                 moneyMultiplier*=0.50;
             }
             if (donerBreakDeclined) {
                 moneyMultiplier*=0.25;
+
             }
             else {
                 moneyMultiplier = (gameState * 2) - 2;
@@ -206,18 +231,24 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
                 supplyAmount-=gameState+1;
+
             }
         }
         if (supplyAmount<0) {
             supplyAmount = 0;
             outOfSupplies=true;
+
+        }
+        if (Monthstogo <=0) {
+            Monthstogo = 0;
+            gebouwoud = true;
         }
         if (gameState != 0) {
             buyScreenBuilding = "Saxion Version: " + (((gameState / 6)+1) + "." + gameState % 6);
         }else{
             buyScreenBuilding = "Saxion Version: 0.0";
         }
-        if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies) {
+        if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud) {
             donerBreak = true;
         }
         if (gameState % 6 == 0 && gameState != 0 && !priceUpdated){
@@ -264,6 +295,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (outOfSupplies) {
             drawOutofSupplies(g2D);
         }
+        if (gebouwoud) {
+            drawGebouwOud(g2D);
+        }
         else if (donerBreak) {
             drawDonerBreak(g2D);
         }
@@ -294,6 +328,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawBuildings(g2D);
         drawBuyButton(g2D);
         drawSupplyCountdown(g2D);
+        drawJaarActief(g2D);
         drawMoveScreenButton(g2D);
 
     }
@@ -459,6 +494,23 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
         g2D.drawString(""+supplyAmount, (Constants.GAMEWIDTH/10)*9 -1, 205);
     }
+    public void drawJaarActief(Graphics2D g2D) {
+        //BACKGROUND
+        g2D.setPaint(Color.RED);
+        g2D.fillRoundRect((int)((Constants.GAMEWIDTH/10) *8.958333333333333) -1, 244, 200,100, 10,10);
+        //BORDER
+        g2D.setPaint(Color.BLACK);
+        Stroke oldStroke = g2D.getStroke();
+        g2D.setStroke(new BasicStroke(2));
+        g2D.drawRoundRect((int)((Constants.GAMEWIDTH/10) *8.958333333333333) -1, 244, 200,100, 10,10);
+        g2D.setStroke(oldStroke);
+        //TEKST
+        g2D.setPaint(Color.BLACK);
+        g2D.setFont(new Font("Ariel", Font.BOLD, 25));
+        g2D.drawString("Maintenance in: ", (Constants.GAMEWIDTH/10)*9 -1, 280);
+        g2D.setFont(new Font("Ariel", Font.BOLD, 36));
+        g2D.drawString(Monthstogo + " Month(s)", (Constants.GAMEWIDTH/10)*9 -1, 325);
+    }
 
     public void drawStopButton(Graphics2D g2D) {
 
@@ -530,6 +582,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawOutofSupplies(Graphics2D g2D) {
         //TODO draw supply manager dialog
         g2D.drawImage(image.supplyManager,0,0,null);
+    }
+    public void drawGebouwOud(Graphics2D g2D) {
+        //TODO draw supply manager dialog
+        g2D.drawImage(image.buildingManager, 0, 0, null);
     }
     public void drawDonerBreak(Graphics2D g2D) {
         g2D.drawImage(image.donerGuy,0,0,null);
@@ -670,6 +726,22 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.supplyDecline.setVisible(false);
 
             }
+            if (e.getSource() == button.buildingAccept && SwingUtilities.isLeftMouseButton(e)) {
+                if (balance >= 3000) {
+                    audio.playClickSound();
+                    balance-=3000;
+                    Monthstogo =6;
+                    gebouwoud=false;
+
+                }
+                else {
+                    audio.playErrorSound();
+                }
+
+                button.buildingAccept.setVisible(false);
+                button.buildingDecline.setVisible(false);
+
+            }
             if (e.getSource() == button.supplyDecline && SwingUtilities.isLeftMouseButton(e)) {
                 audio.playClickSound();
                 suppliesDeclined=true;
@@ -678,6 +750,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
                 button.supplyAccept.setVisible(false);
                 button.supplyDecline.setVisible(false);
+            }
+            if (e.getSource() == button.buildingDecline && SwingUtilities.isLeftMouseButton(e)) {
+                audio.playClickSound();
+                balance-=4500;
+                gebouwDeclined=true;
+                Monthstogo =6;
+                gebouwoud=false;
+
+                button.buildingAccept.setVisible(false);
+                button.buildingDecline.setVisible(false);
             }
             if (e.getSource()==button.donerBreakAccept && button.currentDonerBreakAcceptState == 2 && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= 800) {

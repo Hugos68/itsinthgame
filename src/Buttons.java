@@ -18,6 +18,8 @@ public class Buttons {
     JButton moveScreenButtonRight; int currentMoveScreenButtonStateRight;
     JButton supplyAccept;
     JButton supplyDecline;
+    JButton buildingAccept;
+    JButton buildingDecline;
 
 
     Buttons() {
@@ -94,6 +96,21 @@ public class Buttons {
         supplyDecline.setBorderPainted(false);
         supplyDecline.setFocusable(false);
         supplyDecline.setVisible(false);
+
+        buildingAccept = new JButton();
+        buildingAccept.setBounds(1000,425,200,75);
+        buildingAccept.setOpaque(false);
+        buildingAccept.setBorderPainted(false);
+        buildingAccept.setFocusable(false);
+        buildingAccept.setVisible(false);
+
+
+        buildingDecline = new JButton();
+        buildingDecline.setBounds(1250,425,200,75);
+        buildingDecline.setOpaque(false);
+        buildingDecline.setBorderPainted(false);
+        buildingDecline.setFocusable(false);
+        buildingDecline.setVisible(false);
 
 
 
