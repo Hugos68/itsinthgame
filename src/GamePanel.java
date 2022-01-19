@@ -423,6 +423,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
             }
 
+        }else{
+            blink = false;
         }
     }
     public void drawBuyButton(Graphics2D g2D) {
