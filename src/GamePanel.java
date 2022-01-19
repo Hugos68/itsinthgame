@@ -32,13 +32,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int gameState;
     int balance;
     int supplyAmount;
-    int supplyAmountDeduction;
     int frameCounter;
     int placeBuildingY;
     int placeBuildingX;
     int upgradePrice;
     double moneyMultiplier;
     boolean priceUpdated;
+    boolean outOfSupplies;
+    boolean suppliesDeclined;
     int additionalPlaceBuildingY;
     boolean greyLeftButton;
     boolean greyRightButton;
@@ -98,6 +99,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.add(button.donerBreakDecline);
         button.donerBreakDecline.addMouseListener(this);
 
+        this.add(button.supplyAccept);
+        button.supplyAccept.addMouseListener(this);
+
+        this.add(button.supplyDecline);
+        button.supplyDecline.addMouseListener(this);
+
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
@@ -106,11 +113,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATES
     public void update() {
-        if (!settingsMenuActive && !donerBreak) {
+        if (!settingsMenuActive && !donerBreak && !outOfSupplies) {
             updateAesthetics();
             updateScreen();
         }
-        if (donerBreak) {
+        else if (outOfSupplies) {
+            button.buyButton.setVisible(false);
+            button.supplyAccept.setVisible(true);
+            button.supplyDecline.setVisible(true);
+
+        }
+        else if (donerBreak) {
             button.buyButton.setVisible(false);
             button.donerBreakAccept.setVisible(true);
             button.donerBreakDecline.setVisible(true);
@@ -179,10 +192,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (donerBreakDeclined) {
                 moneyMultiplier-=0.25;
             }
+            if (suppliesDeclined) {
+                moneyMultiplier-=0.25;
+            }
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
                 supplyAmount-=gameState+1;
             }
+        }
+        if (supplyAmount<0) {
+            outOfSupplies=true;
         }
         if (gameState != 0) {
             buyScreenBuilding = "Saxion Version: " + (((gameState / 6)+1) + "." + gameState % 6);
@@ -233,7 +252,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (currentScreenState == 1) {
             drawGameScreen(g2D);
         }
-        if (donerBreak) {
+        if (outOfSupplies) {
+            drawOutofSupplies(g2D);
+        }
+        else if (donerBreak) {
             drawDonerBreak(g2D);
         }
         if (settingsMenuActive) {
@@ -431,6 +453,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
 
     }
+    public void drawOutofSupplies(Graphics2D g2D) {
+        //TODO draw supply manager dialog
+    }
     public void drawDonerBreak(Graphics2D g2D) {
         g2D.drawImage(image.donerGuy,0,0,null);
     }
@@ -562,14 +587,35 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     gameState += 1;
                     balance -= upgradePrice;
                     donerBreakDeclined = false;
+                    suppliesDeclined = false;
                     audio.playBuildSound();
                 }else{
                     audio.playErrorSound();
                 }
                 button.currentBuyButtonState = 2;
             }
+            if (e.getSource() == button.supplyAccept && SwingUtilities.isLeftMouseButton(e)) {
+                if (balance >= 1500) {
+                    audio.playClickSound();
+                    balance-=1500;
+                    supplyAmount=500;
+                    outOfSupplies=false;
+
+                }
+                else {
+                    audio.playErrorSound();
+                }
+
+            }
+            if (e.getSource() == button.supplyDecline && SwingUtilities.isLeftMouseButton(e)) {
+                audio.playClickSound();
+                suppliesDeclined=true;
+                supplyAmount=500;
+                outOfSupplies=false;
+            }
             if (e.getSource()==button.donerBreakAccept && button.currentDonerBreakAcceptState == 2 && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= 800) {
+                    audio.playClickSound();
                     balance-=800;
                     donerBreak=false;
                 }
@@ -579,6 +625,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
             }
             if (e.getSource()==button.donerBreakDecline && button.currentDonerBreakDeclineState == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                audio.playClickSound();
                 donerBreakDeclined = true;
                 donerBreak=false;
             }

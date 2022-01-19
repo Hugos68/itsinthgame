@@ -16,6 +16,9 @@ public class Buttons {
     JButton donerBreakDecline; int currentDonerBreakDeclineState;
     JButton moveScreenButtonLeft; int currentMoveScreenButtonStateLeft;
     JButton moveScreenButtonRight; int currentMoveScreenButtonStateRight;
+    JButton supplyAccept;
+    JButton supplyDecline;
+
 
     Buttons() {
         startButton = new JButton();
@@ -76,6 +79,23 @@ public class Buttons {
         donerBreakDecline.setFocusable(false);
         donerBreakDecline.setVisible(false);
         currentDonerBreakDeclineState = 0;
+
+        supplyAccept = new JButton();
+        supplyAccept.setBounds(1250,425,200,75);
+        supplyAccept.setOpaque(false);
+        supplyAccept.setBorderPainted(false);
+        supplyAccept.setFocusable(false);
+        supplyAccept.setVisible(false);
+
+
+        supplyDecline = new JButton();
+        supplyDecline.setBounds(1250,425,200,75);
+        supplyDecline.setOpaque(false);
+        supplyDecline.setBorderPainted(false);
+        supplyDecline.setFocusable(false);
+        supplyDecline.setVisible(false);
+
+
 
     }
 }
