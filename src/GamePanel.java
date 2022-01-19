@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         gameState = 0;
         balance = 100000;
         supplyAmount = 500;
-        jaarbuilding = 200;
+        jaarbuilding = 6;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
@@ -205,8 +205,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 moneyMultiplier = 14;
                 break;
         }
+        if (frameCounter%1200==0) {
+            if (gameState!=0) {
+                jaarbuilding -= 1;
+            }
+
+        }
         /* Voor building only*/
         if (frameCounter%60==0) {
+
             if (suppliesDeclined) {
                 moneyMultiplier*=0.50;
             }
@@ -220,7 +227,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
                 supplyAmount-=gameState+1;
-                jaarbuilding-=gameState+1;
+
             }
         }
         if (supplyAmount<0) {
@@ -228,7 +235,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             outOfSupplies=true;
 
         }
-        if (jaarbuilding<4) {
+        if (jaarbuilding<=0) {
             jaarbuilding = 0;
             gebouwoud = true;
         }
@@ -444,10 +451,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setStroke(oldStroke);
         //TEKST
         g2D.setPaint(Color.BLACK);
-        g2D.setFont(new Font("Ariel", Font.BOLD, 30));
-        g2D.drawString("Years Active: ", (Constants.GAMEWIDTH/10)*9 -1, 280);
+        g2D.setFont(new Font("Ariel", Font.BOLD, 25));
+        g2D.drawString("Maintenance in: ", (Constants.GAMEWIDTH/10)*9 -1, 280);
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
-        g2D.drawString(""+jaarbuilding, (Constants.GAMEWIDTH/10)*9 -1, 325);
+        g2D.drawString(jaarbuilding + " Month(s)", (Constants.GAMEWIDTH/10)*9 -1, 325);
     }
 
     public void drawStopButton(Graphics2D g2D) {
@@ -667,7 +674,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 if (balance >= 3000) {
                     audio.playClickSound();
                     balance-=3000;
-                    jaarbuilding=200;
+                    jaarbuilding=6;
                     gebouwoud=false;
 
                 }
@@ -692,7 +699,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 audio.playClickSound();
                 balance-=4500;
                 gebouwDeclined=true;
-                jaarbuilding=200;
+                jaarbuilding=6;
                 gebouwoud=false;
 
                 button.buildingAccept.setVisible(false);
