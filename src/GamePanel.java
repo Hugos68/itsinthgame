@@ -430,10 +430,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.drawImage(image.donerGuy,0,0,null);
 
         g2D.setColor(Color.GREEN);
-        g2D.fillRect(1365,537,200,75);
+        g2D.fillRect(1000,425,200,75);
 
         g2D.setColor(Color.RED);
-        g2D.fillRect(1575,537,200,75);
+        g2D.fillRect(1250,425,200,75);
     }
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
