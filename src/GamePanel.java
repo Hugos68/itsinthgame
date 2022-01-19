@@ -426,14 +426,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void drawDonerBreak(Graphics2D g2D) {
-        //TODO DRAW GUY THAT POPS UP AND SHOWS BUY OR DECLINE MENU
         g2D.drawImage(image.donerGuy,0,0,null);
-
-        g2D.setColor(Color.GREEN);
-        g2D.fillRect(1000,425,200,75);
-
-        g2D.setColor(Color.RED);
-        g2D.fillRect(1250,425,200,75);
     }
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
@@ -449,7 +442,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
             if (!blink) {
                 g2D.drawImage(image.buildingListRedBuilding.get(gameState),placeBuildingX,placeBuildingY,null);
-                g2D.drawImage(image.buildingListYellowBuilding.get(gameState - image.buildingListRedBuilding.size()),placeBuildingX,placeBuildingY,null);
             }
 
         }
