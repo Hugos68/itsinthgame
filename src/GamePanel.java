@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 100000;
+        balance = 1000;
         supplyAmount = 500;
         Monthstogo = 6;
         frameCounter = 0;
@@ -132,20 +132,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             updateScreen();
         }
         else if (gebouwoud) {
-            moneyMultiplier = (gameState * 2) - 2;
+            moneyMultiplier = ((gameState * 6) - 2)+1;
             button.buyButton.setVisible(false);
             button.buildingAccept.setVisible(true);
             button.buildingDecline.setVisible(true);
 
         }
         else if (outOfSupplies) {
-            moneyMultiplier = (gameState * 2) - 2;
+            moneyMultiplier = ((gameState * 6) - 2)+1;
             button.buyButton.setVisible(false);
             button.supplyAccept.setVisible(true);
             button.supplyDecline.setVisible(true);
         }
         else if (donerBreak) {
-            moneyMultiplier = (gameState * 2) - 2;
+            moneyMultiplier = ((gameState * 6) - 2) +1;
             button.buyButton.setVisible(false);
             button.donerBreakAccept.setVisible(true);
             button.donerBreakDecline.setVisible(true);
@@ -215,7 +215,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
 
         }
-        /* Voor building only*/
         if (frameCounter%60==0) {
 
             if (suppliesDeclined) {
@@ -226,7 +225,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
             }
             else {
-                moneyMultiplier = (gameState * 2) - 2;
+                moneyMultiplier = ((gameState * 6) - 2) + 1;
             }
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
@@ -395,6 +394,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     blinkAdditionalPlaceBuildingYellowBuilding = -280;
                 }
                 if (gameState == 10){
+                    blinkAdditionalPlaceBuildingYellowBuilding = -280;
                     blinkAdditionalPlaceBuildingBluebuilding = 300;
                 }
                 if (gameState == 11){
@@ -462,6 +462,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setPaint(Color.BLACK);
         g2D.drawString(buyScreenBuilding, 6,51);
     }
+    // TODO Versie saxion fixen
     public void drawBalance(Graphics2D g2D) {
         //BACKGROUND
         g2D.setPaint(Constants.saxionGreen);
@@ -495,6 +496,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.drawString("Supplies: ", (Constants.GAMEWIDTH/10)*9 -1, 160);
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
         g2D.drawString(""+supplyAmount, (Constants.GAMEWIDTH/10)*9 -1, 205);
+        // TODO meer vooraad supplies naarmate we meer gebouwen hebben en het kost ook meer.
     }
     public void drawJaarActief(Graphics2D g2D) {
         //BACKGROUND
@@ -512,6 +514,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.drawString("Maintenance in: ", (Constants.GAMEWIDTH/10)*9 -1, 280);
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
         g2D.drawString(Monthstogo + " Month(s)", (Constants.GAMEWIDTH/10)*9 -1, 325);
+        // TODO Het toevoegen van een kans op een boete ipv gelijk boete.
+        // TODO na de eerste maintenance de tijd verlengen naar 1jaar.
+        //TODO prijs scalebale maken, minder in het begin, meer aan het einde.
+
+
     }
 
     public void drawStopButton(Graphics2D g2D) {
@@ -707,6 +714,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     donerBreakDeclined = false;
                     suppliesDeclined = false;
                     audio.playBuildSound();
+                    upgradePrice *= 1.20;
                 }else{
                     audio.playErrorSound();
                 }
@@ -801,7 +809,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     @Override
     public void mouseEntered(MouseEvent e) {
-        //TODO DRAW NEXT BUILDING IN GRAY WHEN HOVERING ON BUY BUTTON
         if (!settingsMenuActive) {
             if (e.getSource() == button.startButton) {
                 button.currentStartButtonState = 1;
