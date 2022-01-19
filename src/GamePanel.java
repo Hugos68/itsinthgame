@@ -31,13 +31,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     //game screen variables
     int gameState;
     int balance;
+    int supplyAmount;
+    int supplyAmountDeduction;
     int frameCounter;
     int placeBuildingY;
     int placeBuildingX;
     int upgradePrice;
-    int donerOdds;
     double moneyMultiplier;
-    String currentBuilding;
     boolean priceUpdated;
     int additionalPlaceBuildingY;
     boolean greyLeftButton;
@@ -54,8 +54,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void setGameScreenVariables() {
         gameState = 0;
         balance = 100000;
+        supplyAmount = 500;
         frameCounter = 0;
-        donerOdds = 20000;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
         donerBreak = false;
@@ -145,53 +145,33 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         updateScreenMove();
 
     }
-    public void updateNextBuilding() {
 
-        if (gameState != 0) {
-            buyScreenBuilding = "Saxion Version: " + (((gameState / 6)+1) + "." + gameState % 6);
-        }else{
-            buyScreenBuilding = "Saxion Version: 0.0";
-        }
-    }
     public void updateGameStateVariables() {
         frameCounter++;
-
-        //TODO SET MULTIPLIER HIGHER FOR EACH GAME STATE
         switch (gameState) {
             case 1:
-                donerOdds=2000;
                 moneyMultiplier = 1.5;
                 break;
             case 2:
-                donerOdds=19250;
                 moneyMultiplier = 2;
                 break;
             case 3:
-                donerOdds=18500;
                 moneyMultiplier = 4;
                 break;
             case 4:
-                donerOdds=17750;
                 moneyMultiplier = 6;
                 break;
             case 5:
-                donerOdds=17000;
                 moneyMultiplier = 8;
                 break;
             case 6:
-                donerOdds=16250;
                 moneyMultiplier = 10;
                 break;
             case 7:
-                donerOdds=15500;
                 moneyMultiplier = 12;
                 break;
             case 8:
-                donerOdds=14750;
                 moneyMultiplier = 14;
-                break;
-            default:
-                moneyMultiplier = 0;
                 break;
         }
         /* Voor building only*/
@@ -199,13 +179,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (donerBreakDeclined) {
                 moneyMultiplier-=0.25;
             }
-            balance += (int) (10 * moneyMultiplier);
+            if (gameState!=0) {
+                balance += (int) (10 * moneyMultiplier);
+                supplyAmount-=gameState+1;
+            }
         }
-        updateNextBuilding();
-        if (getRandomIntBetween(0,donerOdds)==donerOdds/2 && gameState!=0) {
+        if (gameState != 0) {
+            buyScreenBuilding = "Saxion Version: " + (((gameState / 6)+1) + "." + gameState % 6);
+        }else{
+            buyScreenBuilding = "Saxion Version: 0.0";
+        }
+        if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0) {
             donerBreak = true;
         }
-
         if (gameState % 6 == 0 && gameState != 0 && !priceUpdated){
             upgradePrice += 1000;
             priceUpdated = true;
@@ -213,6 +199,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (gameState % 6 != 0){
             priceUpdated = false;
         }
+
     }
     public void updateScreenMove() {
         if (button.currentMoveScreenButtonStateRight==1 && !greyRightButton) {
@@ -274,6 +261,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawBalance(g2D);
         drawBuildings(g2D);
         drawBuyButton(g2D);
+        drawSupplyCountdown(g2D);
         drawMoveScreenButton(g2D);
         drawPreviewBuilding(g2D);
     }
@@ -358,6 +346,24 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
         g2D.drawString("€ " + balance , (Constants.GAMEWIDTH/10)*9 -1, 85);
     }
+    public void drawSupplyCountdown(Graphics2D g2D) {
+        //BACKGROUND
+        g2D.setPaint(Color.CYAN);
+        g2D.fillRoundRect((int)((Constants.GAMEWIDTH/10) *8.958333333333333) -1, 122, 200,100, 10,10);
+        //BORDER
+        g2D.setPaint(Color.BLACK);
+        Stroke oldStroke = g2D.getStroke();
+        g2D.setStroke(new BasicStroke(2));
+        g2D.drawRoundRect((int)((Constants.GAMEWIDTH/10) *8.958333333333333) -1, 122, 200,100, 10,10);
+        g2D.setStroke(oldStroke);
+        //TEKST
+        g2D.setPaint(Color.BLACK);
+        g2D.setFont(new Font("Ariel", Font.BOLD, 30));
+        g2D.drawString("Supplies: ", (Constants.GAMEWIDTH/10)*9 -1, 160);
+        g2D.setFont(new Font("Ariel", Font.BOLD, 36));
+        g2D.drawString(""+supplyAmount, (Constants.GAMEWIDTH/10)*9 -1, 205);
+    }
+
     public void drawStopButton(Graphics2D g2D) {
 
         if (button.currentExitButtonState == 0) {
