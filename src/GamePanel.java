@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     //game screen variables
     int gameState;
     int balance;
-    int jaarbuilding;
+    int Monthstogo;
     int supplyAmount;
     int frameCounter;
     int placeBuildingY;
@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         gameState = 0;
         balance = 100000;
         supplyAmount = 500;
-        jaarbuilding = 6;
+        Monthstogo = 1;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
@@ -205,9 +205,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 moneyMultiplier = 14;
                 break;
         }
-        if (frameCounter%1200==0) {
+        if (frameCounter%1200==0 && gameState!=0) {
             if (gameState!=0) {
-                jaarbuilding -= 1;
+                Monthstogo -= 1;
             }
 
         }
@@ -235,8 +235,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             outOfSupplies=true;
 
         }
-        if (jaarbuilding<=0) {
-            jaarbuilding = 0;
+        if (Monthstogo <=0) {
+            Monthstogo = 0;
             gebouwoud = true;
         }
         if (gameState != 0) {
@@ -454,7 +454,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setFont(new Font("Ariel", Font.BOLD, 25));
         g2D.drawString("Maintenance in: ", (Constants.GAMEWIDTH/10)*9 -1, 280);
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
-        g2D.drawString(jaarbuilding + " Month(s)", (Constants.GAMEWIDTH/10)*9 -1, 325);
+        g2D.drawString(Monthstogo + " Month(s)", (Constants.GAMEWIDTH/10)*9 -1, 325);
     }
 
     public void drawStopButton(Graphics2D g2D) {
@@ -674,7 +674,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 if (balance >= 3000) {
                     audio.playClickSound();
                     balance-=3000;
-                    jaarbuilding=6;
+                    Monthstogo =6;
                     gebouwoud=false;
 
                 }
@@ -699,7 +699,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 audio.playClickSound();
                 balance-=4500;
                 gebouwDeclined=true;
-                jaarbuilding=6;
+                Monthstogo =6;
                 gebouwoud=false;
 
                 button.buildingAccept.setVisible(false);
