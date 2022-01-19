@@ -90,7 +90,7 @@ public class Image {
         arrowRechtsImageRed = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijlrechtsRood.png")));
         arrowLinksImageRed = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("PijllinksRood.png")));
 
-        supplyManager = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("donerpausemeneer.png"))));
+        supplyManager = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("supplymeneer.png"))));
 
         donerGuy = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("donerpausemeneer.png"))));
 

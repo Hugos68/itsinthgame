@@ -81,7 +81,7 @@ public class Buttons {
         currentDonerBreakDeclineState = 0;
 
         supplyAccept = new JButton();
-        supplyAccept.setBounds(1250,425,200,75);
+        supplyAccept.setBounds(1000,425,200,75);
         supplyAccept.setOpaque(false);
         supplyAccept.setBorderPainted(false);
         supplyAccept.setFocusable(false);

@@ -118,12 +118,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             updateScreen();
         }
         else if (outOfSupplies) {
+            moneyMultiplier = (gameState * 2) - 2;
             button.buyButton.setVisible(false);
             button.supplyAccept.setVisible(true);
             button.supplyDecline.setVisible(true);
-
         }
         else if (donerBreak) {
+            moneyMultiplier = (gameState * 2) - 2;
             button.buyButton.setVisible(false);
             button.donerBreakAccept.setVisible(true);
             button.donerBreakDecline.setVisible(true);
@@ -189,11 +190,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         /* Voor building only*/
         if (frameCounter%60==0) {
-            if (donerBreakDeclined) {
-                moneyMultiplier-=0.25;
-            }
             if (suppliesDeclined) {
-                moneyMultiplier-=0.25;
+                moneyMultiplier*=0.50;
+            }
+            if (donerBreakDeclined) {
+                moneyMultiplier*=0.25;
+            }
+            if (!donerBreakDeclined && !suppliesDeclined) {
+                moneyMultiplier = (gameState * 2) - 2;
             }
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
@@ -201,6 +205,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
         }
         if (supplyAmount<0) {
+            supplyAmount = 0;
             outOfSupplies=true;
         }
         if (gameState != 0) {
@@ -455,6 +460,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawOutofSupplies(Graphics2D g2D) {
         //TODO draw supply manager dialog
+        g2D.drawImage(image.supplyManager,0,0,null);
     }
     public void drawDonerBreak(Graphics2D g2D) {
         g2D.drawImage(image.donerGuy,0,0,null);
