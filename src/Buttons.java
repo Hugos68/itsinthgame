@@ -62,7 +62,7 @@ public class Buttons {
         currentMoveScreenButtonStateRight = 0;
 
         donerBreakAccept = new JButton();
-        donerBreakAccept.setBounds(1365,537,200,75);
+        donerBreakAccept.setBounds(1000,425,200,75);
         donerBreakAccept.setOpaque(false);
         donerBreakAccept.setBorderPainted(false);
         donerBreakAccept.setFocusable(false);
@@ -70,15 +70,12 @@ public class Buttons {
         currentDonerBreakAcceptState = 0;
 
         donerBreakDecline = new JButton();
-        donerBreakDecline.setBounds(1575,537,200,75);
+        donerBreakDecline.setBounds(1250,425,200,75);
         donerBreakDecline.setOpaque(false);
         donerBreakDecline.setBorderPainted(false);
         donerBreakDecline.setFocusable(false);
         donerBreakDecline.setVisible(false);
         currentDonerBreakDeclineState = 0;
-
-
-
 
     }
 }
