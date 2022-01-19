@@ -441,7 +441,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
 
             if (!blink) {
-                g2D.drawImage(image.buildingListRedBuilding.get(gameState),placeBuildingX,placeBuildingY,null);
+                try {
+                    g2D.drawImage(image.buildingListRedBuilding.get(gameState),placeBuildingX,placeBuildingY,null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
         }
