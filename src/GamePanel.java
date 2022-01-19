@@ -196,7 +196,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (donerBreakDeclined) {
                 moneyMultiplier*=0.25;
             }
-            if (!donerBreakDeclined && !suppliesDeclined) {
+            else {
                 moneyMultiplier = (gameState * 2) - 2;
             }
             if (gameState!=0) {
@@ -213,7 +213,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }else{
             buyScreenBuilding = "Saxion Version: 0.0";
         }
-        if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0) {
+        if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies) {
             donerBreak = true;
         }
         if (gameState % 6 == 0 && gameState != 0 && !priceUpdated){
@@ -320,6 +320,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
         }
 
+    }
+    public void drawPreviewBuilding(Graphics2D g2D){
+        if (button.currentBuyButtonState == 1){
+            if (frameCounter%15==0) {
+                blink = !blink;
+            }
+
+            if (!blink) {
+
+                g2D.drawImage(image.buildingListRedBuilding.get(gameState),placeBuildingX,placeBuildingY,null);
+
+            }
+
+        }
     }
     public void drawBuyButton(Graphics2D g2D) {
         g2D.setPaint(Color.GRAY);
@@ -471,23 +485,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawMenuButton(g2D);
 
     }
-    public void drawPreviewBuilding(Graphics2D g2D){
-        if (button.currentBuyButtonState == 1){
-            if (frameCounter%15==0) {
-                blink = !blink;
-            }
 
-            if (!blink) {
-                try {
-                    g2D.drawImage(image.buildingListRedBuilding.get(gameState),placeBuildingX,placeBuildingY,null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }
-    }
 
     //STOP GAME
     private void stopGame() {
@@ -612,12 +610,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     audio.playErrorSound();
                 }
 
+                button.supplyAccept.setVisible(false);
+                button.supplyDecline.setVisible(false);
+
             }
             if (e.getSource() == button.supplyDecline && SwingUtilities.isLeftMouseButton(e)) {
                 audio.playClickSound();
                 suppliesDeclined=true;
                 supplyAmount=500;
                 outOfSupplies=false;
+
+                button.supplyAccept.setVisible(false);
+                button.supplyDecline.setVisible(false);
             }
             if (e.getSource()==button.donerBreakAccept && button.currentDonerBreakAcceptState == 2 && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= 800) {
@@ -628,12 +632,17 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 else {
                     audio.playErrorSound();
                 }
+                button.donerBreakAccept.setVisible(false);
+                button.donerBreakDecline.setVisible(false);
 
             }
             if (e.getSource()==button.donerBreakDecline && button.currentDonerBreakDeclineState == 2 && SwingUtilities.isLeftMouseButton(e)) {
                 audio.playClickSound();
                 donerBreakDeclined = true;
                 donerBreak=false;
+
+                button.donerBreakAccept.setVisible(false);
+                button.donerBreakDecline.setVisible(false);
             }
         }
         else {
