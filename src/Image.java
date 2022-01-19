@@ -52,6 +52,16 @@ public class Image {
     BufferedImage yellowbuilding;
     BufferedImage yellowbuilding2;
     BufferedImage yellowbuilding3;
+    BufferedImage yellowbuilding4;
+    BufferedImage yellowbuilding5;
+
+    //Bleubuilding
+    BufferedImage bluebuilding1;
+    BufferedImage bluebuilding2;
+    BufferedImage bluebuilding3;
+    BufferedImage bluebuilding4;
+
+
 
     ArrayList<BufferedImage> buildingListRedBuilding;
     ArrayList<BufferedImage> buildingListYellowBuilding;
@@ -106,6 +116,14 @@ public class Image {
         yellowbuilding = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding.png")));
         yellowbuilding2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding2.png")));
         yellowbuilding3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding3.png")));
+        yellowbuilding4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding4.png")));
+        yellowbuilding5 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("yellowbuilding5.png")));
+
+        //Bluebuilding
+        bluebuilding1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("bluebuilding1.png")));
+        bluebuilding2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("bluebuilding2.png")));
+        bluebuilding3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("bluebuilding3.png")));
+        bluebuilding4 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("bluebuilding4.png")));
 
         buildingListRedBuilding = new ArrayList<>();
         buildingListRedBuilding.add(redBuilding1);
@@ -118,8 +136,14 @@ public class Image {
         buildingListYellowBuilding.add(yellowbuilding);
         buildingListYellowBuilding.add(yellowbuilding2);
         buildingListYellowBuilding.add(yellowbuilding3);
+        buildingListYellowBuilding.add(yellowbuilding4);
+        buildingListYellowBuilding.add(yellowbuilding5);
 
         buildinglistBlueBuilding = new ArrayList<>();
+        buildinglistBlueBuilding.add(bluebuilding1);
+        buildinglistBlueBuilding.add(bluebuilding2);
+        buildinglistBlueBuilding.add(bluebuilding3);
+        buildinglistBlueBuilding.add(bluebuilding4);
     }
 }
 //    public void imageToGrayScale(BufferedImage image1){

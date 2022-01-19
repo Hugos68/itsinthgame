@@ -40,7 +40,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     boolean priceUpdated;
     boolean outOfSupplies;
     boolean suppliesDeclined;
-    int additionalPlaceBuildingY;
+    int additionalPlaceBuildingYellowBuilding;
+    int blinkAdditionalPlaceBuildingYellowBuilding;
+    int additionalPlaceBuildingBluebuilding;
+    int blinkAdditionalPlaceBuildingBluebuilding;
     boolean greyLeftButton;
     boolean greyRightButton;
 
@@ -63,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         donerBreakDeclined = false;
         upgradePrice = 1000;
         priceUpdated = false;
+        blink = false;
       }
 
     //START GAME
@@ -286,50 +290,101 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawGameScreen(Graphics2D g2D) {
         drawBalance(g2D);
+        drawPreviewBuilding(g2D);
         drawBuildings(g2D);
         drawBuyButton(g2D);
         drawSupplyCountdown(g2D);
         drawMoveScreenButton(g2D);
-        drawPreviewBuilding(g2D);
+
     }
     public void drawBuildings(Graphics2D g2D) {
-
-        if (gameState == 3 ){
+        if(!blink){
+        if (gameState == 3) {
             placeBuildingY = 380;
         }
-        if (gameState == 4 ){
+        if (gameState == 4) {
             placeBuildingY = 190;
         }
-        if (gameState>5 && gameState<8){
-            additionalPlaceBuildingY = 120;
+        if (gameState == 6) {
+            additionalPlaceBuildingYellowBuilding = 120;
+        }
+        if (gameState == 10) {
+            additionalPlaceBuildingYellowBuilding = -280;
+        }
+        if (gameState == 11) {
+            additionalPlaceBuildingBluebuilding = 300;
+        }
+        if (gameState == 12) {
+            additionalPlaceBuildingBluebuilding = 215;
+        }
+        if (gameState == 13) {
+            additionalPlaceBuildingBluebuilding = 65;
+        }
+        if (gameState == 14) {
+            additionalPlaceBuildingBluebuilding = -90;
         }
 
 
-        if (gameState>0 && gameState<=5) {
-            g2D.drawImage(image.buildingListRedBuilding.get(gameState-1),placeBuildingX,placeBuildingY,null);
+        if (gameState > 0 && gameState <= 5) {
+            g2D.drawImage(image.buildingListRedBuilding.get(gameState - 1), placeBuildingX, placeBuildingY, null);
         }
-        if (gameState>=6) {
-            g2D.drawImage(image.buildingListRedBuilding.get(4),placeBuildingX,placeBuildingY,null);
-            g2D.drawImage(image.buildingListYellowBuilding.get((gameState - image.buildingListRedBuilding.size())-1),placeBuildingX+1200,placeBuildingY + additionalPlaceBuildingY,null);
+        if (gameState > 5 && gameState <= 10) {
+            g2D.drawImage(image.buildingListRedBuilding.get(4), placeBuildingX, placeBuildingY, null);
+            g2D.drawImage(image.buildingListYellowBuilding.get(gameState - 6), placeBuildingX + 1200, placeBuildingY + additionalPlaceBuildingYellowBuilding, null);
         }
-        if(gameState > 8){
-            g2D.drawImage(image.buildingListRedBuilding.get(4),placeBuildingX,placeBuildingY,null);
-            g2D.drawImage(image.buildingListYellowBuilding.get(2),placeBuildingX,placeBuildingY,null);
-            if(image.buildinglistBlueBuilding.size() > 0){
-                g2D.drawImage(image.buildinglistBlueBuilding.get(gameState - (image.buildingListRedBuilding.size() + image.buildingListYellowBuilding.size())),placeBuildingX,placeBuildingY,null);
-            }
+        if (gameState > 10 && gameState <= 14) {
+            g2D.drawImage(image.buildingListRedBuilding.get(4), placeBuildingX, placeBuildingY, null);
+            g2D.drawImage(image.buildingListYellowBuilding.get(4), placeBuildingX + 1200, placeBuildingY + additionalPlaceBuildingYellowBuilding, null);
+            g2D.drawImage(image.buildinglistBlueBuilding.get(gameState - 11), placeBuildingX + 3500, placeBuildingY + additionalPlaceBuildingBluebuilding, null);
         }
-
+    }
     }
     public void drawPreviewBuilding(Graphics2D g2D){
         if (button.currentBuyButtonState == 1){
-            if (frameCounter%15==0) {
+            if (frameCounter%30==0) {
                 blink = !blink;
             }
 
-            if (!blink) {
+            if (blink) {
 
-                g2D.drawImage(image.buildingListRedBuilding.get(gameState),placeBuildingX,placeBuildingY,null);
+                if (gameState == 2 ){
+                    placeBuildingY = 380;
+                }
+                if (gameState == 3 ){
+                    placeBuildingY = 190;
+                }
+                if (gameState == 5){
+                    blinkAdditionalPlaceBuildingYellowBuilding = 120;
+                }
+                if(gameState == 9){
+                    blinkAdditionalPlaceBuildingYellowBuilding = -280;
+                }
+                if (gameState == 10){
+                    blinkAdditionalPlaceBuildingBluebuilding = 300;
+                }
+                if (gameState == 11){
+                    blinkAdditionalPlaceBuildingBluebuilding = 215;
+                }
+                if (gameState == 12){
+                    blinkAdditionalPlaceBuildingBluebuilding = 65;
+                }
+                if (gameState == 13){
+                    blinkAdditionalPlaceBuildingBluebuilding = -90;
+                }
+
+
+                if (gameState>=0 && gameState<=4) {
+                    g2D.drawImage(image.buildingListRedBuilding.get(gameState),placeBuildingX,placeBuildingY,null);
+                }
+                if (gameState>4 && gameState<=9) {
+                    g2D.drawImage(image.buildingListRedBuilding.get(4),placeBuildingX,placeBuildingY,null);
+                    g2D.drawImage(image.buildingListYellowBuilding.get(gameState-5),placeBuildingX+1200,placeBuildingY + blinkAdditionalPlaceBuildingYellowBuilding ,null);
+                }
+                if(gameState > 9 && gameState <=13){
+                    g2D.drawImage(image.buildingListRedBuilding.get(4),placeBuildingX,placeBuildingY,null);
+                    g2D.drawImage(image.buildingListYellowBuilding.get(4),placeBuildingX+1200,placeBuildingY+ blinkAdditionalPlaceBuildingYellowBuilding,null);
+                    g2D.drawImage(image.buildinglistBlueBuilding.get(gameState - 10),placeBuildingX+3500,placeBuildingY + blinkAdditionalPlaceBuildingBluebuilding,null);
+                }
 
             }
 
@@ -555,6 +610,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource()==button.buyButton && SwingUtilities.isLeftMouseButton(e)){
                 audio.playClickSound();
                 button.currentBuyButtonState = 2;
+                blink = false;
             }
             if (e.getSource()==button.donerBreakAccept && SwingUtilities.isLeftMouseButton(e)) {
                 audio.playClickSound();
