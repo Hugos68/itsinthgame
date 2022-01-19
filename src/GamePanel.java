@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         gameState = 0;
         balance = 100000;
         supplyAmount = 500;
-        Monthstogo = 1;
+        Monthstogo = 6;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
