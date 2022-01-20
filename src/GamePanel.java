@@ -38,6 +38,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int placeBuildingY;
     int placeBuildingX;
     int upgradePrice;
+    int maintenancePrice;
+    int maintenancePriceDeclined;
     double moneyMultiplier;
     boolean gebouwoud;
     boolean gebouwDeclined;
@@ -67,10 +69,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 100000;
+        balance = 0;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
-        Monthstogo = 6;
+        Monthstogo = 1;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
@@ -81,6 +83,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         blink = false;
         saxionVersionBuilding = 0;
         saxionCommaBuidling = 0;
+        maintenancePrice = 500;
+        maintenancePriceDeclined = 300;
       }
 
     //START GAME
@@ -141,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATES
     public void update() {
-        if (balance > 5000 && gameState > 14) {
+        if (gameState > 14) {
             gameBeaten = true;
         }
         else {
@@ -528,9 +532,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.drawString("Maintenance in: ", (Constants.GAMEWIDTH/10)*9 -1, 280);
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
         g2D.drawString(Monthstogo + " Month(s)", (Constants.GAMEWIDTH/10)*9 -1, 325);
-        // TODO Het toevoegen van een kans op een boete ipv gelijk boete.
-        // TODO na de eerste maintenance de tijd verlengen naar 1jaar.
-        //TODO prijs scalebale maken, minder in het begin, meer aan het einde. (maintenance)
+
 
 
     }
@@ -607,6 +609,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawGebouwOud(Graphics2D g2D) {
         g2D.drawImage(image.buildingManager, 0, 0, null);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,20));
+        g2D.drawString("$"+maintenancePrice,1070,388);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,20));
+        g2D.drawString("$"+maintenancePriceDeclined,1195,388);
     }
     public void drawDonerBreak(Graphics2D g2D) {
         g2D.drawImage(image.donerGuy,0,0,null);
@@ -729,6 +735,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     supplyStorageExtend = true;
                     audio.playBuildSound();
                     upgradePrice *= 1.20;
+                    maintenancePrice *= 1.30;
+                    maintenancePriceDeclined *= 1.30;
                 }else{
                     audio.playErrorSound();
                 }
@@ -759,10 +767,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.supplyDecline.setVisible(false);
             }
             if (e.getSource() == button.buildingAccept && SwingUtilities.isLeftMouseButton(e)) {
-                if (balance >= 1700) {
+                if (balance >= maintenancePrice) {
                     audio.playClickSound();
-                    balance-=1700;
-                    Monthstogo =6;
+                    balance-=maintenancePrice;
+                    Monthstogo =1;
                     gebouwoud=false;
 
                 }
@@ -775,11 +783,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
             }
             if (e.getSource() == button.buildingDecline && SwingUtilities.isLeftMouseButton(e)) {
-                if (balance >= 1000) {
+                if (balance >= maintenancePriceDeclined) {
                     audio.playClickSound();
-                    balance -= 1000;
+                    balance -= maintenancePriceDeclined;
                     gebouwDeclined = true;
-                    Monthstogo = 4;
+                    Monthstogo = 1;
                     gebouwoud = false;
                 }
                 else {
