@@ -75,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 1000;
+        balance = 100000;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
         Monthstogo = 6;
@@ -376,6 +376,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawSupplyCountdown(g2D);
         drawJaarActief(g2D);
         drawMoveScreenButton(g2D);
+        drawLastSentence(g2D);
 
     }
     public void drawBuildings(Graphics2D g2D) {
@@ -666,6 +667,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         drawStopButton(g2D);
         drawMenuButton(g2D);
 
+    }
+    public void drawLastSentence(Graphics2D g2D){
+        if (gameState == 14){
+            g2D.drawImage(image.textLastWarning, 420, 10, null);
+        }
     }
 
 

@@ -65,6 +65,9 @@ public class Image {
     BufferedImage bluebuilding4;
 
 
+    BufferedImage textLastWarning;
+
+
 
     ArrayList<BufferedImage> buildingListRedBuilding;
     ArrayList<BufferedImage> buildingListYellowBuilding;
@@ -112,7 +115,7 @@ public class Image {
 
         elonmusk = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("elonmusk.png"))));
 
-
+        textLastWarning = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("lastwarningtext.png"))));
 
 
 
