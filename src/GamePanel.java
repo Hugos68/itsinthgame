@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         balance = 100000;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
-        Monthstogo = 6;
+        Monthstogo = 1;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
@@ -127,9 +127,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.add(button.buildingDecline);
         button.buildingDecline.addMouseListener(this);
 
+        this.add(button.buildingGameover);
+        button.buildingGameover.addMouseListener(this);
+
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
+
         gameThread.start();
     }
 
@@ -143,6 +147,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             button.buyButton.setVisible(false);
             button.buildingAccept.setVisible(true);
             button.buildingDecline.setVisible(true);
+            button.buildingGameover.setVisible(true);
 
         }
         else if (outOfSupplies) {
@@ -216,7 +221,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             Monthstogo = 0;
             gebouwoud = true;
         }
-        if(gameState <= 5){
+        if(gameState >0 && gameState <= 5){
             saxionVersionBuilding = 1;
         }
         if(gameState >5 && gameState <=10){
@@ -731,7 +736,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.buildingAccept && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= 3000) {
                     audio.playClickSound();
-                    balance-=3000;
+                    balance-=1700;
                     Monthstogo =6;
                     gebouwoud=false;
 
@@ -742,17 +747,31 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
                 button.buildingAccept.setVisible(false);
                 button.buildingDecline.setVisible(false);
+                button.buildingGameover.setVisible(false);
 
             }
             if (e.getSource() == button.buildingDecline && SwingUtilities.isLeftMouseButton(e)) {
-                audio.playClickSound();
-                balance-=4500;
-                gebouwDeclined=true;
-                Monthstogo =6;
-                gebouwoud=false;
+                if (balance >= 700) {
+                    audio.playClickSound();
+                    balance -= 1000;
+                    gebouwDeclined = true;
+                    Monthstogo = 1;
+                    gebouwoud = false;
+                }
+                else {
+                    audio.playErrorSound();
+                    }
+                button.buildingAccept.setVisible(false);
+                button.buildingDecline.setVisible(false);
+                button.buildingGameover.setVisible(false);
+            }
+            if (e.getSource() == button.buildingGameover && SwingUtilities.isLeftMouseButton(e)) {
+
+                stopGame();
 
                 button.buildingAccept.setVisible(false);
                 button.buildingDecline.setVisible(false);
+                button.buildingGameover.setVisible(false);
             }
             if (e.getSource()==button.donerBreakAccept && button.currentDonerBreakAcceptState == 2 && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= 800) {

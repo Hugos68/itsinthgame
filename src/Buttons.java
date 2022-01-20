@@ -20,6 +20,7 @@ public class Buttons {
     JButton supplyDecline;
     JButton buildingAccept;
     JButton buildingDecline;
+    JButton buildingGameover;
 
 
     Buttons() {
@@ -106,12 +107,18 @@ public class Buttons {
 
 
         buildingDecline = new JButton();
-        buildingDecline.setBounds(1250,425,200,75);
+        buildingDecline.setBounds(1250,425,180,75);
         buildingDecline.setOpaque(false);
         buildingDecline.setBorderPainted(false);
         buildingDecline.setFocusable(false);
         buildingDecline.setVisible(false);
 
+        buildingGameover = new JButton();
+        buildingGameover.setBounds(1500,425,200,75);
+        buildingGameover.setOpaque(false);
+        buildingGameover.setBorderPainted(false);
+        buildingGameover.setFocusable(false);
+        buildingGameover.setVisible(false);
 
 
     }
