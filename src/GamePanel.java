@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int saxionCommaBuidling;
     int lastKnownVersionBuilding;
     boolean gameBeaten;
+    int oldPlaceBuildingY;
 
     String buyScreenBuilding;
     boolean blink;
@@ -66,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 1000;
+        balance = 100000;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
         Monthstogo = 6;
@@ -335,13 +336,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawBuildings(Graphics2D g2D) {
         if(!blink){
         if (gameState == 3) {
-            placeBuildingY = 380;
+            placeBuildingY = 379;
         }
         if (gameState == 4) {
-            placeBuildingY = 190;
+            placeBuildingY = 197;
         }
         if (gameState == 6) {
             additionalPlaceBuildingYellowBuilding = 120;
+        }
+        if (gameState == 7){
+            additionalPlaceBuildingYellowBuilding = 124;
         }
         if (gameState == 10) {
             additionalPlaceBuildingYellowBuilding = -280;
@@ -350,13 +354,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             additionalPlaceBuildingBluebuilding = 300;
         }
         if (gameState == 12) {
-            additionalPlaceBuildingBluebuilding = 215;
+            additionalPlaceBuildingBluebuilding = 212;
         }
         if (gameState == 13) {
-            additionalPlaceBuildingBluebuilding = 65;
+            additionalPlaceBuildingBluebuilding = 62;
         }
         if (gameState == 14) {
-            additionalPlaceBuildingBluebuilding = -90;
+            additionalPlaceBuildingBluebuilding = -95;
         }
 
 
@@ -381,15 +385,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
 
             if (blink) {
-
-                if (gameState == 2 ){
-                    placeBuildingY = 380;
+                oldPlaceBuildingY = placeBuildingY;
+                if (gameState == 2){
+                    placeBuildingY = 379;
                 }
                 if (gameState == 3 ){
-                    placeBuildingY = 190;
+                    placeBuildingY = 197;
                 }
                 if (gameState == 5){
                     blinkAdditionalPlaceBuildingYellowBuilding = 120;
+                }
+                if (gameState == 6){
+                    blinkAdditionalPlaceBuildingYellowBuilding = 124;
                 }
                 if(gameState == 9){
                     blinkAdditionalPlaceBuildingYellowBuilding = -280;
@@ -399,13 +406,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     blinkAdditionalPlaceBuildingBluebuilding = 300;
                 }
                 if (gameState == 11){
-                    blinkAdditionalPlaceBuildingBluebuilding = 215;
+                    blinkAdditionalPlaceBuildingBluebuilding = 212;
                 }
                 if (gameState == 12){
-                    blinkAdditionalPlaceBuildingBluebuilding = 65;
+                    blinkAdditionalPlaceBuildingBluebuilding = 62;
                 }
                 if (gameState == 13){
-                    blinkAdditionalPlaceBuildingBluebuilding = -90;
+                    blinkAdditionalPlaceBuildingBluebuilding = -95;
                 }
 
 
@@ -421,7 +428,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     g2D.drawImage(image.buildingListYellowBuilding.get(4),placeBuildingX+1200,placeBuildingY+ blinkAdditionalPlaceBuildingYellowBuilding,null);
                     g2D.drawImage(image.buildinglistBlueBuilding.get(gameState - 10),placeBuildingX+3500,placeBuildingY + blinkAdditionalPlaceBuildingBluebuilding,null);
                 }
-
+                placeBuildingY = oldPlaceBuildingY;
             }
 
         }else{
