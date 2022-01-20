@@ -69,10 +69,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 0;
+        balance = 1000;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
-        Monthstogo = 1;
+        Monthstogo = 6;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
@@ -209,7 +209,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void updateGameStateVariables() {
         frameCounter++;
         if (frameCounter%1200==0 && gameState!=0) {
-            Monthstogo -= 1;
+            Monthstogo -= 6;
         }
         if (frameCounter%60==0) {
             if (gameState < 5) {
@@ -770,7 +770,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 if (balance >= maintenancePrice) {
                     audio.playClickSound();
                     balance-=maintenancePrice;
-                    Monthstogo =1;
+                    Monthstogo =6;
                     gebouwoud=false;
 
                 }
@@ -787,7 +787,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     audio.playClickSound();
                     balance -= maintenancePriceDeclined;
                     gebouwDeclined = true;
-                    Monthstogo = 1;
+                    Monthstogo = 4;
                     gebouwoud = false;
                 }
                 else {
