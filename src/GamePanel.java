@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         maintenancePriceDeclined = 300;
         supplyprice = 300;
         donnerprice = 200;
-        elonprice = 250;
+        elonprice = 2;
       }
 
     //START GAME
@@ -284,7 +284,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud && !elonBoost) {
             donerBreak = true;
         }
-       if (getRandomIntBetween(0,8)==8/2 && gameState!=0 && !outOfSupplies && !gebouwoud && !donerBreak) {
+       if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud && !donerBreak) {
            elonBoost = true;
        }
         if (gameState % 6 == 0 && gameState != 0 && !priceUpdated){
@@ -782,7 +782,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     maintenancePrice *= 1.30;
                     maintenancePriceDeclined *= 1.30;
                     donnerprice *= 1.30;
-                    elonprice *= 1.30;
                     supplyprice *=1.30;
                     saxionCommaBuidling++;
                 }else{
@@ -856,7 +855,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.elonboostAccept && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= elonprice) {
                     audio.playClickSound();
-                    balance -= elonprice;
+                    balance *= elonprice;
                     elonBoostAccept =true;
                     elonBoost =false;
                 }
