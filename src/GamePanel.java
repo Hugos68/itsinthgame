@@ -54,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int saxionVersionBuilding;
     int saxionCommaBuidling;
     int lastKnownVersionBuilding;
+    boolean gameBeaten;
 
     String buyScreenBuilding;
     boolean blink;
@@ -65,10 +66,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 100000;
+        balance = 1000;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
-        Monthstogo = 1;
+        Monthstogo = 6;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
@@ -139,30 +140,35 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     //UPDATES
     public void update() {
-        if (!settingsMenuActive && !donerBreak && !outOfSupplies && !gebouwoud) {
-            updateAesthetics();
-            updateScreen();
+        if (balance > 5000 && gameState > 14) {
+            gameBeaten = true;
         }
-        else if (gebouwoud) {
-            button.buyButton.setVisible(false);
-            button.buildingAccept.setVisible(true);
-            button.buildingDecline.setVisible(true);
-            button.buildingGameover.setVisible(true);
+        else {
+            if (!settingsMenuActive && !donerBreak && !outOfSupplies && !gebouwoud) {
+                updateAesthetics();
+                updateScreen();
+            }
+            else if (gebouwoud) {
+                button.buyButton.setVisible(false);
+                button.buildingAccept.setVisible(true);
+                button.buildingDecline.setVisible(true);
+                button.buildingGameover.setVisible(true);
 
-        }
-        else if (outOfSupplies) {
-            supplyStorage = 400 + gameState * 100;
-            supplyStorageExtend = false;
-            button.buyButton.setVisible(false);
-            button.supplyAccept.setVisible(true);
-            button.supplyDecline.setVisible(true);
+            }
+            else if (outOfSupplies) {
+                supplyStorage = 400 + gameState * 100;
+                supplyStorageExtend = false;
+                button.buyButton.setVisible(false);
+                button.supplyAccept.setVisible(true);
+                button.supplyDecline.setVisible(true);
 
-        }
-        else if (donerBreak) {
-            moneyMultiplier = ((gameState * 3) - 2) +1;
-            button.buyButton.setVisible(false);
-            button.donerBreakAccept.setVisible(true);
-            button.donerBreakDecline.setVisible(true);
+            }
+            else if (donerBreak) {
+                moneyMultiplier = ((gameState * 3) - 2) +1;
+                button.buyButton.setVisible(false);
+                button.donerBreakAccept.setVisible(true);
+                button.donerBreakDecline.setVisible(true);
+            }
         }
     }
     public void updateAesthetics() {
@@ -261,8 +267,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
-        drawAesthetics(g2D);
-        drawScreen(g2D);
+        if (gameBeaten) {
+            g2D.drawImage(image.endGameScreen, 0, 0, null);
+        }
+        else {
+            drawAesthetics(g2D);
+            drawScreen(g2D);
+        }
+
         g2D.dispose();
     }
     public void drawAesthetics(Graphics2D g2D) {
@@ -744,7 +756,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 else {
                     audio.playErrorSound();
                 }
-
                 button.buildingAccept.setVisible(false);
                 button.buildingDecline.setVisible(false);
                 button.buildingGameover.setVisible(false);

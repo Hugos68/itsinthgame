@@ -8,6 +8,7 @@ import java.util.Objects;
 public class Image {
 
     BufferedImage backGroundImage;
+    BufferedImage endGameScreen;
     BufferedImage titleText;
     BufferedImage settingsMenu;
     BufferedImage startButtonIdleImage;
@@ -71,6 +72,7 @@ public class Image {
 
     Image() throws IOException {
         backGroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("background.jpg")));
+        endGameScreen = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("endscreen.png")));
         titleText = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("titletext.png")));
         settingsMenu = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("settingsmenutest.png")));
         startButtonIdleImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("startbuttonidle.png")));
@@ -106,6 +108,8 @@ public class Image {
         buildingManager = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("buildingmeneer.png"))));
 
         donerGuy = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("donerpausemeneer.png"))));
+
+
 
 
         //redbuilding
