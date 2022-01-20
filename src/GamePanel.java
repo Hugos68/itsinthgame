@@ -51,6 +51,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int blinkAdditionalPlaceBuildingBluebuilding;
     boolean greyLeftButton;
     boolean greyRightButton;
+    int saxionVersionBuilding;
+    int saxionCommaBuidling;
+    int lastKnownVersionBuilding;
 
     String buyScreenBuilding;
     boolean blink;
@@ -62,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 1000;
+        balance = 100000;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
         Monthstogo = 6;
@@ -74,6 +77,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         upgradePrice = 1000;
         priceUpdated = false;
         blink = false;
+        saxionVersionBuilding = 0;
+        saxionCommaBuidling = 0;
       }
 
     //START GAME
@@ -211,11 +216,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             Monthstogo = 0;
             gebouwoud = true;
         }
-        if (gameState != 0) {
-            buyScreenBuilding = "Saxion Version: " + (((gameState / 6)+1) + "." + gameState % 6);
-        }else{
-            buyScreenBuilding = "Saxion Version: 0.0";
+        if(gameState <= 5){
+            saxionVersionBuilding = 1;
         }
+        if(gameState >5 && gameState <=10){
+            saxionVersionBuilding = 2;
+        }
+        if (gameState > 10){
+            saxionVersionBuilding = 3;
+        }
+        buyScreenBuilding = "Saxion Next Version: " + saxionVersionBuilding + "." + saxionCommaBuidling;
+        if(lastKnownVersionBuilding != saxionVersionBuilding){
+            saxionCommaBuidling = 0;
+        }
+        lastKnownVersionBuilding = saxionVersionBuilding;
         if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud) {
             donerBreak = true;
         }
@@ -644,6 +658,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 audio.playClickSound();
                 button.currentBuyButtonState = 2;
                 blink = false;
+                saxionCommaBuidling++;
             }
             if (e.getSource()==button.donerBreakAccept && SwingUtilities.isLeftMouseButton(e)) {
                 audio.playClickSound();
