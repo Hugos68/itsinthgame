@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 100000;
+        balance = 1000;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
         Monthstogo = 6;
