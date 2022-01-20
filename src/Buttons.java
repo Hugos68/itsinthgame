@@ -68,7 +68,7 @@ public class Buttons {
         currentMoveScreenButtonStateRight = 0;
 
         donerBreakAccept = new JButton();
-        donerBreakAccept.setBounds(1000,425,200,75);
+        donerBreakAccept.setBounds(1000,400,180,100);
         donerBreakAccept.setOpaque(false);
         donerBreakAccept.setBorderPainted(false);
         donerBreakAccept.setFocusable(false);
@@ -76,7 +76,7 @@ public class Buttons {
         currentDonerBreakAcceptState = 0;
 
         donerBreakDecline = new JButton();
-        donerBreakDecline.setBounds(1250,425,200,75);
+        donerBreakDecline.setBounds(1225,400,180,100);
         donerBreakDecline.setOpaque(false);
         donerBreakDecline.setBorderPainted(false);
         donerBreakDecline.setFocusable(false);
@@ -84,7 +84,7 @@ public class Buttons {
         currentDonerBreakDeclineState = 0;
 
         supplyAccept = new JButton();
-        supplyAccept.setBounds(1000,425,200,75);
+        supplyAccept.setBounds(1000,400,180,100);
         supplyAccept.setOpaque(false);
         supplyAccept.setBorderPainted(false);
         supplyAccept.setFocusable(false);
@@ -92,14 +92,14 @@ public class Buttons {
 
 
         supplyDecline = new JButton();
-        supplyDecline.setBounds(1250,425,200,75);
+        supplyDecline.setBounds(1225,400,180,100);
         supplyDecline.setOpaque(false);
         supplyDecline.setBorderPainted(false);
         supplyDecline.setFocusable(false);
         supplyDecline.setVisible(false);
 
         buildingAccept = new JButton();
-        buildingAccept.setBounds(1000,425,200,75);
+        buildingAccept.setBounds(1000,400,180,100);
         buildingAccept.setOpaque(false);
         buildingAccept.setBorderPainted(false);
         buildingAccept.setFocusable(false);
@@ -107,14 +107,14 @@ public class Buttons {
 
 
         buildingDecline = new JButton();
-        buildingDecline.setBounds(1250,425,180,75);
+        buildingDecline.setBounds(1225,400,180,100);
         buildingDecline.setOpaque(false);
         buildingDecline.setBorderPainted(false);
         buildingDecline.setFocusable(false);
         buildingDecline.setVisible(false);
 
         buildingGameover = new JButton();
-        buildingGameover.setBounds(1500,425,200,75);
+        buildingGameover.setBounds(1430,400,180,100);
         buildingGameover.setOpaque(false);
         buildingGameover.setBorderPainted(false);
         buildingGameover.setFocusable(false);
