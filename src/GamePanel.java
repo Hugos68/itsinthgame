@@ -768,7 +768,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
             }
             if (e.getSource() == button.buildingDecline && SwingUtilities.isLeftMouseButton(e)) {
-                if (balance >= 700) {
+                if (balance >= 1000) {
                     audio.playClickSound();
                     balance -= 1000;
                     gebouwDeclined = true;
