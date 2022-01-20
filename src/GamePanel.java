@@ -40,6 +40,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int upgradePrice;
     int maintenancePrice;
     int maintenancePriceDeclined;
+    int donnerprice;
+    int supplyprice;
     double moneyMultiplier;
     boolean gebouwoud;
     boolean gebouwDeclined;
@@ -85,6 +87,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         saxionCommaBuidling = 0;
         maintenancePrice = 500;
         maintenancePriceDeclined = 300;
+        supplyprice = 300;
+        donnerprice = 200;
       }
 
     //START GAME
@@ -606,6 +610,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawOutofSupplies(Graphics2D g2D){
         g2D.drawImage(image.supplyManager,0,0,null);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,24));
+        g2D.drawString("$"+supplyprice,918,440);
+
     }
     public void drawGebouwOud(Graphics2D g2D) {
         g2D.drawImage(image.buildingManager, 0, 0, null);
@@ -616,6 +623,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawDonerBreak(Graphics2D g2D) {
         g2D.drawImage(image.donerGuy,0,0,null);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,24));
+        g2D.drawString("$"+donnerprice,918,440);
     }
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
@@ -737,6 +746,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     upgradePrice *= 1.20;
                     maintenancePrice *= 1.30;
                     maintenancePriceDeclined *= 1.30;
+                    donnerprice *= 1.30;
+                    supplyprice *=1.30;
                     saxionCommaBuidling++;
                 }else{
                     audio.playErrorSound();
@@ -744,9 +755,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.currentBuyButtonState = 2;
             }
             if (e.getSource() == button.supplyAccept && SwingUtilities.isLeftMouseButton(e)) {
-                if (balance >= 1500) {
+                if (balance >= supplyprice) {
                     audio.playClickSound();
-                    balance-=1500;
+                    balance-=supplyprice;
                     supplyAmount=supplyStorage;
                     outOfSupplies=false;
 
@@ -807,9 +818,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.buildingGameover.setVisible(false);
             }
             if (e.getSource()==button.donerBreakAccept && button.currentDonerBreakAcceptState == 2 && SwingUtilities.isLeftMouseButton(e)) {
-                if (balance >= 800) {
+                if (balance >= donnerprice) {
                     audio.playClickSound();
-                    balance-=800;
+                    balance-=donnerprice;
                     donerBreak=false;
                 }
                 else {
