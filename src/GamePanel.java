@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int balance;
     int Monthstogo;
     int supplyAmount;
+    int supplyStorage;
     int frameCounter;
     int placeBuildingY;
     int placeBuildingX;
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     boolean priceUpdated;
     boolean outOfSupplies;
     boolean suppliesDeclined;
+    boolean supplyStorageExtend;
     int additionalPlaceBuildingYellowBuilding;
     int blinkAdditionalPlaceBuildingYellowBuilding;
     int additionalPlaceBuildingBluebuilding;
@@ -61,7 +63,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void setGameScreenVariables() {
         gameState = 0;
         balance = 1000;
-        supplyAmount = 500;
+        supplyStorage = 500;
+        supplyAmount = supplyStorage;
         Monthstogo = 6;
         frameCounter = 0;
         placeBuildingY = (int) (Constants.GAMEHEIGHT*0.35);
@@ -132,17 +135,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             updateScreen();
         }
         else if (gebouwoud) {
-            moneyMultiplier = ((gameState * 3) - 2)+1;
             button.buyButton.setVisible(false);
             button.buildingAccept.setVisible(true);
             button.buildingDecline.setVisible(true);
 
         }
         else if (outOfSupplies) {
-            moneyMultiplier = ((gameState * 3) - 2)+1;
+            supplyStorage = 400 + gameState * 100;
+            supplyStorageExtend = false;
             button.buyButton.setVisible(false);
             button.supplyAccept.setVisible(true);
             button.supplyDecline.setVisible(true);
+
         }
         else if (donerBreak) {
             moneyMultiplier = ((gameState * 3) - 2) +1;
@@ -183,60 +187,25 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void updateGameStateVariables() {
         frameCounter++;
-        switch (gameState) {
-            case 1:
-                moneyMultiplier = 1.5;
-                break;
-            case 2:
-                moneyMultiplier = 2;
-                break;
-            case 3:
-                moneyMultiplier = 4;
-                break;
-            case 4:
-                moneyMultiplier = 6;
-                break;
-            case 5:
-                moneyMultiplier = 8;
-                break;
-            case 6:
-                moneyMultiplier = 10;
-                break;
-            case 7:
-                moneyMultiplier = 12;
-                break;
-            case 8:
-                moneyMultiplier = 14;
-                break;
-        }
         if (frameCounter%1200==0 && gameState!=0) {
-            if (gameState!=0) {
-                Monthstogo -= 1;
-            }
-
+            Monthstogo -= 1;
         }
         if (frameCounter%60==0) {
-
+            moneyMultiplier = ((gameState * 3) - 2)+1;
             if (suppliesDeclined) {
                 moneyMultiplier*=0.50;
             }
             if (donerBreakDeclined) {
                 moneyMultiplier*=0.80;
-
-            }
-            else {
-                moneyMultiplier = ((gameState * 3) - 2) + 1;
             }
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
-                supplyAmount-=gameState*2;
-
+                supplyAmount-=gameState*3;
             }
         }
         if (supplyAmount<0) {
             supplyAmount = 0;
             outOfSupplies=true;
-
         }
         if (Monthstogo <=0) {
             Monthstogo = 0;
@@ -257,6 +226,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (gameState % 6 != 0){
             priceUpdated = false;
         }
+
 
     }
     public void updateScreenMove() {
@@ -711,6 +681,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     balance -= upgradePrice;
                     donerBreakDeclined = false;
                     suppliesDeclined = false;
+                    supplyStorageExtend = true;
                     audio.playBuildSound();
                     upgradePrice *= 1.20;
                 }else{
@@ -722,7 +693,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 if (balance >= 1500) {
                     audio.playClickSound();
                     balance-=1500;
-                    supplyAmount=500;
+                    supplyAmount=supplyStorage;
                     outOfSupplies=false;
 
                 }
@@ -733,6 +704,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.supplyAccept.setVisible(false);
                 button.supplyDecline.setVisible(false);
 
+            }
+            if (e.getSource() == button.supplyDecline && SwingUtilities.isLeftMouseButton(e)) {
+                audio.playClickSound();
+                suppliesDeclined=true;
+                supplyAmount=supplyStorage;
+                outOfSupplies=false;
+                button.supplyAccept.setVisible(false);
+                button.supplyDecline.setVisible(false);
             }
             if (e.getSource() == button.buildingAccept && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= 3000) {
@@ -749,15 +728,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.buildingAccept.setVisible(false);
                 button.buildingDecline.setVisible(false);
 
-            }
-            if (e.getSource() == button.supplyDecline && SwingUtilities.isLeftMouseButton(e)) {
-                audio.playClickSound();
-                suppliesDeclined=true;
-                supplyAmount=500;
-                outOfSupplies=false;
-
-                button.supplyAccept.setVisible(false);
-                button.supplyDecline.setVisible(false);
             }
             if (e.getSource() == button.buildingDecline && SwingUtilities.isLeftMouseButton(e)) {
                 audio.playClickSound();
