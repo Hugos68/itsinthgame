@@ -207,7 +207,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             Monthstogo -= 1;
         }
         if (frameCounter%60==0) {
-            moneyMultiplier = ((gameState * 3) - 2)+1;
+            if (gameState < 5) {
+                moneyMultiplier = gameState * 3;
+            }
+            else  {
+                moneyMultiplier = gameState * 2;
+            }
+
             if (suppliesDeclined) {
                 moneyMultiplier*=0.50;
             }
@@ -216,7 +222,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
-                supplyAmount-=gameState*3;
+                supplyAmount-=gameState*3/2;
             }
         }
         if (supplyAmount<0) {
@@ -746,7 +752,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.supplyDecline.setVisible(false);
             }
             if (e.getSource() == button.buildingAccept && SwingUtilities.isLeftMouseButton(e)) {
-                if (balance >= 3000) {
+                if (balance >= 1700) {
                     audio.playClickSound();
                     balance-=1700;
                     Monthstogo =6;
@@ -766,7 +772,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     audio.playClickSound();
                     balance -= 1000;
                     gebouwDeclined = true;
-                    Monthstogo = 1;
+                    Monthstogo = 4;
                     gebouwoud = false;
                 }
                 else {
