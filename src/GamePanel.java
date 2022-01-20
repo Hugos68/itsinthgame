@@ -282,6 +282,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         secondMovingObject.draw(g2D);
         cloud1.draw(g2D);
         cloud2.draw(g2D);
+        //TODO wolken langzamer maken wanneer scherm beweeegt.
 
     }
     public void drawScreen(Graphics2D g2D) {
