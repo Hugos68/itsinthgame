@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void setGameScreenVariables() {
         gameState = 0;
-        balance = 1000;
+        balance = 100000;
         supplyStorage = 500;
         supplyAmount = supplyStorage;
         Monthstogo = 6;
@@ -270,7 +270,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     }
     public void updateScreenMove() {
-        if (button.currentMoveScreenButtonStateRight==1 && !greyRightButton) {
+        if (button.currentMoveScreenButtonStateRight==1 && !greyRightButton ) {
             placeBuildingX -= 5;
         }
         if (button.currentMoveScreenButtonStateLeft == 1 && !greyLeftButton) {
@@ -394,7 +394,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawPreviewBuilding(Graphics2D g2D){
         if (button.currentBuyButtonState == 1){
-            if (frameCounter%30==0) {
+            if (frameCounter%30==0 && gameState <14) {
                 blink = !blink;
             }
 
@@ -563,13 +563,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void drawMoveScreenButton(Graphics2D g2D){
-        if (placeBuildingX >= 405){
+        if(gameState<=5 || placeBuildingX >=405){
             greyLeftButton = true;
         }else{
             greyLeftButton = false;
         }
-        if (gameState < 5){
-            greyLeftButton = true;
+        if(gameState<=5 || placeBuildingX <= -2300){
             greyRightButton = true;
         }else{
             greyRightButton = false;
