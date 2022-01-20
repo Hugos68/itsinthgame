@@ -42,6 +42,7 @@ public class Image {
     BufferedImage donerGuy;
     BufferedImage supplyManager;
     BufferedImage buildingManager;
+    BufferedImage elonmusk;
 
     //redbuilding
     BufferedImage redBuilding1;
@@ -108,6 +109,9 @@ public class Image {
         buildingManager = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("buildingmeneer.png"))));
 
         donerGuy = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("donerpausemeneer.png"))));
+
+        elonmusk = ImageIO.read(Objects.requireNonNull((getClass().getClassLoader().getResource("elonmusk.png"))));
+
 
 
 

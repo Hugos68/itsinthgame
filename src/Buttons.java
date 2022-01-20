@@ -21,6 +21,8 @@ public class Buttons {
     JButton buildingAccept;
     JButton buildingDecline;
     JButton buildingGameover;
+    JButton elonboostAccept;
+    JButton elonboostDecline;
 
 
     Buttons() {
@@ -119,6 +121,21 @@ public class Buttons {
         buildingGameover.setBorderPainted(false);
         buildingGameover.setFocusable(false);
         buildingGameover.setVisible(false);
+
+        elonboostAccept = new JButton();
+        elonboostAccept.setBounds(1000,400,180,100);
+        elonboostAccept.setOpaque(false);
+        elonboostAccept.setBorderPainted(false);
+        elonboostAccept.setFocusable(false);
+        elonboostAccept.setVisible(false);
+
+
+        elonboostDecline = new JButton();
+        elonboostDecline.setBounds(1225,400,180,100);
+        elonboostDecline.setOpaque(false);
+        elonboostDecline.setBorderPainted(false);
+        elonboostDecline.setFocusable(false);
+        elonboostDecline.setVisible(false);
 
 
     }

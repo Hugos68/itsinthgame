@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     int maintenancePrice;
     int maintenancePriceDeclined;
     int donnerprice;
+    int elonprice;
     int supplyprice;
     double moneyMultiplier;
     boolean gebouwoud;
@@ -61,10 +62,13 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     boolean gameBeaten;
     int oldPlaceBuildingY;
 
+
     String buyScreenBuilding;
     boolean blink;
     boolean donerBreak;
+    boolean elonBoost;
     boolean donerBreakDeclined;
+    boolean elonBoostAccept;
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
@@ -80,6 +84,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         placeBuildingX = Constants.GAMEWIDTH/2-image.redBuilding5.getWidth()/2;
         donerBreak = false;
         donerBreakDeclined = false;
+        elonBoostAccept = false;
+        elonBoost = false;
         upgradePrice = 1000;
         priceUpdated = false;
         blink = false;
@@ -89,6 +95,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         maintenancePriceDeclined = 300;
         supplyprice = 300;
         donnerprice = 200;
+        elonprice = 250;
       }
 
     //START GAME
@@ -140,6 +147,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.add(button.buildingGameover);
         button.buildingGameover.addMouseListener(this);
 
+        this.add(button.elonboostAccept);
+        button.elonboostAccept.addMouseListener(this);
+
+        this.add(button.elonboostDecline);
+        button.elonboostDecline.addMouseListener(this);
+
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
         audio.playSoundtrack(0);
@@ -153,7 +166,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             gameBeaten = true;
         }
         else {
-            if (!settingsMenuActive && !donerBreak && !outOfSupplies && !gebouwoud) {
+            if (!settingsMenuActive && !donerBreak && !elonBoost && !outOfSupplies && !gebouwoud) {
                 updateAesthetics();
                 updateScreen();
             }
@@ -177,6 +190,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.buyButton.setVisible(false);
                 button.donerBreakAccept.setVisible(true);
                 button.donerBreakDecline.setVisible(true);
+            }
+            else if (elonBoost) {
+                button.buyButton.setVisible(false);
+                button.elonboostAccept.setVisible(true);
+                button.elonboostDecline.setVisible(true);
+
             }
         }
     }
@@ -212,22 +231,28 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void updateGameStateVariables() {
         frameCounter++;
-        if (frameCounter%1400==0 && gameState!=0) {
+        if (frameCounter%1200==0 && gameState!=0) {
             Monthstogo -= 1;
         }
         if (frameCounter%60==0) {
             if (gameState < 5) {
-                moneyMultiplier = gameState * 3;
+                moneyMultiplier = gameState * 2;
+            }
+            else if (gameState > 10) {
+                moneyMultiplier = gameState *3;
             }
             else  {
-                moneyMultiplier = gameState * 2;
+                moneyMultiplier = gameState * 3;
+            }
+            if (elonBoostAccept) {
+                moneyMultiplier*=1.40;
             }
 
             if (suppliesDeclined) {
-                moneyMultiplier*=0.50;
+                moneyMultiplier*=0.30;
             }
             if (donerBreakDeclined) {
-                moneyMultiplier*=0.80;
+                moneyMultiplier*=0.50;
             }
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
@@ -256,9 +281,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             saxionCommaBuidling = 0;
         }
         lastKnownVersionBuilding = saxionVersionBuilding;
-        if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud) {
+        if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud && !elonBoost) {
             donerBreak = true;
         }
+       if (getRandomIntBetween(0,8)==8/2 && gameState!=0 && !outOfSupplies && !gebouwoud && !donerBreak) {
+           elonBoost = true;
+       }
         if (gameState % 6 == 0 && gameState != 0 && !priceUpdated){
             upgradePrice += 1000;
             priceUpdated = true;
@@ -318,6 +346,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         if (settingsMenuActive) {
             drawSettingsScreen(g2D);
+        }
+        if (elonBoost) {
+            drawElonBoost(g2D);
         }
 
     }
@@ -625,6 +656,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setFont(new Font ("Minecraft",Font.BOLD,24));
         g2D.drawString("$"+donnerprice,918,440);
     }
+    public void drawElonBoost(Graphics2D g2D) {
+        g2D.drawImage(image.elonmusk,0,0,null);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,30));
+        g2D.drawString("-$ "+elonprice,880,440);
+    }
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
         drawStopButton(g2D);
@@ -746,6 +782,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     maintenancePrice *= 1.30;
                     maintenancePriceDeclined *= 1.30;
                     donnerprice *= 1.30;
+                    elonprice *= 1.30;
                     supplyprice *=1.30;
                     saxionCommaBuidling++;
                 }else{
@@ -815,6 +852,26 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 button.buildingAccept.setVisible(false);
                 button.buildingDecline.setVisible(false);
                 button.buildingGameover.setVisible(false);
+            }
+            if (e.getSource() == button.elonboostAccept && SwingUtilities.isLeftMouseButton(e)) {
+                if (balance >= elonprice) {
+                    audio.playClickSound();
+                    balance -= elonprice;
+                    elonBoostAccept =true;
+                    elonBoost =false;
+                }
+                else {
+                    audio.playErrorSound();
+                }
+                button.elonboostAccept.setVisible(false);
+                button.elonboostDecline.setVisible(false);
+            }
+            if (e.getSource() == button.elonboostDecline && SwingUtilities.isLeftMouseButton(e)) {
+
+                elonBoost = false;
+
+                button.elonboostAccept.setVisible(false);
+                button.elonboostDecline.setVisible(false);
             }
             if (e.getSource()==button.donerBreakAccept && button.currentDonerBreakAcceptState == 2 && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= donnerprice) {
