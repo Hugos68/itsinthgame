@@ -247,7 +247,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (gameState > 10){
             saxionVersionBuilding = 3;
         }
-        buyScreenBuilding = "Saxion Next Version: " + saxionVersionBuilding + "." + saxionCommaBuidling;
+        buyScreenBuilding = "Saxion Current Version: " + saxionVersionBuilding + "." + saxionCommaBuidling;
         if(lastKnownVersionBuilding != saxionVersionBuilding){
             saxionCommaBuidling = 0;
         }
@@ -467,7 +467,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         g2D.setPaint(Color.BLACK);
         g2D.setStroke(new BasicStroke(3));
-        g2D.drawRoundRect(2,2,250,60,10,10);
+        g2D.drawRoundRect(2,2,270,60,10,10);
         g2D.setFont(new Font("Ariel", Font.BOLD, 20));
         g2D.drawString("Next building is:  €", 6, 24);
         Color newGreen = new Color(50, 180, 50);
@@ -694,7 +694,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 audio.playClickSound();
                 button.currentBuyButtonState = 2;
                 blink = false;
-                saxionCommaBuidling++;
+
             }
             if (e.getSource()==button.donerBreakAccept && SwingUtilities.isLeftMouseButton(e)) {
                 audio.playClickSound();
@@ -737,6 +737,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     upgradePrice *= 1.20;
                     maintenancePrice *= 1.30;
                     maintenancePriceDeclined *= 1.30;
+                    saxionCommaBuidling++;
                 }else{
                     audio.playErrorSound();
                 }
