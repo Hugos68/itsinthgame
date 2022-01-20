@@ -212,7 +212,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
     public void updateGameStateVariables() {
         frameCounter++;
-        if (frameCounter%1350==0 && gameState!=0) {
+        if (frameCounter%1400==0 && gameState!=0) {
             Monthstogo -= 1;
         }
         if (frameCounter%60==0) {
