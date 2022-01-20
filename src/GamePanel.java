@@ -132,20 +132,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             updateScreen();
         }
         else if (gebouwoud) {
-            moneyMultiplier = ((gameState * 6) - 2)+1;
+            moneyMultiplier = ((gameState * 3) - 2)+1;
             button.buyButton.setVisible(false);
             button.buildingAccept.setVisible(true);
             button.buildingDecline.setVisible(true);
 
         }
         else if (outOfSupplies) {
-            moneyMultiplier = ((gameState * 6) - 2)+1;
+            moneyMultiplier = ((gameState * 3) - 2)+1;
             button.buyButton.setVisible(false);
             button.supplyAccept.setVisible(true);
             button.supplyDecline.setVisible(true);
         }
         else if (donerBreak) {
-            moneyMultiplier = ((gameState * 6) - 2) +1;
+            moneyMultiplier = ((gameState * 3) - 2) +1;
             button.buyButton.setVisible(false);
             button.donerBreakAccept.setVisible(true);
             button.donerBreakDecline.setVisible(true);
@@ -221,15 +221,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 moneyMultiplier*=0.50;
             }
             if (donerBreakDeclined) {
-                moneyMultiplier*=0.25;
+                moneyMultiplier*=0.80;
 
             }
             else {
-                moneyMultiplier = ((gameState * 6) - 2) + 1;
+                moneyMultiplier = ((gameState * 3) - 2) + 1;
             }
             if (gameState!=0) {
                 balance += (int) (10 * moneyMultiplier);
-                supplyAmount-=gameState+1;
+                supplyAmount-=gameState*2;
 
             }
         }
@@ -282,7 +282,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         secondMovingObject.draw(g2D);
         cloud1.draw(g2D);
         cloud2.draw(g2D);
-        //TODO wolken langzamer maken wanneer scherm beweeegt.
 
     }
     public void drawScreen(Graphics2D g2D) {
@@ -517,7 +516,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.drawString(Monthstogo + " Month(s)", (Constants.GAMEWIDTH/10)*9 -1, 325);
         // TODO Het toevoegen van een kans op een boete ipv gelijk boete.
         // TODO na de eerste maintenance de tijd verlengen naar 1jaar.
-        //TODO prijs scalebale maken, minder in het begin, meer aan het einde.
+        //TODO prijs scalebale maken, minder in het begin, meer aan het einde. (maintenance)
 
 
     }
@@ -589,12 +588,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
 
     }
-    public void drawOutofSupplies(Graphics2D g2D) {
-        //TODO draw supply manager dialog
+    public void drawOutofSupplies(Graphics2D g2D){
         g2D.drawImage(image.supplyManager,0,0,null);
     }
     public void drawGebouwOud(Graphics2D g2D) {
-        //TODO draw supply manager dialog
         g2D.drawImage(image.buildingManager, 0, 0, null);
     }
     public void drawDonerBreak(Graphics2D g2D) {
@@ -831,6 +828,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 if(secondMovingObject.velocity > 0 && !greyLeftButton){
                     secondMovingObject.velocity =1;
                 }
+
+
+                if(cloud1.velocity <0 && !greyLeftButton){
+                    cloud1.velocity = -1;
+                }
+                if(cloud2.velocity < 0 && !greyLeftButton) {
+                    cloud2.velocity  =-1;
+                }
+                if(cloud1.velocity>0 && !greyLeftButton){
+                    cloud1.velocity = 1;
+                }
+                if(cloud2.velocity  > 0 && !greyLeftButton){
+                    cloud2.velocity =1;
+                }
             }
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 1;
@@ -846,6 +857,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 }
                 if(secondMovingObject.velocity < 0 && !greyRightButton){
                     secondMovingObject.velocity =-1;
+                }
+
+                if(cloud1.velocity <0 && !greyRightButton){
+                    cloud1.velocity = -1;
+                }
+                if(cloud2.velocity < 0 && !greyRightButton) {
+                    cloud2.velocity  =-1;
+                }
+                if(cloud1.velocity>0 && !greyRightButton){
+                    cloud1.velocity = 1;
+                }
+                if(cloud2.velocity  > 0 && !greyRightButton){
+                    cloud2.velocity =1;
                 }
             }
             if (e.getSource() == button.donerBreakAccept) {
@@ -887,6 +911,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 if(secondMovingObject.velocity >0){
                     secondMovingObject.velocity = 7;
                 }
+
+                if(cloud1.velocity <0 && !greyLeftButton){
+                    cloud1.velocity = -2;
+                }
+                if(cloud2.velocity < 0 && !greyLeftButton) {
+                    cloud2.velocity  =-2;
+                }
+                if(cloud1.velocity>0 && !greyLeftButton){
+                    cloud1.velocity = 2;
+                }
+                if(cloud2.velocity  > 0 && !greyLeftButton){
+                    cloud2.velocity =2;
+                }
             }
             if (e.getSource() == button.moveScreenButtonRight){
                 button.currentMoveScreenButtonStateRight = 0;
@@ -901,6 +938,19 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 }
                 if(secondMovingObject.velocity < 0){
                     secondMovingObject.velocity = -7;
+                }
+
+                if(cloud1.velocity <0 && !greyRightButton){
+                    cloud1.velocity = -2;
+                }
+                if(cloud2.velocity < 0 && !greyRightButton) {
+                    cloud2.velocity  =-2;
+                }
+                if(cloud1.velocity>0 && !greyRightButton){
+                    cloud1.velocity = 2;
+                }
+                if(cloud2.velocity  > 0 && !greyRightButton){
+                    cloud2.velocity =2;
                 }
             }
             if (e.getSource() == button.donerBreakAccept) {
