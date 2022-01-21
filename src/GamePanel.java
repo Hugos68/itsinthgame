@@ -517,7 +517,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setPaint(Color.BLACK);
         g2D.drawString(buyScreenBuilding, 6,51);
     }
-    // TODO Versie saxion fixen
     public void drawBalance(Graphics2D g2D) {
         //BACKGROUND
         g2D.setPaint(Constants.saxionGreen);
@@ -551,7 +550,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.drawString("Supplies: ", (Constants.GAMEWIDTH/10)*9 -1, 160);
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
         g2D.drawString(""+supplyAmount, (Constants.GAMEWIDTH/10)*9 -1, 205);
-        // TODO meer vooraad supplies naarmate we meer gebouwen hebben en het kost ook meer.
     }
     public void drawJaarActief(Graphics2D g2D) {
         //BACKGROUND
