@@ -788,6 +788,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                     maintenancePriceDeclined *= 1.30;
                     donnerprice *= 1.30;
                     supplyprice *=1.30;
+                    elonprice*=1.30;
                     saxionCommaBuidling++;
                 }else{
                     audio.playErrorSound();
