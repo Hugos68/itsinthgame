@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         maintenancePriceDeclined = 300;
         supplyprice = 300;
         donnerprice = 200;
-        elonprice = 2;
+        elonprice = 250;
       }
 
     //START GAME
@@ -245,7 +245,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 moneyMultiplier = gameState * 3;
             }
             if (elonBoostAccept) {
-                moneyMultiplier*=1.40;
+                balance *= 2;
+                elonBoostAccept = false;
             }
 
             if (suppliesDeclined) {
@@ -642,7 +643,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawOutofSupplies(Graphics2D g2D){
         g2D.drawImage(image.supplyManager,0,0,null);
         g2D.setFont(new Font ("Minecraft",Font.BOLD,24));
-        g2D.drawString("$"+supplyprice,918,440);
+        g2D.drawString("€"+supplyprice,918,440);
 
     }
     public void drawGebouwOud(Graphics2D g2D) {
@@ -655,12 +656,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawDonerBreak(Graphics2D g2D) {
         g2D.drawImage(image.donerGuy,0,0,null);
         g2D.setFont(new Font ("Minecraft",Font.BOLD,24));
-        g2D.drawString("$"+donnerprice,918,440);
+        g2D.drawString("€"+donnerprice,918,440);
     }
     public void drawElonBoost(Graphics2D g2D) {
         g2D.drawImage(image.elonmusk,0,0,null);
         g2D.setFont(new Font ("Minecraft",Font.BOLD,30));
-        g2D.drawString("-$ "+elonprice,880,440);
+        g2D.drawString(" >€ "+elonprice,880,440);
     }
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
@@ -861,7 +862,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             if (e.getSource() == button.elonboostAccept && SwingUtilities.isLeftMouseButton(e)) {
                 if (balance >= elonprice) {
                     audio.playClickSound();
-                    balance *= elonprice;
                     elonBoostAccept =true;
                     elonBoost =false;
                 }
