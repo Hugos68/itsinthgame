@@ -646,20 +646,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     public void drawGebouwOud(Graphics2D g2D) {
         g2D.drawImage(image.buildingManager, 0, 0, null);
-        g2D.setFont(new Font ("Minecraft",Font.BOLD,20));
-        g2D.drawString("$"+maintenancePrice,1070,388);
-        g2D.setFont(new Font ("Minecraft",Font.BOLD,20));
-        g2D.drawString("$"+maintenancePriceDeclined,1195,388);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,18));
+        g2D.drawString("$ "+maintenancePrice,1070,388);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,18));
+        g2D.drawString("$ "+maintenancePriceDeclined,1195,388);
     }
     public void drawDonerBreak(Graphics2D g2D) {
         g2D.drawImage(image.donerGuy,0,0,null);
-        g2D.setFont(new Font ("Minecraft",Font.BOLD,24));
-        g2D.drawString("€"+donnerprice,918,440);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,20));
+        g2D.drawString("$ "+donnerprice,918,440);
     }
     public void drawElonBoost(Graphics2D g2D) {
         g2D.drawImage(image.elonmusk,0,0,null);
-        g2D.setFont(new Font ("Minecraft",Font.BOLD,30));
-        g2D.drawString(" >€ "+elonprice,880,440);
+        g2D.setFont(new Font ("Minecraft",Font.BOLD,28));
+        g2D.drawString(" >$  "+elonprice,880,440);
     }
     public void drawSettingsScreen(Graphics2D g2D) {
         g2D.drawImage(image.settingsMenu,0,0,null);
