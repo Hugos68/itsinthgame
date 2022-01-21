@@ -69,6 +69,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     boolean elonBoost;
     boolean donerBreakDeclined;
     boolean elonBoostAccept;
+    boolean elonHappened;
+
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         startGame();
     }
@@ -96,6 +98,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         supplyprice = 300;
         donnerprice = 200;
         elonprice = 250;
+        elonHappened = false;
       }
 
     //START GAME
@@ -285,8 +288,9 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud && !elonBoost) {
             donerBreak = true;
         }
-       if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud && !donerBreak) {
+        if (getRandomIntBetween(0,8000)==8000/2 && gameState!=0 && !outOfSupplies && !gebouwoud && !donerBreak && !elonHappened) {
            elonBoost = true;
+           elonHappened = true;
        }
         if (gameState % 6 == 0 && gameState != 0 && !priceUpdated){
             upgradePrice += 1000;
