@@ -101,6 +101,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         elonHappened = false;
       }
 
+    public void makeButton(JButton nameButton){
+        this.add(nameButton);
+        nameButton.addMouseListener(this);
+    }
+
     //START GAME
     public void startGame() {
         this.setPreferredSize(new Dimension(Constants.GAMEWIDTH,Constants.GAMEHEIGHT));
@@ -111,50 +116,20 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.getActionMap().put("escapeAction", escape);
 
         //add buttons
-        this.add(button.startButton);
-        button.startButton.addMouseListener(this);
-
-        this.add(button.exitButton);
-        button.exitButton.addMouseListener(this);
-
-        this.add(button.menuButton);
-        button.menuButton.addMouseListener(this);
-
-        this.add(button.buyButton);
-        button.buyButton.addMouseListener(this);
-
-        this.add(button.moveScreenButtonLeft);
-        button.moveScreenButtonLeft.addMouseListener(this);
-
-        this.add(button.moveScreenButtonRight);
-        button.moveScreenButtonRight.addMouseListener(this);
-
-        this.add(button.donerBreakAccept);
-        button.donerBreakAccept.addMouseListener(this);
-
-        this.add(button.donerBreakDecline);
-        button.donerBreakDecline.addMouseListener(this);
-
-        this.add(button.supplyAccept);
-        button.supplyAccept.addMouseListener(this);
-
-        this.add(button.supplyDecline);
-        button.supplyDecline.addMouseListener(this);
-
-        this.add(button.buildingAccept);
-        button.buildingAccept.addMouseListener(this);
-
-        this.add(button.buildingDecline);
-        button.buildingDecline.addMouseListener(this);
-
-        this.add(button.buildingGameover);
-        button.buildingGameover.addMouseListener(this);
-
-        this.add(button.elonboostAccept);
-        button.elonboostAccept.addMouseListener(this);
-
-        this.add(button.elonboostDecline);
-        button.elonboostDecline.addMouseListener(this);
+        makeButton(button.startButton);
+        makeButton(button.exitButton);
+        makeButton(button.buyButton);
+        makeButton(button.moveScreenButtonLeft);
+        makeButton(button.moveScreenButtonRight);
+        makeButton(button.donerBreakAccept);
+        makeButton(button.donerBreakDecline);
+        makeButton(button.supplyAccept);
+        makeButton(button.supplyDecline);
+        makeButton(button.buildingAccept);
+        makeButton(button.buildingDecline);
+        makeButton(button.buildingGameover);
+        makeButton(button.elonboostAccept);
+        makeButton(button.elonboostDecline);
 
         setGameScreenVariables();
         setSettingsMenuButtonStates(false);
@@ -339,22 +314,24 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
         if (currentScreenState == 1) {
             drawGameScreen(g2D);
+            if (outOfSupplies) {
+                drawOutofSupplies(g2D);
+            }
+            if (gebouwoud) {
+                drawGebouwOud(g2D);
+            }
+            if (donerBreak) {
+                drawDonerBreak(g2D);
+            }
+            if (settingsMenuActive) {
+                drawSettingsScreen(g2D);
+            }
+            if (elonBoost) {
+                drawElonBoost(g2D);
+            }
         }
-        if (outOfSupplies) {
-            drawOutofSupplies(g2D);
-        }
-        if (gebouwoud) {
-            drawGebouwOud(g2D);
-        }
-        else if (donerBreak) {
-            drawDonerBreak(g2D);
-        }
-        if (settingsMenuActive) {
-            drawSettingsScreen(g2D);
-        }
-        if (elonBoost) {
-            drawElonBoost(g2D);
-        }
+
+
 
     }
     public void drawStartScreen(Graphics2D g2D) {
@@ -510,7 +487,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setStroke(new BasicStroke(3));
         g2D.drawRoundRect(2,2,270,60,10,10);
         g2D.setFont(new Font("Ariel", Font.BOLD, 20));
-        g2D.drawString("Next building is:  €", 6, 24);
+        g2D.drawString("Next building is:  $", 6, 24);
         Color newGreen = new Color(50, 180, 50);
         if (upgradePrice > balance){
             g2D.setPaint(Color.RED);
@@ -536,7 +513,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         g2D.setFont(new Font("Ariel", Font.BOLD, 30));
         g2D.drawString("Your money: ", (Constants.GAMEWIDTH/10)*9 -1, 40);
         g2D.setFont(new Font("Ariel", Font.BOLD, 36));
-        g2D.drawString("€ " + balance , (Constants.GAMEWIDTH/10)*9 -1, 85);
+        g2D.drawString("$ " + balance , (Constants.GAMEWIDTH/10)*9 -1, 85);
     }
     public void drawSupplyCountdown(Graphics2D g2D) {
         //BACKGROUND
@@ -598,16 +575,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
     }
     public void drawMoveScreenButton(Graphics2D g2D){
-        if(gameState<=5 || placeBuildingX >=405){
-            greyLeftButton = true;
-        }else{
-            greyLeftButton = false;
-        }
-        if(gameState<=5 || placeBuildingX <= -2300){
-            greyRightButton = true;
-        }else{
-            greyRightButton = false;
-        }
+        greyLeftButton = gameState <= 5 || placeBuildingX >= 405;
+        greyRightButton = gameState <= 5 || placeBuildingX <= -2300;
         //Left Button
         {
             if (button.currentMoveScreenButtonStateLeft == 0 && greyLeftButton) {
@@ -626,15 +595,14 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
             }
         }
         // Right Button
-        {
+        {   if (button.currentMoveScreenButtonStateRight == 0 && greyRightButton) {
+            g2D.drawImage(image.arrowRechtsImageGrey, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
+        }
             if (button.currentMoveScreenButtonStateRight == 0 && !greyRightButton) {
                 g2D.drawImage(image.arrowRechtsImage, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
             }
             if (button.currentMoveScreenButtonStateRight == 1 && !greyRightButton) {
                 g2D.drawImage(image.arrowRechtsImageRed, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
-            }
-            if (button.currentMoveScreenButtonStateRight == 0 && greyRightButton) {
-                g2D.drawImage(image.arrowRechtsImageGrey, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
             }
             if (button.currentMoveScreenButtonStateRight == 1 && greyRightButton) {
                 g2D.drawImage(image.arrowRechtsImageGrey, Constants.GAMEWIDTH - 150, Constants.GAMEHEIGHT / 2, null);
@@ -645,7 +613,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void drawOutofSupplies(Graphics2D g2D){
         g2D.drawImage(image.supplyManager,0,0,null);
         g2D.setFont(new Font ("Minecraft",Font.BOLD,24));
-        g2D.drawString("€"+supplyprice,918,440);
+        g2D.drawString("$ "+supplyprice,914,440);
 
     }
     public void drawGebouwOud(Graphics2D g2D) {
@@ -732,9 +700,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (!settingsMenuActive) {
 
-        }
     }
     @Override
     public void mousePressed(MouseEvent e) {
